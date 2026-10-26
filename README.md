@@ -1,7 +1,7 @@
 # Care Across the Line
 
 A data story on how potential access to abortion care after *Dobbs* depends on geography, local
-healthcare resources and provider networks that cross state lines. Built for Harvard CS 1710.
+healthcare resources, and provider networks that cross state lines. Built for Harvard CS 1710.
 
 **Live site:** [_Care Across the Line_](https://laviniaxu2003.github.io/care-across-the-line/)
 
