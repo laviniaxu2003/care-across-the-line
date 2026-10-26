@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<title>Visualization drafts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
+<link rel="stylesheet" href="../css/style.css?v=3">
+<style>
+  .note-bar{background:var(--surface-2);border-bottom:1px solid var(--rule);padding:12px 0;
+    font-family:var(--f-mono);font-size:12px;color:var(--ink-3)}
+  figure + figure{margin-top:36px}
+  .keyrow{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;margin:0 0 14px;
+    font-size:13px;color:var(--ink-2);font-family:var(--f-mono)}
+  .keyrow span{display:flex;align-items:center;gap:8px}
+  .keyrow i{width:13px;height:13px;border-radius:2px;display:block;flex:none}
+  .sketch-id{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 6px}
+  .finding{border-left:3px solid var(--accent);background:var(--surface-2);
+    padding:14px 18px;margin:18px 0 0;font-size:14.5px;color:var(--ink-2)}
+  .finding b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="note-bar"><div class="wrap">Process book material &middot; not linked from the public site</div></div>
+
+<div class="wrap">
+<header class="hero" style="padding-block:56px 30px">
+  <p class="kicker">Prototype V1</p>
+  <h1 style="font-size:clamp(34px,5.5vw,58px)">Visualization drafts</h1>
+  <p class="lede" style="font-size:clamp(17px,2vw,21px)">Two designs from the Milestone 4 selection that we have
+    not implemented. Both are drawn here from the project&rsquo;s own derived tables rather than mocked up, so the
+    numbers are the ones we would ship. Sketches 10 and 19 are already live in the county explorer.</p>
+</header>
+
+<section>
+  <p class="sketch-id">Sketch 13 &middot; redesigned</p>
+  <h2 style="font-size:clamp(26px,3.6vw,38px)">A walk through eight years</h2>
+  <p>The original sketch used infant footprints to carry two rates at once. The metaphor survives the move to
+    screen if the footprint stops being decoration and becomes the mark itself: one print per group per year,
+    its <b>area</b> set by the rate, the stride alternating so the row reads as a gait rather than a bar chart
+    lying on its side. Time runs left to right, and the 2020 teen birth rate sits in its own column at the
+    right because it is a single cross-section, not a trend.</p>
+  <figure>
+    <div class="fig-h"><h3>Infant mortality and teen births, by state policy group</h3></div>
+    <p class="fig-sub">Footprint area is proportional to the rate. Groups are the two most restrictive policy
+      tiers, the two most protective, and everything between.</p>
+    <div class="keyrow">
+      <span><i style="background:var(--accent)"></i>Most restrictive (19 states)</span>
+      <span><i style="background:var(--tier-mid)"></i>In between (17)</span>
+      <span><i style="background:var(--protect)"></i>Most protective (14)</span>
+    </div>
+    <svg id="draft-13" role="img" aria-label="Footprint marks showing infant mortality by policy group, 2017 to 2024"></svg>
+    <figcaption>CDC WONDER linked birth and infant death files, 2017&ndash;2024, and NCHS county teen birth rates
+      for 2020. Rates are pooled across each group rather than averaged across states, so large states carry
+      their weight.</figcaption>
+  </figure>
+  <div class="finding"><b>What it shows.</b> Both groups improved in parallel, and the distance between them
+    barely moved: a gap of 1.69 deaths per 1,000 in 2017 and 1.70 in 2024. The teen birth column is the harder
+    number. In 2020, two years before the ruling, the most restrictive states already stood at 20.8 per 1,000
+    against 11.6 in the most protective.</div>
+</section>
+
+<section>
+  <p class="sketch-id">Sketch 15 &middot; redesigned</p>
+  <h2 style="font-size:clamp(26px,3.6vw,38px)">The band that did not tighten</h2>
+  <p>The original sketch read as a tourniquet, a compression band narrowing around a limb. Translated to data,
+    each policy group becomes a ribbon whose thickness is its preterm birth rate, and the strap sits where the
+    ruling falls. The design was built to make a post-<i>Dobbs</i> cinch visible. Below the ribbons, the panel
+    plots the gap the metaphor predicts, which is the only place the question can actually be answered.</p>
+  <figure>
+    <div class="fig-h"><h3>Preterm birth share, 2017&ndash;2024, and the gap between policy groups</h3></div>
+    <p class="fig-sub">Ribbon thickness is measured from zero, so the ribbons are comparable to one another and
+      to themselves over time.</p>
+    <div class="keyrow">
+      <span><i style="background:var(--accent)"></i>Most restrictive</span>
+      <span><i style="background:var(--tier-mid)"></i>In between</span>
+      <span><i style="background:var(--protect)"></i>Most protective</span>
+    </div>
+    <svg id="draft-15" role="img" aria-label="Ribbons showing preterm birth share by policy group with the gap plotted below"></svg>
+    <figcaption>CDC WONDER natality files, 2017&ndash;2024, with gestational age recoded to under 37 weeks and
+      weighted by live births.</figcaption>
+  </figure>
+  <div class="finding"><b>What it shows, and why we would still build it.</b> The ribbons do not pinch. The gap
+    runs 1.60 points in 2017, peaks at <b>1.92 in 2021</b>, and sits at 1.77 in 2024, so the widest separation
+    on record arrives a year <i>before</i> the ruling. A design that sets out to reveal an effect and then
+    reports its absence is doing its job. This is the figure that stops the project claiming a health shock
+    the data cannot support.</div>
+</section>
+
+<section>
+  <p class="stage">Not drafted here</p>
+  <h2 style="font-size:clamp(24px,3.2vw,32px)">Sketch 22, the reproductive health chain</h2>
+  <p>The third unimplemented sketch already exists as a working view in Claire&rsquo;s Milestone 6 prototype,
+    where it is paired with the policy map. It belongs in the process book as prior work rather than as a new
+    draft, and the aggregated table behind it is in the repository at
+    <span class="mono">data/source/chain_by_group.csv</span> if we decide to bring it onto the site.</p>
+</section>
+
+<footer><div class="narrow">CS 1710 &middot; Claire Gutermuth, Chloe Qiu, Lavinia Xu &middot;
+  <a href="../index.html">Back to the site &rarr;</a></div></footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="data.js"></script>
+<script src="draw.js"></script>
+</body>
+</html>
