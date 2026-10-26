@@ -35,7 +35,7 @@ function draftA(sel){
   var svg=d3.select(sel).attr("viewBox","0 0 "+W+" "+H);
   var x=d3.scalePoint().domain(YEARS).range([M.l,W-M.r]).padding(.62);
   var all=[]; BANDS.forEach(function(b){ YEARS.forEach(function(y){ all.push(D.imr[b.k][y]); }); });
-  var size=d3.scaleSqrt().domain([0,d3.max(all)]).range([0,1.62]);   /* area ∝ rate */
+  var size=d3.scaleSqrt().domain([0,d3.max(all)]).range([0,1.9]);   /* area ∝ rate */
 
   YEARS.forEach(function(y){ txt(svg,x(y),M.t-26,y,{anchor:"middle",size:11}); });
   var dob=(x(2022)+x(2021))/2;
@@ -69,7 +69,7 @@ function draftA(sel){
    The design was built to show a band tightening after Dobbs. The lower panel plots the
    gap that the metaphor predicts, and the data declines to produce it. */
 function draftB(sel){
-  var W=960,M={t:58,r:188,b:150,l:132},H=470;
+  var W=960,M={t:58,r:188,b:150,l:168},H=470;
   var svg=d3.select(sel).attr("viewBox","0 0 "+W+" "+H);
   var x=d3.scalePoint().domain(YEARS).range([M.l,W-M.r]).padding(.18);
   var band=(H-M.t-M.b)/3, thick=d3.scaleLinear().domain([0,12]).range([0,band*.86]);
