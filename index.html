@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="After Dobbs, 16.7 million women have their nearest abortion clinic across a state line. A data story on who absorbs the demand that bans displace.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Care Across the Line">
+<meta property="og:description" content="Abortion bans are written one state at a time. They are not felt one state at a time.">
+<meta property="og:type" content="article">
+<title>Care Across the Line</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="data/bundle.js"></script>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="index.html">Care Across the <i>Line</i></a>
+  <a class="lnk" href="index.html" aria-current="page">The story</a>
+  <a class="lnk" href="methods.html">Data &amp; methods</a>
+</div></nav>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Three years after Dobbs</p>
+  <h1>Care across<br>the line</h1>
+  <p class="lede">Abortion bans are written one state at a time.
+     <b>They are not felt one state at a time.</b></p>
+  <p class="byline">Claire Gutermuth &middot; Chloe Qiu &middot; Lavinia Xu &middot; CS 1710</p>
+</header>
+
+<!-- HOOK -->
+<section>
+  <p class="stage">The hook</p>
+  <h2 class="wide">Seven clinics in Kansas are the nearest option for 6.1 million women who don&rsquo;t live there.</h2>
+  <p>Count the clinics providing abortion in the United States and almost nothing has happened.
+     There were <b id="h-clinics">790</b> in May 2022, the month before <i>Dobbs</i> came down.
+     There are about the same number today.</p>
+  <p>Count them state by state and the floor gives way. <b id="h-zero">13 states</b> now have none at all.
+     The clinics did not disappear. The demand they served didn&rsquo;t either. It crossed a state line.</p>
+  <div class="tiles">
+    <div class="tile"><div class="n hl" id="t1">16.7M</div><div class="l">women aged 15&ndash;44 whose nearest clinic is in another state</div></div>
+    <div class="tile"><div class="n" id="t2">25.7%</div><div class="l">of everyone of reproductive age in the country</div></div>
+    <div class="tile"><div class="n" id="t3">11.7&times;</div><div class="l">the national average load per clinic now carried by Kansas</div></div>
+    <div class="tile"><div class="n" id="t4">13</div><div class="l">states with no clinic providing abortion at all</div></div>
+  </div>
+</section>
+
+<!-- RISING 1 -->
+<section>
+  <p class="stage">What changed &middot; 1</p>
+  <h2>The drive got long, and only in some places</h2>
+  <p>In the states with the strictest bans, the average woman&rsquo;s drive to the nearest clinic went from
+     <b>37.5 miles in May 2022 to 215.6 miles by January 2023</b>. In the most protective states it never
+     left nine. In Hinds County, Mississippi, home to the clinic at the centre of <i>Dobbs</i> itself,
+     the drive went from six and a half miles to three hundred and forty.</p>
+  <p>But this did not happen everywhere. Only <b>41% of US counties</b> saw their drive change at all, and
+     Texas, Louisiana and Tennessee alone account for <b>83%</b> of the total added burden. This is not a
+     national drift. It is a handful of corridors.</p>
+  <figure><div class="fig-h"><h3>Distance to the nearest clinic, 2019&ndash;2026</h3></div>
+    <p class="fig-sub">By policy environment, population-weighted. Coming in the next version.</p>
+    <div class="slot">Chart in progress</div>
+  </figure>
+</section>
+
+<!-- RISING 2 -->
+<section>
+  <p class="stage">What changed &middot; 2</p>
+  <h2>It landed where care was already thinnest</h2>
+  <p>Of the 589 counties where the drive grew by a hundred miles or more, <b>316 had no OB-GYN at all</b>,
+     and 297 of those had no hospital offering obstetric care either. Across the two most restrictive policy
+     tiers, 54.5% of counties have no OB-GYN, against 30.2% in the most protective.</p>
+  <p>The easy explanation is that those states are simply more rural. So we adjusted for exactly that, giving
+     the restrictive states the same mix of city and country as the protective ones. Even then,
+     <b>64 to 89% of the gap is still standing</b>.</p>
+  <figure><div class="fig-h"><h3>Access loss against local capacity</h3></div>
+    <p class="fig-sub">County map linked to a scatter of distance against OB-GYN supply. Coming in the next version.</p>
+    <div class="slot">Chart in progress</div>
+  </figure>
+</section>
+
+<!-- RISING 3 : NOVEL VIEW -->
+<section>
+  <p class="stage">What changed &middot; 3</p>
+  <h2>The map nobody draws: who serves whom</h2>
+  <p>Almost every map of this subject colours a state by its own law. That hides the thing that actually
+     happened. This one colours states by <b>where their women now have to go</b>, and it exposes service
+     territories that pay no attention to state lines at all.</p>
+  <figure>
+    <div class="fig-h"><h3>The catchment map</h3></div>
+    <p class="fig-sub">Ribbons run from a state that lost its clinics to the state now holding its nearest one,
+      thickness set by the number of women aged 15&ndash;44 affected. Circles mark the states absorbing that
+      demand, sized by how many women each of their clinics must now cover.</p>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--exporter)"></i>No clinic left in the state</span>
+      <span><i class="sw" style="background:var(--receiver)"></i>Absorbs demand from other states</span>
+      <span><i class="sw" style="background:var(--neutral)"></i>Neither</span>
+      <span><i class="sw ring"></i>Circle area = women per clinic after inflow</span>
+    </div>
+    <svg id="map" viewBox="0 0 960 600" role="img" aria-label="Map of cross-state abortion care catchment"></svg>
+    <figcaption>Hover any state to trace its flow. Kansas&rsquo;s territory alone reaches into five states.
+      &ldquo;Nearest clinic&rdquo; is road distance from each county&rsquo;s population centre, so it measures
+      geographic exposure rather than journeys actually taken.</figcaption>
+  </figure>
+</section>
+
+<!-- MAIN MESSAGE -->
+<section>
+  <p class="stage">What it means</p>
+  <div class="msg">
+    <p class="big">A state can ban abortion inside its own borders. It cannot keep the <em>consequences</em> inside them.</p>
+    <p>Sixteen point seven million women now have their nearest clinic in a state they do not live in, do not
+      vote in, and cannot hold to account. That is a quarter of everyone of reproductive age in America. The
+      capacity to serve them was never built, because no legislature was ever responsible for building it.</p>
+  </div>
+  <figure style="margin-top:30px">
+    <div class="fig-h"><h3>What each receiving state now carries</h3></div>
+    <p class="fig-sub">Every row is a state absorbing demand from across a border. The hollow dot is the load its
+      clinics would carry from its own residents alone. The filled dot adds everyone whose nearest clinic is now
+      there. The distance between them is the transfer.</p>
+    <div class="legend">
+      <span><i class="sw open"></i>Own residents only</span>
+      <span><i class="sw fill"></i>Including everyone whose nearest clinic is here</span>
+      <span><i class="sw" style="background:var(--ink);height:2px;width:18px;border-radius:0"></i>National average, 81,655 per clinic</span>
+    </div>
+    <svg id="load" viewBox="0 0 960 700" role="img" aria-label="Load per clinic before and after out-of-state inflow"></svg>
+    <figcaption>The scale is logarithmic because Kansas sits an order of magnitude beyond everyone else. The
+      dashed line is the national average of 81,655 women aged 15&ndash;44 per open clinic.</figcaption>
+  </figure>
+</section>
+
+<!-- SOLUTION -->
+<section>
+  <p class="stage">What follows</p>
+  <h2>Where the pressure actually needs relieving</h2>
+  <ul class="take">
+    <li><span class="num">01</span><span><b>Capacity has to be planned regionally.</b> Kansas licenses and funds
+      clinics for 564,000 residents while standing as the nearest option for 6.7 million women. No single
+      state legislature is answerable for that gap, which is exactly why it keeps growing.</span></li>
+    <li><span class="num">02</span><span><b>The pressure is concentrated enough to act on.</b> Three states carry
+      83% of the added burden and ten counties carry 47% of it. Relief aimed at a few corridors would reach
+      most of the people affected.</span></li>
+    <li><span class="num">03</span><span><b>Outcomes have not moved yet, and that is the argument for moving
+      now.</b> The infant mortality gap between the most and least restrictive states was 1.60 per 1,000 before
+      <i>Dobbs</i> and 1.77 after: wide, steady, and already there before any ban was signed. The access shock
+      is new. The outcome shock, if it comes, has not arrived.</span></li>
+  </ul>
+</section>
+
+<footer><div class="narrow">
+  Built for CS 1710 from the Myers Abortion Facility Database, the Guttmacher State Policy Database,
+  HRSA&rsquo;s Area Health Resource File, CDC PLACES and CDC WONDER.
+  <a href="methods.html">How we did it &rarr;</a>
+</div></footer>
+</div>
+<div id="tip" role="status"></div>
+
+<script src="js/data.js"></script>
+<script src="js/catchment-map.js"></script>
+<script src="js/clinic-load.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Care Across the Line: Methods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<style>body{margin:0}</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="index.html">Care Across the <i>Line</i></a>
+  <a class="lnk" href="index.html">The story</a>
+  <a class="lnk" href="methods.html" aria-current="page">Data &amp; methods</a>
+</div></nav>
+
+<div class="wrap">
+<header class="hero" style="padding-block:64px 36px">
+  <p class="kicker">Data &amp; methods</p>
+  <h1 style="font-size:clamp(34px,5.5vw,56px)">Where every<br>number comes from</h1>
+</header>
+
+<section>
+  <h2>The sources</h2>
+  <p>Five public datasets, merged to county FIPS. Nothing on this site is estimated, modelled by us, or
+     typed in by hand.</p>
+  <div class="tblwrap"><table class="src">
+    <thead><tr><th>Source</th><th>What we take from it</th><th>Period</th></tr></thead>
+    <tbody>
+      <tr><td>Myers Abortion Facility Database<br><span class="mono" style="font-size:11.5px;color:var(--ink-3)">osf.io/8dg7r</span></td>
+          <td>Road travel distance from every county to its nearest open abortion facility, monthly; open facility counts by state</td><td>2009&ndash;Jul 2026</td></tr>
+      <tr><td>Guttmacher State Policy Database</td><td>Seven-tier state policy environment</td><td>Oct 2026</td></tr>
+      <tr><td>HRSA Area Health Resource File</td><td>OB-GYN counts, hospitals with obstetric care, annual births, women aged 15&ndash;44, rural&ndash;urban codes</td><td>2020&ndash;24</td></tr>
+      <tr><td>CDC PLACES</td><td>Mammography, cervical screening, routine checkups, insurance, transport access</td><td>2020 &amp; 2022</td></tr>
+      <tr><td>CDC WONDER</td><td>Infant mortality, preterm and very preterm rates by state and year</td><td>2017&ndash;2024</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>How the catchment is calculated</h2>
+  <p>For each of the 3,143 US counties, the Myers database gives the road distance to the nearest facility
+     providing abortion and the state that facility sits in. Rolling those counties up by
+     <span class="mono">home state &rarr; nearest-clinic state</span> produces the cross-border flows drawn on
+     the map. A state&rsquo;s load is the number of women aged 15&ndash;44 whose nearest clinic falls inside it, divided
+     by the number of clinics it has open. That count includes its own residents and everyone arriving
+     from outside.</p>
+</section>
+
+<section>
+  <h2>What these numbers do not say</h2>
+  <ul class="take">
+    <li><span class="num">01</span><span><b>Distance is exposure, not travel.</b> We measure how far the nearest
+      clinic is, not where anyone actually goes. Telehealth, shield laws, money, time off work and childcare all
+      change real journeys, and none of them appear here.</span></li>
+    <li><span class="num">02</span><span><b>Policy is a state attribute.</b> Every county in Texas carries the same
+      policy tier. Counties differ from one another on distance, on provider supply and on preventive care.
+      They never differ on law.</span></li>
+    <li><span class="num">03</span><span><b>Preventive care figures are modelled.</b> CDC PLACES publishes
+      small-area estimates, not counts. They are sound for comparing places and wrong to quote as a precise
+      local value.</span></li>
+    <li><span class="num">04</span><span><b>We make no causal claim about health outcomes.</b> The gap in infant
+      mortality between restrictive and protective states is large, but it predates <i>Dobbs</i> and has not
+      meaningfully widened in the two years of data since. We say that plainly rather than imply otherwise.</span></li>
+  </ul>
+</section>
+
+<footer><div class="narrow">
+  CS 1710 &middot; Claire Gutermuth, Chloe Qiu, Lavinia Xu &middot; <a href="index.html">Back to the story &rarr;</a>
+</div></footer>
+</div>
+
+</body>
+</html>
