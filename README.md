@@ -3,7 +3,7 @@
 A data story on how potential access to abortion care after *Dobbs* depends on geography, local
 healthcare resources and provider networks that cross state lines. Built for Harvard CS 1710.
 
-**Live site:** _(GitHub Pages URL goes here once published)_
+**Live site:** [_Care Across the Line_](https://laviniaxu2003.github.io/care-across-the-line/)
 
 Claire Gutermuth · Chloe Qiu · Lavinia Xu
 
