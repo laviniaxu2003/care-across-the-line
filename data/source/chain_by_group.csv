@@ -1,0 +1,141 @@
+group_type,group_label,county_type,policy_rank,n_counties,women_15_44,link_order,link,denominator,value_pct
+All,All counties,All,,3143,65160557,1,insured,adults 18-64,88.6
+All,All counties,All,,3143,65160557,2,has transport,adults,91.1
+All,All counties,All,,3143,65160557,3,routine checkup,adults,75.24
+All,All counties,All,,3143,65160557,4,cervical screening,women 21-65,82.29
+All,All counties,All,,3143,65160557,5,mammogram,women 50-74,75.66
+Policy tier,Most Protective,All,7.0,345,16760659,1,insured,adults 18-64,90.2
+Policy tier,Most Protective,All,7.0,345,16760659,2,has transport,adults,90.79
+Policy tier,Most Protective,All,7.0,345,16760659,3,routine checkup,adults,73.41
+Policy tier,Most Protective,All,7.0,345,16760659,4,cervical screening,women 21-65,82.61
+Policy tier,Most Protective,All,7.0,345,16760659,5,mammogram,women 50-74,76.44
+Policy tier,Most Restrictive,All,1.0,1515,22145829,1,insured,adults 18-64,85.42
+Policy tier,Most Restrictive,All,1.0,1515,22145829,2,has transport,adults,90.33
+Policy tier,Most Restrictive,All,1.0,1515,22145829,3,routine checkup,adults,76.08
+Policy tier,Most Restrictive,All,1.0,1515,22145829,4,cervical screening,women 21-65,81.39
+Policy tier,Most Restrictive,All,1.0,1515,22145829,5,mammogram,women 50-74,74.82
+Policy tier,Protective,All,5.0,125,2307093,1,insured,adults 18-64,89.13
+Policy tier,Protective,All,5.0,125,2307093,2,has transport,adults,90.86
+Policy tier,Protective,All,5.0,125,2307093,3,routine checkup,adults,74.08
+Policy tier,Protective,All,5.0,125,2307093,4,cervical screening,women 21-65,82.59
+Policy tier,Protective,All,5.0,125,2307093,5,mammogram,women 50-74,73.23
+Policy tier,Restrictive,All,3.0,415,4997143,1,insured,adults 18-64,90.21
+Policy tier,Restrictive,All,3.0,415,4997143,2,has transport,adults,91.71
+Policy tier,Restrictive,All,3.0,415,4997143,3,routine checkup,adults,76.84
+Policy tier,Restrictive,All,3.0,415,4997143,4,cervical screening,women 21-65,83.86
+Policy tier,Restrictive,All,3.0,415,4997143,5,mammogram,women 50-74,77.07
+Policy tier,Some Restrictions/Protections,All,4.0,313,8001362,1,insured,adults 18-64,90.27
+Policy tier,Some Restrictions/Protections,All,4.0,313,8001362,2,has transport,adults,91.81
+Policy tier,Some Restrictions/Protections,All,4.0,313,8001362,3,routine checkup,adults,76.35
+Policy tier,Some Restrictions/Protections,All,4.0,313,8001362,4,cervical screening,women 21-65,82.87
+Policy tier,Some Restrictions/Protections,All,4.0,313,8001362,5,mammogram,women 50-74,76.32
+Policy tier,Very Protective,All,6.0,308,9845723,1,insured,adults 18-64,90.77
+Policy tier,Very Protective,All,6.0,308,9845723,2,has transport,adults,91.48
+Policy tier,Very Protective,All,6.0,308,9845723,3,routine checkup,adults,75.63
+Policy tier,Very Protective,All,6.0,308,9845723,4,cervical screening,women 21-65,82.68
+Policy tier,Very Protective,All,6.0,308,9845723,5,mammogram,women 50-74,75.74
+Policy tier,Very Restrictive,All,2.0,122,1102748,1,insured,adults 18-64,89.64
+Policy tier,Very Restrictive,All,2.0,122,1102748,2,has transport,adults,93.18
+Policy tier,Very Restrictive,All,2.0,122,1102748,3,routine checkup,adults,72.15
+Policy tier,Very Restrictive,All,2.0,122,1102748,4,cervical screening,women 21-65,80.09
+Policy tier,Very Restrictive,All,2.0,122,1102748,5,mammogram,women 50-74,72.51
+Policy tier x county type,Most Protective,Metro,7.0,153,15840981,1,insured,adults 18-64,90.16
+Policy tier x county type,Most Protective,Metro,7.0,153,15840981,2,has transport,adults,90.77
+Policy tier x county type,Most Protective,Metro,7.0,153,15840981,3,routine checkup,adults,73.44
+Policy tier x county type,Most Protective,Metro,7.0,153,15840981,4,cervical screening,women 21-65,82.6
+Policy tier x county type,Most Protective,Metro,7.0,153,15840981,5,mammogram,women 50-74,76.52
+Policy tier x county type,Most Protective,Nonmetro,7.0,192,919678,1,insured,adults 18-64,90.94
+Policy tier x county type,Most Protective,Nonmetro,7.0,192,919678,2,has transport,adults,91.23
+Policy tier x county type,Most Protective,Nonmetro,7.0,192,919678,3,routine checkup,adults,72.9
+Policy tier x county type,Most Protective,Nonmetro,7.0,192,919678,4,cervical screening,women 21-65,82.92
+Policy tier x county type,Most Protective,Nonmetro,7.0,192,919678,5,mammogram,women 50-74,74.98
+Policy tier x county type,Most Restrictive,Metro,1.0,553,18695603,1,insured,adults 18-64,85.28
+Policy tier x county type,Most Restrictive,Metro,1.0,553,18695603,2,has transport,adults,90.74
+Policy tier x county type,Most Restrictive,Metro,1.0,553,18695603,3,routine checkup,adults,76.07
+Policy tier x county type,Most Restrictive,Metro,1.0,553,18695603,4,cervical screening,women 21-65,81.51
+Policy tier x county type,Most Restrictive,Metro,1.0,553,18695603,5,mammogram,women 50-74,75.34
+Policy tier x county type,Most Restrictive,Nonmetro,1.0,962,3450226,1,insured,adults 18-64,86.21
+Policy tier x county type,Most Restrictive,Nonmetro,1.0,962,3450226,2,has transport,adults,88.95
+Policy tier x county type,Most Restrictive,Nonmetro,1.0,962,3450226,3,routine checkup,adults,76.13
+Policy tier x county type,Most Restrictive,Nonmetro,1.0,962,3450226,4,cervical screening,women 21-65,80.7
+Policy tier x county type,Most Restrictive,Nonmetro,1.0,962,3450226,5,mammogram,women 50-74,72.01
+Policy tier x county type,Protective,Metro,5.0,28,1383552,1,insured,adults 18-64,89.05
+Policy tier x county type,Protective,Metro,5.0,28,1383552,2,has transport,adults,90.98
+Policy tier x county type,Protective,Metro,5.0,28,1383552,3,routine checkup,adults,74.77
+Policy tier x county type,Protective,Metro,5.0,28,1383552,4,cervical screening,women 21-65,81.11
+Policy tier x county type,Protective,Metro,5.0,28,1383552,5,mammogram,women 50-74,73.59
+Policy tier x county type,Protective,Nonmetro,5.0,97,923541,1,insured,adults 18-64,89.61
+Policy tier x county type,Protective,Nonmetro,5.0,97,923541,2,has transport,adults,90.16
+Policy tier x county type,Protective,Nonmetro,5.0,97,923541,3,routine checkup,adults,70.02
+Policy tier x county type,Protective,Nonmetro,5.0,97,923541,4,cervical screening,women 21-65,84.81
+Policy tier x county type,Protective,Nonmetro,5.0,97,923541,5,mammogram,women 50-74,71.13
+Policy tier x county type,Restrictive,Metro,3.0,129,3898147,1,insured,adults 18-64,90.6
+Policy tier x county type,Restrictive,Metro,3.0,129,3898147,2,has transport,adults,92.02
+Policy tier x county type,Restrictive,Metro,3.0,129,3898147,3,routine checkup,adults,77.21
+Policy tier x county type,Restrictive,Metro,3.0,129,3898147,4,cervical screening,women 21-65,84.34
+Policy tier x county type,Restrictive,Metro,3.0,129,3898147,5,mammogram,women 50-74,77.84
+Policy tier x county type,Restrictive,Nonmetro,3.0,286,1098996,1,insured,adults 18-64,88.84
+Policy tier x county type,Restrictive,Nonmetro,3.0,286,1098996,2,has transport,adults,90.57
+Policy tier x county type,Restrictive,Nonmetro,3.0,286,1098996,3,routine checkup,adults,75.52
+Policy tier x county type,Restrictive,Nonmetro,3.0,286,1098996,4,cervical screening,women 21-65,82.14
+Policy tier x county type,Restrictive,Nonmetro,3.0,286,1098996,5,mammogram,women 50-74,74.31
+Policy tier x county type,Some Restrictions/Protections,Metro,4.0,165,7026691,1,insured,adults 18-64,90.29
+Policy tier x county type,Some Restrictions/Protections,Metro,4.0,165,7026691,2,has transport,adults,91.93
+Policy tier x county type,Some Restrictions/Protections,Metro,4.0,165,7026691,3,routine checkup,adults,76.42
+Policy tier x county type,Some Restrictions/Protections,Metro,4.0,165,7026691,4,cervical screening,women 21-65,83.01
+Policy tier x county type,Some Restrictions/Protections,Metro,4.0,165,7026691,5,mammogram,women 50-74,76.58
+Policy tier x county type,Some Restrictions/Protections,Nonmetro,4.0,148,974671,1,insured,adults 18-64,90.12
+Policy tier x county type,Some Restrictions/Protections,Nonmetro,4.0,148,974671,2,has transport,adults,90.94
+Policy tier x county type,Some Restrictions/Protections,Nonmetro,4.0,148,974671,3,routine checkup,adults,75.87
+Policy tier x county type,Some Restrictions/Protections,Nonmetro,4.0,148,974671,4,cervical screening,women 21-65,81.85
+Policy tier x county type,Some Restrictions/Protections,Nonmetro,4.0,148,974671,5,mammogram,women 50-74,74.47
+Policy tier x county type,Very Protective,Metro,6.0,130,8940363,1,insured,adults 18-64,90.86
+Policy tier x county type,Very Protective,Metro,6.0,130,8940363,2,has transport,adults,91.59
+Policy tier x county type,Very Protective,Metro,6.0,130,8940363,3,routine checkup,adults,75.81
+Policy tier x county type,Very Protective,Metro,6.0,130,8940363,4,cervical screening,women 21-65,82.8
+Policy tier x county type,Very Protective,Metro,6.0,130,8940363,5,mammogram,women 50-74,76.1
+Policy tier x county type,Very Protective,Nonmetro,6.0,178,905360,1,insured,adults 18-64,89.89
+Policy tier x county type,Very Protective,Nonmetro,6.0,178,905360,2,has transport,adults,90.48
+Policy tier x county type,Very Protective,Nonmetro,6.0,178,905360,3,routine checkup,adults,73.88
+Policy tier x county type,Very Protective,Nonmetro,6.0,178,905360,4,cervical screening,women 21-65,81.49
+Policy tier x county type,Very Protective,Nonmetro,6.0,178,905360,5,mammogram,women 50-74,72.14
+Policy tier x county type,Very Restrictive,Metro,2.0,20,911675,1,insured,adults 18-64,89.72
+Policy tier x county type,Very Restrictive,Metro,2.0,20,911675,2,has transport,adults,93.31
+Policy tier x county type,Very Restrictive,Metro,2.0,20,911675,3,routine checkup,adults,72.09
+Policy tier x county type,Very Restrictive,Metro,2.0,20,911675,4,cervical screening,women 21-65,80.14
+Policy tier x county type,Very Restrictive,Metro,2.0,20,911675,5,mammogram,women 50-74,72.82
+Policy tier x county type,Very Restrictive,Nonmetro,2.0,102,191073,1,insured,adults 18-64,89.3
+Policy tier x county type,Very Restrictive,Nonmetro,2.0,102,191073,2,has transport,adults,92.51
+Policy tier x county type,Very Restrictive,Nonmetro,2.0,102,191073,3,routine checkup,adults,72.43
+Policy tier x county type,Very Restrictive,Nonmetro,2.0,102,191073,4,cervical screening,women 21-65,79.85
+Policy tier x county type,Very Restrictive,Nonmetro,2.0,102,191073,5,mammogram,women 50-74,71.02
+County type,Metro,Metro,,1178,56697012,1,insured,adults 18-64,88.64
+County type,Metro,Metro,,1178,56697012,2,has transport,adults,91.24
+County type,Metro,Metro,,1178,56697012,3,routine checkup,adults,75.27
+County type,Metro,Metro,,1178,56697012,4,cervical screening,women 21-65,82.37
+County type,Metro,Metro,,1178,56697012,5,mammogram,women 50-74,76.03
+County type,Nonmetro,Nonmetro,,1965,8463545,1,insured,adults 18-64,88.25
+County type,Nonmetro,Nonmetro,,1965,8463545,2,has transport,adults,90.1
+County type,Nonmetro,Nonmetro,,1965,8463545,3,routine checkup,adults,75.02
+County type,Nonmetro,Nonmetro,,1965,8463545,4,cervical screening,women 21-65,81.77
+County type,Nonmetro,Nonmetro,,1965,8463545,5,mammogram,women 50-74,72.96
+Distance band,<=25 mi,All,,505,40704642,1,insured,adults 18-64,89.5
+Distance band,<=25 mi,All,,505,40704642,2,has transport,adults,91.27
+Distance band,<=25 mi,All,,505,40704642,3,routine checkup,adults,75.07
+Distance band,<=25 mi,All,,505,40704642,4,cervical screening,women 21-65,82.78
+Distance band,<=25 mi,All,,505,40704642,5,mammogram,women 50-74,76.48
+Distance band,26-99 mi,All,,1268,11031797,1,insured,adults 18-64,89.46
+Distance band,26-99 mi,All,,1268,11031797,2,has transport,adults,91.28
+Distance band,26-99 mi,All,,1268,11031797,3,routine checkup,adults,75.73
+Distance band,26-99 mi,All,,1268,11031797,4,cervical screening,women 21-65,82.26
+Distance band,26-99 mi,All,,1268,11031797,5,mammogram,women 50-74,74.68
+Distance band,100-249 mi,All,,827,5487216,1,insured,adults 18-64,88.95
+Distance band,100-249 mi,All,,827,5487216,2,has transport,adults,90.74
+Distance band,100-249 mi,All,,827,5487216,3,routine checkup,adults,76.2
+Distance band,100-249 mi,All,,827,5487216,4,cervical screening,women 21-65,82.11
+Distance band,100-249 mi,All,,827,5487216,5,mammogram,women 50-74,73.57
+Distance band,>=250 mi,All,,541,7935167,1,insured,adults 18-64,82.93
+Distance band,>=250 mi,All,,541,7935167,2,has transport,adults,88.23
+Distance band,>=250 mi,All,,541,7935167,3,routine checkup,adults,74.8
+Distance band,>=250 mi,All,,541,7935167,4,cervical screening,women 21-65,79.93
+Distance band,>=250 mi,All,,541,7935167,5,mammogram,women 50-74,74.38

@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="After Dobbs, 16.7 million women have their nearest abortion clinic across a state line. A data story on who absorbs the demand that bans displace.">
+<meta name="description" content="Potential access to abortion care depends on geography, local healthcare resources and cross-state provider networks. A data story on travel distance, local care and shared catchments after Dobbs.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Care Across the Line">
-<meta property="og:description" content="Abortion bans are written one state at a time. They are not felt one state at a time.">
+<meta property="og:description" content="Potential access to abortion care depends on geography, local healthcare resources and cross-state provider networks.">
 <meta property="og:type" content="article">
 <title>Care Across the Line</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +15,6 @@
 <link rel="stylesheet" href="css/style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<script src="data/bundle.js"></script>
 </head>
 <body>
 
@@ -24,144 +23,286 @@
   <a class="lnk" href="index.html" aria-current="page">The story</a>
   <a class="lnk" href="methods.html">Data &amp; methods</a>
 </div></nav>
+<div id="data-status" class="banner" role="alert" hidden>Some data files could not be loaded, so one or more charts are missing.
+  Numbers in the text come from the last data build and could not be checked against the live files.</div>
 
 <div class="wrap">
 
 <header class="hero">
-  <p class="kicker">Three years after Dobbs</p>
-  <h1>Care across<br>the line</h1>
-  <p class="lede">Abortion bans are written one state at a time.
-     <b>They are not felt one state at a time.</b></p>
-  <p class="byline">Claire Gutermuth &middot; Chloe Qiu &middot; Lavinia Xu &middot; CS 1710</p>
+  <p class="kicker">Four years after <i>Dobbs</i></p>
+  <h1>Care Across the Line</h1>
+  <p class="lede">Potential access to abortion care depends on <b>geography</b>, on <b>local healthcare
+     resources</b>, and on <b>provider networks that cross state lines</b>.</p>
+  <p class="byline">Claire Gutermuth &middot; Chloe Qiu &middot; Lavinia Xu &middot; CS 1710 &middot; Data through July 2026</p>
 </header>
 
-<!-- HOOK -->
-<section>
-  <p class="stage">The hook</p>
-  <h2 class="wide">Seven clinics in Kansas are the nearest option for 6.1 million women who don&rsquo;t live there.</h2>
-  <p>Count the clinics providing abortion in the United States and almost nothing has happened.
-     There were <b id="h-clinics">790</b> in May 2022, the month before <i>Dobbs</i> came down.
-     There are about the same number today.</p>
-  <p>Count them state by state and the floor gives way. <b id="h-zero">13 states</b> now have none at all.
-     The clinics did not disappear. The demand they served didn&rsquo;t either. It crossed a state line.</p>
-  <div class="tiles">
-    <div class="tile"><div class="n hl" id="t1">16.7M</div><div class="l">women aged 15&ndash;44 whose nearest clinic is in another state</div></div>
-    <div class="tile"><div class="n" id="t2">25.7%</div><div class="l">of everyone of reproductive age in the country</div></div>
-    <div class="tile"><div class="n" id="t3">11.7&times;</div><div class="l">the national average load per clinic now carried by Kansas</div></div>
-    <div class="tile"><div class="n" id="t4">13</div><div class="l">states with no clinic providing abortion at all</div></div>
+<!-- A. HOOK: TRAVEL DISTANCE -->
+<section id="distance" aria-labelledby="h-distance">
+  <p class="stage">Distance</p>
+  <h2 id="h-distance">How far would you have to travel for abortion care?</h2>
+  <p>Suppose you lived in one of the states that now have the most restrictive abortion policies. In May 2022,
+     the month before the Supreme Court&rsquo;s <i>Dobbs</i> decision, the nearest open abortion clinic was on
+     average about 40 road miles away. Eight months later it was more than five times as far.</p>
+  <div class="compare" role="group" aria-label="Average distance in the Most Restrictive states">
+    <div><div class="v"><span data-h="r1_may2022">37.5</span><small>mi</small></div><div class="l">May 2022</div></div>
+    <div class="arrow" aria-hidden="true">&rarr;</div>
+    <div><div class="v after"><span data-h="r1_jan2023">215.6</span><small>mi</small></div><div class="l">January 2023</div></div>
   </div>
-</section>
+  <p>These figures are averages for all counties in states classified as Most Restrictive, weighted by the
+     number of women aged 15&ndash;44 living in each county. They describe how far away the nearest clinic is,
+     not an estimate of any one person&rsquo;s trip. In the Most Protective states, the same average stayed
+     near nine miles: <span data-h="r7_may2022">9.7</span> in May 2022 and <span data-h="r7_jan2023">8.9</span>
+     in January 2023.</p>
 
-<!-- RISING 1 -->
-<section>
-  <p class="stage">What changed &middot; 1</p>
-  <h2>The drive got long, and only in some places</h2>
-  <p>In the states with the strictest bans, the average woman&rsquo;s drive to the nearest clinic went from
-     <b>37.5 miles in May 2022 to 215.6 miles by January 2023</b>. In the most protective states it never
-     left nine. In Hinds County, Mississippi, home to the clinic at the centre of <i>Dobbs</i> itself,
-     the drive went from six and a half miles to three hundred and forty.</p>
-  <p>But this did not happen everywhere. Only <b>41% of US counties</b> saw their drive change at all, and
-     Texas, Louisiana and Tennessee alone account for <b>83%</b> of the total added burden. This is not a
-     national drift. It is a handful of corridors.</p>
-  <figure><div class="fig-h"><h3>Distance to the nearest clinic, 2019&ndash;2026</h3></div>
-    <p class="fig-sub">By policy environment, population-weighted. Coming in the next version.</p>
-    <div class="slot">Chart in progress</div>
-  </figure>
-</section>
-
-<!-- RISING 2 -->
-<section>
-  <p class="stage">What changed &middot; 2</p>
-  <h2>It landed where care was already thinnest</h2>
-  <p>Of the 589 counties where the drive grew by a hundred miles or more, <b>316 had no OB-GYN at all</b>,
-     and 297 of those had no hospital offering obstetric care either. Across the two most restrictive policy
-     tiers, 54.5% of counties have no OB-GYN, against 30.2% in the most protective.</p>
-  <p>The easy explanation is that those states are simply more rural. So we adjusted for exactly that, giving
-     the restrictive states the same mix of city and country as the protective ones. Even then,
-     <b>64 to 89% of the gap is still standing</b>.</p>
-  <figure><div class="fig-h"><h3>Access loss against local capacity</h3></div>
-    <p class="fig-sub">County map linked to a scatter of distance against OB-GYN supply. Coming in the next version.</p>
-    <div class="slot">Chart in progress</div>
-  </figure>
-</section>
-
-<!-- RISING 3 : NOVEL VIEW -->
-<section>
-  <p class="stage">What changed &middot; 3</p>
-  <h2>The map nobody draws: who serves whom</h2>
-  <p>Almost every map of this subject colours a state by its own law. That hides the thing that actually
-     happened. This one colours states by <b>where their women now have to go</b>, and it exposes service
-     territories that pay no attention to state lines at all.</p>
-  <figure>
-    <div class="fig-h"><h3>The catchment map</h3></div>
-    <p class="fig-sub">Ribbons run from a state that lost its clinics to the state now holding its nearest one,
-      thickness set by the number of women aged 15&ndash;44 affected. Circles mark the states absorbing that
-      demand, sized by how many women each of their clinics must now cover.</p>
-    <div class="legend">
-      <span><i class="sw" style="background:var(--exporter)"></i>No clinic left in the state</span>
-      <span><i class="sw" style="background:var(--receiver)"></i>Absorbs demand from other states</span>
-      <span><i class="sw" style="background:var(--neutral)"></i>Neither</span>
-      <span><i class="sw ring"></i>Circle area = women per clinic after inflow</span>
+  <figure id="fig-trend" aria-labelledby="t-trend">
+    <h3 id="t-trend">In the most restrictive states, the nearest clinic jumped from about 40 to more than 200 miles away within months</h3>
+    <p class="fig-sub">Average road miles to the nearest open abortion clinic, weighted by women aged 15&ndash;44,
+      by state policy group</p>
+    <div class="controls">
+      <div class="ctl"><span class="lab" id="lab-range">Time range</span>
+        <div class="seg" role="group" aria-labelledby="lab-range">
+          <button type="button" data-range="focus" aria-pressed="true">Mar 2022 &ndash; Mar 2023</button>
+          <button type="button" data-range="full" aria-pressed="false">Jan 2019 &ndash; Jul 2026</button>
+        </div></div>
+      <div class="ctl"><span class="lab">Policy groups shown</span>
+        <div class="tiers" id="trend-tiers"></div></div>
     </div>
-    <svg id="map" viewBox="0 0 960 600" role="img" aria-label="Map of cross-state abortion care catchment"></svg>
-    <figcaption>Hover any state to trace its flow. Kansas&rsquo;s territory alone reaches into five states.
-      &ldquo;Nearest clinic&rdquo; is road distance from each county&rsquo;s population centre, so it measures
-      geographic exposure rather than journeys actually taken.</figcaption>
+    <div class="status" id="st-trend" role="status"></div>
+    <div id="trend" class="chart"></div>
+    <p class="summary" id="trend-summary">Most Restrictive: <span data-h="r1_may2022">37.5</span> miles in May 2022,
+      <span data-h="r1_jul2022">123.0</span> in July 2022, <span data-h="r1_jan2023">215.6</span> in January 2023 and
+      <span data-h="r1_jul2026">212.5</span> in July 2026. Most Protective: <span data-h="r7_may2022">9.7</span>,
+      <span data-h="r7_jan2023">8.9</span> (January 2023) and <span data-h="r7_jul2026">8.7</span> (July 2026).</p>
+    <p class="note"><b>How to read this.</b> Each line is a policy group. Policy groups use Guttmacher&rsquo;s
+      <b>October 2026</b> classification for every month shown; they are not a record of when each state&rsquo;s
+      laws changed. The <i>Dobbs</i> decision was issued on June 24, 2022; the data are monthly, and July 2022 is the
+      first month after the decision. Hover, tap, or focus the chart and use the arrow keys to read exact values.
+      Source: Myers Abortion Facility Database; HRSA AHRF population.</p>
+    <details class="data"><summary>Data table: key months, all seven policy groups</summary>
+      <div class="tblwrap" id="trend-table"></div></details>
   </figure>
+  <p class="transition">The increase was not evenly distributed.</p>
 </section>
 
-<!-- MAIN MESSAGE -->
-<section>
-  <p class="stage">What it means</p>
+<!-- B. CONCENTRATION -->
+<section id="concentration" aria-labelledby="h-conc">
+  <p class="stage">Where distance grew</p>
+  <h2 id="h-conc">Three states account for most of the added distance burden</h2>
+  <p>To compare places of very different sizes, we multiplied the number of women aged 15&ndash;44 in each county
+     by the extra miles to the nearest clinic between May 2022 and July 2026, then added those amounts up by state.
+     Counties where the nearest clinic got closer count as zero, so a shorter trip in one place does not cancel
+     a longer one somewhere else.</p>
+  <p>Texas alone accounts for <b data-h="burden_tx">69.5%</b> of this added burden. Together with Louisiana
+     (<span data-h="burden_la">9.4%</span>) and Tennessee (<span data-h="burden_tn">4.5%</span>), three states
+     account for <b data-h="burden_top3">83.4%</b>.</p>
+  <figure id="fig-burden" aria-labelledby="t-burden">
+    <h3 id="t-burden">Texas, Louisiana and Tennessee account for <span data-h="burden_top3">83.4%</span> of the added population-weighted distance</h3>
+    <p class="fig-sub">Each state&rsquo;s share of the total increase in (women aged 15&ndash;44 &times; added miles to the nearest clinic), May 2022 &rarr; July 2026</p>
+    <div class="status" id="st-burden" role="status"></div>
+    <div id="burden" class="chart"></div>
+    <p class="note"><b>Formula.</b> For each county: women aged 15&ndash;44 &times; max(miles in July 2026 &minus; miles in May 2022, 0).
+      A state&rsquo;s share is its sum divided by the national sum. This is a measure of geographic exposure, not miles actually
+      traveled, patients, or counties. Including reductions as negative values would give a different figure. Two Alaska
+      counties without distance data and one without population are excluded.</p>
+    <details class="data"><summary>Data table: every state with an added burden</summary>
+      <div class="tblwrap" id="burden-table"></div></details>
+  </figure>
+  <p class="transition">Distance is one barrier. Where the nearest clinic moved far away, local maternity care was often thin as well.</p>
+</section>
+
+<!-- C. LOCAL RESOURCES -->
+<section id="local-care" aria-labelledby="h-local">
+  <p class="stage">Local resources</p>
+  <h2 id="h-local">Longer journeys overlap with limited local care</h2>
+  <p>Of the <b data-h="inc100">589</b> counties where the nearest clinic was at least 100 miles farther away in July 2026
+     than in May 2022, <b data-h="inc100_no_obgyn">316</b> had no OB-GYN recorded in 2023, and
+     <b data-h="inc100_no_obgyn_no_hosp">297</b> of those 316 also had no hospital providing obstetric care. Most of
+     the 316 counties (<span data-h="inc100_no_obgyn_nonmetro">246</span>) are nonmetro.</p>
+  <p>The OB-GYN and hospital counts are a single 2023 snapshot. They do not show that providers left after
+     <i>Dobbs</i>. They show that large increases in distance often fell on places that already had little local
+     maternity care.</p>
+
+  <figure id="fig-county" aria-labelledby="t-county">
+    <h3 id="t-county">Hundreds of counties with large distance increases had no OB-GYN in 2023</h3>
+    <p class="fig-sub">Change in road miles to the nearest abortion clinic (May 2022 &rarr; July 2026) against OB-GYNs per
+      10,000 women aged 15&ndash;44 (2023), by county</p>
+    <div class="controls">
+      <div class="ctl"><span class="lab" id="lab-ctype">County type</span>
+        <div class="seg" role="group" aria-labelledby="lab-ctype" id="ctype">
+          <button type="button" data-metro="all" aria-pressed="true">All</button>
+          <button type="button" data-metro="1" aria-pressed="false">Metro</button>
+          <button type="button" data-metro="0" aria-pressed="false">Nonmetro</button>
+        </div></div>
+      <div class="ctl"><label class="lab" for="county-search">Find a county</label>
+        <input type="search" id="county-search" list="county-list" placeholder="e.g. Hinds, MS" autocomplete="off">
+        <datalist id="county-list"></datalist></div>
+      <div class="ctl"><span class="lab">Emphasis</span>
+        <label class="check"><input type="checkbox" id="hl-toggle" checked> Highlight +100 miles and no OB-GYN</label></div>
+      <div class="ctl"><span class="lab">&nbsp;</span><button type="button" class="plain" id="county-reset">Reset</button></div>
+    </div>
+    <p class="counts" id="county-counts" aria-live="polite"></p>
+    <div class="status" id="st-county" role="status"></div>
+    <div class="explorer">
+      <div class="panel">
+        <h4>Where the combinations fall</h4>
+        <div id="county-map" class="chart"></div>
+        <div id="county-matrix"></div>
+      </div>
+      <div class="panel">
+        <h4>Distance change against local OB-GYN supply</h4>
+        <div id="county-scatter" class="chart"></div>
+        <div class="details" id="county-details" aria-live="polite"><p class="counts" style="margin:0">Select a county on the map
+          or chart, or search by name, to see its details here.</p></div>
+      </div>
+    </div>
+    <p class="summary"><span data-h="inc100_no_obgyn">316</span> of the <span data-h="inc100">589</span> counties with at
+      least 100 additional miles had no OB-GYN recorded in 2023; <span data-h="inc100_no_obgyn_no_hosp">297</span> of those
+      also had no hospital providing obstetric care. These are overlapping groups of counties, not separate categories.</p>
+    <p class="note"><b>How to read this.</b> One dot per county (<span data-h="scatter_eligible">3,140</span> with both measures).
+      The vertical axis uses a <b>square-root scale</b> to spread out the many low values; tick labels show the original
+      numbers. Dots are not jittered: counties with no OB-GYN sit exactly on the zero line. Dashed lines mark no change and
+      +100 miles. Map categories: distance change &le;0, &gt;0 to &lt;100, &ge;100 miles; supply 0, &gt;0 to 2.5, &gt;2.5 per
+      10,000. <b>Missing data:</b> three Alaska counties lack distance or OB-GYN data and are left out, and DC has no county
+      record; striped map areas have no data. Connecticut&rsquo;s 8 counties have no metro code, so they appear only under &ldquo;All&rdquo;.
+      Sources: Myers Abortion Facility Database; HRSA Area Health Resource File; county boundaries: US Census via us-atlas 3.0.1.</p>
+  </figure>
+
+  <p style="margin-top:40px">States with restrictive policies have more rural counties, and rural counties tend to have fewer
+     OB-GYNs. Comparing metro counties with metro counties, and nonmetro with nonmetro, shows whether the difference
+     between policy groups is only a matter of rurality.</p>
+  <figure id="fig-rural" aria-labelledby="t-rural">
+    <h3 id="t-rural">The gap is present within both metro and nonmetro counties</h3>
+    <p class="fig-sub">Share of counties with no OB-GYN recorded in 2023, by county type and state policy group</p>
+    <div class="status" id="st-rural" role="status"></div>
+    <div id="rural" class="chart"></div>
+    <p class="summary">Metro counties: <span data-h="short_r12_metro">33.2%</span> with no OB-GYN in policy ranks 1&ndash;2 versus
+      <span data-h="short_r67_metro">11.0%</span> in ranks 6&ndash;7. Nonmetro counties: <span data-h="short_r12_nonmetro">66.0%</span>
+      versus <span data-h="short_r67_nonmetro">44.9%</span>. Across all counties: <span data-h="short_r12">54.5%</span> versus
+      <span data-h="short_r67">30.2%</span>.</p>
+    <p class="note">Ranks 1&ndash;2 are the Most Restrictive and Very Restrictive groups; ranks 6&ndash;7 are Very Protective and
+      Most Protective (October 2026 classification). Metro means USDA rural&ndash;urban codes 1&ndash;3. Shares are counts of
+      counties, not population-weighted. This is a descriptive comparison: it does not isolate an effect of policy or account
+      for every aspect of rurality.</p>
+    <details class="data"><summary>Data table with denominators</summary><div class="tblwrap" id="rural-table"></div></details>
+  </figure>
+  <p class="transition">Local resources tell only part of the story. The nearest clinic may be across a state line.</p>
+</section>
+
+<!-- D. MAIN MESSAGE: CROSS-STATE CATCHMENTS -->
+<section id="across" aria-labelledby="h-across">
+  <p class="stage">Across state lines</p>
+  <h2 id="h-across">Access does not stop at the state line</h2>
   <div class="msg">
-    <p class="big">A state can ban abortion inside its own borders. It cannot keep the <em>consequences</em> inside them.</p>
-    <p>Sixteen point seven million women now have their nearest clinic in a state they do not live in, do not
-      vote in, and cannot hold to account. That is a quarter of everyone of reproductive age in America. The
-      capacity to serve them was never built, because no legislature was ever responsible for building it.</p>
+    <p class="big"><em data-h="crossing_women">16.7 million</em> women aged 15&ndash;44 live in counties whose nearest open
+      abortion clinic is in another state.</p>
+    <p>That is <span data-h="crossing_pct">25.7%</span> of the women aged 15&ndash;44 in the counties covered by the data. A state&rsquo;s
+      policy shapes where clinics operate inside its borders, but the nearest option for many residents is in a
+      neighboring state, and those neighbors become the nearest option for people well beyond their own residents.</p>
   </div>
-  <figure style="margin-top:30px">
-    <div class="fig-h"><h3>What each receiving state now carries</h3></div>
-    <p class="fig-sub">Every row is a state absorbing demand from across a border. The hollow dot is the load its
-      clinics would carry from its own residents alone. The filled dot adds everyone whose nearest clinic is now
-      there. The distance between them is the transfer.</p>
-    <div class="legend">
-      <span><i class="sw open"></i>Own residents only</span>
-      <span><i class="sw fill"></i>Including everyone whose nearest clinic is here</span>
-      <span><i class="sw" style="background:var(--ink);height:2px;width:18px;border-radius:0"></i>National average, 81,655 per clinic</span>
+  <div class="tiles">
+    <div class="tile"><div class="n hl" data-h="crossing_women">16.7 million</div><div class="l">women aged 15&ndash;44 whose nearest clinic is in another state (July 2026)</div></div>
+    <div class="tile"><div class="n" data-h="ks_clinics">7</div><div class="l">clinics in Kansas, the nearest option for <span data-h="ks_incoming">6.1 million</span> women from <span data-h="ks_origin_states">5</span> other states</div></div>
+    <div class="tile"><div class="n" data-h="states_to_zero">13</div><div class="l">states that had at least one clinic in May 2022 and none in July 2026</div></div>
+  </div>
+
+  <figure id="fig-catch" aria-labelledby="t-catch">
+    <span class="flag">Potential geographic catchment, not observed patient travel</span>
+    <h3 id="t-catch">Kansas&rsquo;s seven clinics are the nearest option for counties in five other states</h3>
+    <p class="fig-sub">Each arrow joins a home state to the state holding the nearest clinic for some of its counties
+      (July 2026). Width is proportional to the number of women aged 15&ndash;44 in those counties.</p>
+    <div class="controls">
+      <div class="ctl"><label class="lab" for="catch-select">Jurisdiction</label>
+        <select id="catch-select"></select></div>
+      <div class="ctl"><span class="lab" id="lab-dir">Show connections</span>
+        <div class="seg" role="group" aria-labelledby="lab-dir" id="catch-dir">
+          <button type="button" data-dir="in" aria-pressed="true">Incoming</button>
+          <button type="button" data-dir="out" aria-pressed="false">Outgoing</button>
+        </div></div>
+      <div class="ctl"><span class="lab">&nbsp;</span><button type="button" class="plain" id="catch-overview">Show overview of all states</button></div>
     </div>
-    <svg id="load" viewBox="0 0 960 700" role="img" aria-label="Load per clinic before and after out-of-state inflow"></svg>
-    <figcaption>The scale is logarithmic because Kansas sits an order of magnitude beyond everyone else. The
-      dashed line is the national average of 81,655 women aged 15&ndash;44 per open clinic.</figcaption>
+    <div class="status" id="st-catch" role="status"></div>
+    <div class="catch">
+      <div class="panel">
+        <div class="legend" id="catch-legend"></div>
+        <div id="map" class="chart"></div>
+        <p class="note" id="catch-note" aria-live="polite"></p>
+      </div>
+      <div class="panel profile" id="catch-profile" aria-live="polite"></div>
+    </div>
+    <p class="note"><b>How to read this.</b> Arrows are drawn between state centers and are schematic. They show where the
+      nearest clinic is for each county (road distance from the county, Myers database, July 2026), added up by home state
+      and clinic state. They are not routes, actual trips, appointments, or patients. Retained catchment means residents whose
+      nearest clinic is in their own state; incoming means residents of other states whose nearest clinic is here; a state
+      can have both incoming and outgoing connections. Click a state or choose one from the list; small jurisdictions such as
+      DC are easiest to choose from the list. Population: women aged 15&ndash;44 (HRSA AHRF), the population the source data
+      use, not a count of people seeking abortion care.</p>
   </figure>
 </section>
 
-<!-- SOLUTION -->
-<section>
+<!-- E. SUPPORTING: PER-CLINIC CATCHMENT -->
+<section id="per-clinic" aria-labelledby="h-load">
+  <p class="stage">Clinics and catchments</p>
+  <h2 id="h-load">A small number of clinics can be the nearest option for a large region</h2>
+  <p>Kansas has <span data-h="ks_clinics">7</span> clinics. They are the nearest option for
+     <b data-h="ks_incoming_exact">6,128,642</b> women aged 15&ndash;44 who live in other states, plus
+     <span data-h="ks_retained">545,960</span> Kansas residents (of <span data-h="ks_residents">563,769</span>; the rest
+     have a nearer clinic in another state). That is <b data-h="ks_assigned">6,674,602</b> women in all, or about
+     <b data-h="ks_per_clinic">953,515</b> per clinic.</p>
+  <figure id="fig-load" aria-labelledby="t-load">
+    <h3 id="t-load">Kansas&rsquo;s potential catchment per clinic is far larger than any other state&rsquo;s</h3>
+    <p class="fig-sub">Every row is a state that is the nearest option for at least one county in another state. The hollow dot is
+      the potential catchment per clinic from the state&rsquo;s own residents whose nearest clinic is in-state. The filled dot adds
+      residents of other states whose nearest clinic is there. The distance between them is the incoming catchment.</p>
+    <div class="legend">
+      <span><i class="sw dot" style="background:var(--surface-1);border:2px solid var(--ink-3)"></i>Retained local catchment per clinic</span>
+      <span><i class="sw dot" style="background:var(--receiver)"></i>Total assigned catchment per clinic</span>
+      <span><i class="sw line" style="background:var(--ink)"></i>All 50 states combined: <span data-h="ref_per_clinic">81,573</span> per clinic</span>
+    </div>
+    <div class="status" id="st-load" role="status"></div>
+    <div id="load" class="chart"></div>
+    <p class="note" id="load-dc"></p>
+    <p class="note"><b>How to read this.</b> Women aged 15&ndash;44 per open clinic, July 2026. The scale is <b>logarithmic</b>:
+      each labeled gridline is a fixed multiple of the one before, because Kansas sits roughly ten times beyond most other
+      states. The number in parentheses is the count of open clinics. The reference line divides all the population assigned
+      to the 50 states by their 798 clinics; DC is not included because its clinic count is not in the supplied data. Clinic
+      counts do not measure staffing, appointment capacity, services offered, or actual use, so this is a potential catchment
+      per clinic, not a patient load. Selecting a state on the map above highlights its row here, and clicking a row selects
+      it on the map.</p>
+    <details class="data"><summary>Data table</summary><div class="tblwrap" id="load-table"></div></details>
+  </figure>
+</section>
+
+<!-- F. PLANNING -->
+<section id="planning" aria-labelledby="h-plan">
   <p class="stage">What follows</p>
-  <h2>Where the pressure actually needs relieving</h2>
+  <h2 id="h-plan">What this means for planning</h2>
+  <p>These data describe where the nearest clinic is and what other care exists nearby. They cannot identify an optimal way
+     to fund or place services, but they point to four priorities.</p>
   <ul class="take">
-    <li><span class="num">01</span><span><b>Capacity has to be planned regionally.</b> Kansas licenses and funds
-      clinics for 564,000 residents while standing as the nearest option for 6.7 million women. No single
-      state legislature is answerable for that gap, which is exactly why it keeps growing.</span></li>
-    <li><span class="num">02</span><span><b>The pressure is concentrated enough to act on.</b> Three states carry
-      83% of the added burden and ten counties carry 47% of it. Relief aimed at a few corridors would reach
-      most of the people affected.</span></li>
-    <li><span class="num">03</span><span><b>Outcomes have not moved yet, and that is the argument for moving
-      now.</b> The infant mortality gap between the most and least restrictive states was 1.60 per 1,000 before
-      <i>Dobbs</i> and 1.77 after: wide, steady, and already there before any ban was signed. The access shock
-      is new. The outcome shock, if it comes, has not arrived.</span></li>
+    <li><span class="num">01</span><span><b>Look beyond state policy maps to understand cross-border access.</b>
+      <span class="ev">For <span data-h="crossing_women">16.7 million</span> women aged 15&ndash;44, the nearest clinic is in another state.</span></span></li>
+    <li><span class="num">02</span><span><b>Prioritize communities with long journeys and limited local healthcare resources.</b>
+      <span class="ev"><span data-h="inc100_no_obgyn">316</span> counties gained at least 100 miles and had no OB-GYN in 2023; most are nonmetro.</span></span></li>
+    <li><span class="num">03</span><span><b>Consider potential regional catchments when allocating clinic resources and travel support.</b>
+      <span class="ev">Kansas&rsquo;s <span data-h="ks_clinics">7</span> clinics are the nearest option for <span data-h="ks_incoming">6.1 million</span> women in other states.</span></span></li>
+    <li><span class="num">04</span><span><b>Use geographic access data alongside service-capacity and utilization data for more equitable planning.</b>
+      <span class="ev">Distance and clinic counts show potential access only; they say nothing about appointment availability, staffing, or who actually travels.</span></span></li>
   </ul>
 </section>
 
-<footer><div class="narrow">
-  Built for CS 1710 from the Myers Abortion Facility Database, the Guttmacher State Policy Database,
-  HRSA&rsquo;s Area Health Resource File, CDC PLACES and CDC WONDER.
-  <a href="methods.html">How we did it &rarr;</a>
-</div></footer>
+<footer>
+  Built for CS 1710 from the Myers Abortion Facility Database, the Guttmacher State Policy Database and
+  HRSA&rsquo;s Area Health Resource File, using the team&rsquo;s processed tables.
+  <a href="methods.html">Data, methods and limitations &rarr;</a>
+</footer>
 </div>
-<div id="tip" role="status"></div>
+<div id="tip" role="status" aria-live="off"></div>
 
 <script src="js/data.js"></script>
+<script src="js/distance-trend.js"></script>
+<script src="js/burden-bars.js"></script>
+<script src="js/county-explorer.js"></script>
+<script src="js/rurality.js"></script>
 <script src="js/catchment-map.js"></script>
 <script src="js/clinic-load.js"></script>
 <script src="js/main.js"></script>

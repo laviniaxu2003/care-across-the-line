@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>Care Across the Line: Methods</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
 <link rel="stylesheet" href="css/style.css">
-<style>body{margin:0}</style>
 </head>
 <body>
 <nav><div class="wrap">
@@ -20,58 +20,126 @@
 <div class="wrap">
 <header class="hero" style="padding-block:64px 36px">
   <p class="kicker">Data &amp; methods</p>
-  <h1 style="font-size:clamp(34px,5.5vw,56px)">Where every<br>number comes from</h1>
+  <h1 style="font-size:clamp(34px,5.5vw,56px)">Where every number comes from</h1>
+  <p class="lede" style="font-size:clamp(17px,2vw,21px)">The site is built from processed tables the team assembled from public
+    sources. Some values in those tables are observed counts, some are modeled estimates made by the source, and some are measures
+    we derived. This page says which is which, and what the numbers cannot tell you.</p>
 </header>
 
 <section>
   <h2>The sources</h2>
-  <p>Five public datasets, merged to county FIPS. Nothing on this site is estimated, modelled by us, or
-     typed in by hand.</p>
+  <p>Five public sources, merged by county FIPS code into the team&rsquo;s processed tables (October 2026). The charts on this site use the
+     first three; the CDC sources are kept in the repository for possible future views.</p>
   <div class="tblwrap"><table class="src">
-    <thead><tr><th>Source</th><th>What we take from it</th><th>Period</th></tr></thead>
+    <thead><tr><th>Source</th><th>What we take from it</th><th>Period</th><th>Type</th></tr></thead>
     <tbody>
-      <tr><td>Myers Abortion Facility Database<br><span class="mono" style="font-size:11.5px;color:var(--ink-3)">osf.io/8dg7r</span></td>
-          <td>Road travel distance from every county to its nearest open abortion facility, monthly; open facility counts by state</td><td>2009&ndash;Jul 2026</td></tr>
-      <tr><td>Guttmacher State Policy Database</td><td>Seven-tier state policy environment</td><td>Oct 2026</td></tr>
-      <tr><td>HRSA Area Health Resource File</td><td>OB-GYN counts, hospitals with obstetric care, annual births, women aged 15&ndash;44, rural&ndash;urban codes</td><td>2020&ndash;24</td></tr>
-      <tr><td>CDC PLACES</td><td>Mammography, cervical screening, routine checkups, insurance, transport access</td><td>2020 &amp; 2022</td></tr>
-      <tr><td>CDC WONDER</td><td>Infant mortality, preterm and very preterm rates by state and year</td><td>2017&ndash;2024</td></tr>
+      <tr><td>Myers Abortion Facility Database<br><a class="mono" style="font-size:11.5px" href="https://osf.io/8dg7r/">osf.io/8dg7r</a></td>
+          <td>Road miles from each county to the nearest open abortion facility, monthly; the state that facility is in; open facility counts by state</td>
+          <td>Jan 2019&ndash;Jul 2026 (monthly); counts May 2022 and Jul 2026</td><td>Source-computed from facility records</td></tr>
+      <tr><td>Guttmacher State Policy Database<br><a class="mono" style="font-size:11.5px" href="https://states.guttmacher.org/policies/">states.guttmacher.org</a></td>
+          <td>Seven-tier state abortion policy classification</td><td>Accessed October 2026</td><td>Classification</td></tr>
+      <tr><td>HRSA Area Health Resource File 2024&ndash;25<br><a class="mono" style="font-size:11.5px" href="https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf">data.hrsa.gov</a></td>
+          <td>OB-GYNs (MD + DO, non-federal), hospitals providing obstetric care, women aged 15&ndash;44, USDA rural&ndash;urban codes</td>
+          <td>OB-GYN and hospital counts: 2023</td><td>Observed counts; population estimates</td></tr>
+      <tr><td>CDC PLACES</td><td>Preventive care, insurance and transport measures (not charted)</td><td>BRFSS 2020 &amp; 2022</td><td><b>Modeled</b> small-area estimates</td></tr>
+      <tr><td>CDC WONDER<br><a class="mono" style="font-size:11.5px" href="https://wonder.cdc.gov/">wonder.cdc.gov</a></td>
+          <td>Infant mortality, preterm birth, prenatal visits (not charted)</td><td>2017&ndash;2024</td><td>Observed vital statistics, <b>exported by hand</b></td></tr>
+      <tr><td>US county and state boundaries</td><td>us-atlas 3.0.1 (Census 2017 cartographic boundaries), state map and pre-projected county map</td><td>2017</td><td>Geometry</td></tr>
+    </tbody>
+  </table></div>
+  <p style="margin-top:20px"><b>What is derived by us:</b> distance change shares, the added-distance burden, the 316-of-589 flag, the
+     state-to-state catchment tables, per-clinic catchments, the metro/nonmetro shares and every headline number. They are computed by
+     <span class="mono">scripts/build_data.py</span> from the supplied tables and checked by <span class="mono">scripts/validate.py</span>.
+     The supplied tables themselves were built by an earlier team script (<span class="mono">build_final.py</span>) from raw downloads
+     that are not in this repository, so the steps before those tables cannot be rerun from here.</p>
+</section>
+
+<section>
+  <h2>Definitions and formulas</h2>
+  <ul class="take">
+    <li><span class="num">A</span><span><b>Average distance by policy group.</b> The mean of county road miles to the nearest open clinic,
+      weighted by women aged 15&ndash;44, taken from the supplied <span class="mono">access_trend_by_tier.csv</span> (not re-averaged).
+      The hook compares <b>May 2022 with January 2023</b>: <span data-h="r1_may2022">37.5</span> &rarr; <span data-h="r1_jan2023">215.6</span>
+      miles for Most Restrictive states.</span></li>
+    <li><span class="num">B</span><span><b>Added distance burden.</b> For each county, women aged 15&ndash;44 &times; max(miles in July 2026 &minus;
+      miles in May 2022, 0), summed by state and divided by the national sum. The unit is population &times; additional nearest-clinic miles,
+      a geographic exposure measure. Counting reductions as negative values would give Texas, Louisiana and Tennessee
+      <span data-h="burden_top3_signed">86.2%</span> instead of <span data-h="burden_top3">83.4%</span>.</span></li>
+    <li><span class="num">C</span><span><b>Distance change and local resources.</b> The county change compares <b>May 2022 with July 2026</b>,
+      a different comparison from the hook. &ldquo;At least 100 more miles and no OB-GYN&rdquo; is a flag we derived from that change. It is
+      not the supplied <span class="mono">hit_twice</span> column, which uses current distance (July 2026 &ge; 100 miles), and the supplied
+      <span class="mono">access_band</span> also describes current distance, so neither is used for change. Of the
+      <span data-h="inc100_no_obgyn_no_hosp">297</span> counties with neither an OB-GYN nor an obstetric hospital,
+      <span data-h="inc100_none_both_nonmetro">230</span> are nonmetro.</span></li>
+    <li><span class="num">D</span><span><b>Shortage by policy group.</b> Share of counties with OB-GYN data that recorded none in 2023: counts of
+      counties, not population-weighted. Ranks 1&ndash;2: <span data-h="short_r12">54.5%</span> of <span data-h="short_r12_n">1,637</span>;
+      ranks 6&ndash;7: <span data-h="short_r67">30.2%</span> of <span data-h="short_r67_n">653</span>. (Rank 1 alone is
+      <span data-h="short_r1_only">52.8%</span>; the site always uses ranks 1&ndash;2.) As a single check on rurality, giving ranks 1&ndash;2 the
+      metro/nonmetro mix of ranks 6&ndash;7 (<span data-h="std_weight_metro">43.3%</span> metro) gives <span data-h="std_r12">51.8%</span> versus
+      <span data-h="std_r67">30.2%</span>, leaving about <span data-h="std_gap_share">88.8%</span> of the crude gap. An earlier draft quoted
+      &ldquo;64&ndash;89% remains&rdquo;; we could not reproduce the other specifications behind that range, so the site shows the metro/nonmetro
+      comparison instead. Neither is a causal adjustment.</span></li>
+    <li><span class="num">E</span><span><b>Catchments.</b> Each county is assigned to the state holding its nearest open clinic in July 2026. For
+      each receiving jurisdiction: retained = residents assigned to their own state; incoming = residents of other states assigned to it;
+      total assigned = retained + incoming; per clinic = total assigned &divide; open clinics. Outgoing population is kept separately. Every
+      county with a known destination and population is counted exactly once (<span data-h="pop_valid">65,158,822</span> women).
+      The earlier version added a state&rsquo;s <i>whole</i> resident population to its incoming catchment, which counted residents whose
+      nearest clinic is in another state; for Kansas that overstated the total by 17,809.</span></li>
+    <li><span class="num">F</span><span><b>Reference line.</b> The &ldquo;50 states combined&rdquo; line divides the population assigned to the 50
+      states by their 798 clinics: <span data-h="ref_per_clinic">81,573</span> per clinic. DC is left out of both because its clinic count is not in
+      the supplied data. The earlier &ldquo;81,655 national average&rdquo; mixed the national population with the 50-state clinic count, and
+      the story no longer uses a ratio to it.</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Coverage and missing data</h2>
+  <p>The county table has 3,143 rows, but not every measure covers every row. Blank values are kept as missing, never as zero; real zero
+     OB-GYN counts are kept.</p>
+  <div class="tblwrap"><table class="src">
+    <thead><tr><th>View</th><th>Counties included</th><th>Excluded and why</th></tr></thead>
+    <tbody>
+      <tr><td>Distance trend</td><td>All counties in each policy group (supplied aggregate)</td><td>Pre-aggregated by the source table; DC is not in any policy group</td></tr>
+      <tr><td>Added burden</td><td>3,140</td><td>Chugach and Copper River, AK (no distance data; <span data-h="excluded_known_pop">1,735</span> women); Valdez-Cordova, AK (no population)</td></tr>
+      <tr><td>County scatter and map</td><td><span data-h="scatter_eligible">3,140</span></td><td>The same three Alaska counties. Valdez-Cordova has a 2017 shape and is hatched; Chugach and Copper River (created 2019) have no 2017 shape. DC has a shape but no county row and is hatched.</td></tr>
+      <tr><td>Metro/nonmetro</td><td>Counties with a metro code</td><td>Connecticut&rsquo;s 8 legacy counties have no metro code and are shown only under &ldquo;All&rdquo;; unknown is never treated as nonmetro</td></tr>
+      <tr><td>Catchments</td><td>3,140 (<span data-h="pop_valid">65,158,822</span> of <span data-h="pop_all">65,160,557</span> women)</td><td>Same three Alaska counties. DC residents are not in the origin data, but DC is kept as a destination: Arlington County, VA (<span data-h="dc_incoming">63,923</span> women) has its nearest clinic there.</td></tr>
     </tbody>
   </table></div>
 </section>
 
 <section>
-  <h2>How the catchment is calculated</h2>
-  <p>For each of the 3,143 US counties, the Myers database gives the road distance to the nearest facility
-     providing abortion and the state that facility sits in. Rolling those counties up by
-     <span class="mono">home state &rarr; nearest-clinic state</span> produces the cross-border flows drawn on
-     the map. A state&rsquo;s load is the number of women aged 15&ndash;44 whose nearest clinic falls inside it, divided
-     by the number of clinics it has open. That count includes its own residents and everyone arriving
-     from outside.</p>
-</section>
-
-<section>
   <h2>What these numbers do not say</h2>
   <ul class="take">
-    <li><span class="num">01</span><span><b>Distance is exposure, not travel.</b> We measure how far the nearest
-      clinic is, not where anyone actually goes. Telehealth, shield laws, money, time off work and childcare all
-      change real journeys, and none of them appear here.</span></li>
-    <li><span class="num">02</span><span><b>Policy is a state attribute.</b> Every county in Texas carries the same
-      policy tier. Counties differ from one another on distance, on provider supply and on preventive care.
-      They never differ on law.</span></li>
-    <li><span class="num">03</span><span><b>Preventive care figures are modelled.</b> CDC PLACES publishes
-      small-area estimates, not counts. They are sound for comparing places and wrong to quote as a precise
-      local value.</span></li>
-    <li><span class="num">04</span><span><b>We make no causal claim about health outcomes.</b> The gap in infant
-      mortality between restrictive and protective states is large, but it predates <i>Dobbs</i> and has not
-      meaningfully widened in the two years of data since. We say that plainly rather than imply otherwise.</span></li>
+    <li><span class="num">01</span><span><b>Distance is exposure, not travel.</b> We measure how far the nearest clinic is, not where anyone actually
+      goes. Telehealth, shield laws, gestational limits, appointment availability, money, time off work and childcare all change real journeys,
+      and none of them appear here.</span></li>
+    <li><span class="num">02</span><span><b>Catchments are potential, not workload.</b> A catchment is the population whose nearest clinic is in a
+      state. It is not a count of patients, appointments or abortion seekers, and clinic counts say nothing about staffing or capacity.
+      The population is women aged 15&ndash;44, the group the source data report, which is not everyone who may need abortion care.</span></li>
+    <li><span class="num">03</span><span><b>Policy is a fixed snapshot.</b> Every month and year is labeled with Guttmacher&rsquo;s October 2026
+      classification. The trend chart therefore shows how places now classified as restrictive changed, not when each law took effect.</span></li>
+    <li><span class="num">04</span><span><b>Local resources are a 2023 snapshot.</b> OB-GYN and obstetric-hospital counts were measured once, in 2023.
+      They are not a pre-<i>Dobbs</i> baseline and do not show providers leaving.</span></li>
+    <li><span class="num">05</span><span><b>Descriptive, not causal.</b> Overlaps between distance, local resources, rurality and policy are descriptions.
+      They do not isolate the effect of any policy.</span></li>
+    <li><span class="num">06</span><span><b>Health outcomes are not part of this story.</b> The supplied infant mortality, preterm and prenatal-visit tables
+      cover only a few post-<i>Dobbs</i> years and are aggregated by state. They cannot show either harm or the absence of harm, so the story
+      does not use them.</span></li>
   </ul>
 </section>
 
-<footer><div class="narrow">
-  CS 1710 &middot; Claire Gutermuth, Chloe Qiu, Lavinia Xu &middot; <a href="index.html">Back to the story &rarr;</a>
-</div></footer>
-</div>
+<section>
+  <h2>Reproducing the site</h2>
+  <p>From the repository root: <span class="mono">pip install -r requirements.txt</span>, then <span class="mono">python3 scripts/build_data.py</span>
+     to rebuild <span class="mono">data/derived/</span> and run all validation checks, then <span class="mono">python3 -m http.server</span> and open
+     <span class="mono">http://localhost:8000</span>. The page must be served over HTTP; D3, TopoJSON and the fonts load from public CDNs, so it also
+     needs an internet connection. Details are in <span class="mono">README.md</span> and <span class="mono">docs/</span>.</p>
+</section>
 
+<footer>
+  CS 1710 &middot; Claire Gutermuth, Chloe Qiu, Lavinia Xu &middot; <a href="index.html">Back to the story &rarr;</a>
+</footer>
+</div>
 </body>
 </html>

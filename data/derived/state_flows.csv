@@ -1,0 +1,138 @@
+origin_abbr,origin_state,dest_abbr,dest_state,counties,women_15_44,out_of_state
+TX,Texas,KS,Kansas,133,4568820,1
+TX,Texas,NM,New Mexico,119,1536171,1
+AL,Alabama,GA,Georgia,63,831909,1
+OK,Oklahoma,KS,Kansas,76,771502,1
+IN,Indiana,IL,Illinois,45,750356,1
+LA,Louisiana,FL,Florida,33,694059,1
+KY,Kentucky,OH,Ohio,78,675242,1
+TN,Tennessee,IL,Illinois,34,623405,1
+TN,Tennessee,GA,Georgia,42,462518,1
+AR,Arkansas,KS,Kansas,45,434299,1
+IN,Indiana,OH,Ohio,39,416994,1
+MS,Mississippi,GA,Georgia,54,341053,1
+TN,Tennessee,VA,Virginia,16,245537,1
+MO,Missouri,KS,Kansas,26,216107,1
+ID,Idaho,OR,Oregon,18,196334,1
+NJ,New Jersey,NY,New York,1,176814,1
+SC,South Carolina,NC,North Carolina,9,165981,1
+WI,Wisconsin,MN,Minnesota,24,157914,1
+AL,Alabama,FL,Florida,4,147213,1
+GA,Georgia,FL,Florida,30,146523,1
+AR,Arkansas,IL,Illinois,30,142869,1
+IN,Indiana,MI,Michigan,8,142537,1
+ND,North Dakota,MN,Minnesota,45,139381,1
+LA,Louisiana,KS,Kansas,15,137914,1
+KY,Kentucky,IL,Illinois,27,123224,1
+MS,Mississippi,IL,Illinois,20,123071,1
+WV,West Virginia,OH,Ohio,22,121401,1
+MS,Mississippi,FL,Florida,8,112960,1
+SD,South Dakota,MN,Minnesota,42,105142,1
+PA,Pennsylvania,NY,New York,10,99786,1
+ID,Idaho,UT,Utah,14,95518,1
+LA,Louisiana,GA,Georgia,13,90536,1
+NC,North Carolina,VA,Virginia,19,80220,1
+SC,South Carolina,GA,Georgia,9,79662,1
+IA,Iowa,NE,Nebraska,20,76472,1
+PA,Pennsylvania,MD,Maryland,6,74898,1
+WV,West Virginia,PA,Pennsylvania,7,69817,1
+WV,West Virginia,MD,Maryland,14,69527,1
+MO,Missouri,IL,Illinois,19,67774,1
+WI,Wisconsin,IL,Illinois,3,65788,1
+VA,Virginia,DC,District of Columbia,1,63923,1
+ID,Idaho,WA,Washington,10,62534,1
+NJ,New Jersey,PA,Pennsylvania,1,58039,1
+WV,West Virginia,VA,Virginia,12,55034,1
+KY,Kentucky,VA,Virginia,12,51686,1
+IA,Iowa,MN,Minnesota,21,47877,1
+UT,Utah,NV,Nevada,3,47375,1
+MI,Michigan,OH,Ohio,2,43707,1
+OH,Ohio,PA,Pennsylvania,5,42060,1
+AZ,Arizona,CA,California,2,39345,1
+NH,New Hampshire,ME,Maine,3,38437,1
+SD,South Dakota,WY,Wyoming,10,38267,1
+VA,Virginia,MD,Maryland,5,32606,1
+PA,Pennsylvania,OH,Ohio,2,32584,1
+IL,Illinois,IA,Iowa,3,31449,1
+WY,Wyoming,CO,Colorado,3,30316,1
+AZ,Arizona,NV,Nevada,1,27575,1
+MD,Maryland,DE,Delaware,2,26782,1
+TN,Tennessee,NC,North Carolina,3,25314,1
+OR,Oregon,WA,Washington,7,23200,1
+NE,Nebraska,CO,Colorado,21,22764,1
+WY,Wyoming,UT,Utah,5,21525,1
+IA,Iowa,IL,Illinois,1,18268,1
+SD,South Dakota,NE,Nebraska,11,18210,1
+NY,New York,CT,Connecticut,1,16492,1
+VA,Virginia,NC,North Carolina,6,16257,1
+RI,Rhode Island,MA,Massachusetts,1,15019,1
+WY,Wyoming,MT,Montana,4,13085,1
+ND,North Dakota,MT,Montana,8,12991,1
+NV,Nevada,UT,Utah,3,11953,1
+AZ,Arizona,NM,New Mexico,1,11705,1
+NJ,New Jersey,DE,Delaware,1,11269,1
+CA,California,NV,Nevada,5,10539,1
+WI,Wisconsin,MI,Michigan,4,9371,1
+KS,Kansas,CO,Colorado,15,9119,1
+PA,Pennsylvania,NJ,New Jersey,1,8689,1
+LA,Louisiana,IL,Illinois,3,6952,1
+NH,New Hampshire,VT,Vermont,1,6899,1
+CA,California,OR,Oregon,1,6635,1
+VT,Vermont,MA,Massachusetts,1,5964,1
+IL,Illinois,MO,Missouri,1,5783,1
+WA,Washington,OR,Oregon,2,5469,1
+MO,Missouri,IA,Iowa,6,5196,1
+NC,North Carolina,GA,Georgia,2,5111,1
+KS,Kansas,MO,Missouri,2,4806,1
+UT,Utah,CO,Colorado,2,4650,1
+GA,Georgia,SC,South Carolina,1,4373,1
+KY,Kentucky,GA,Georgia,3,4293,1
+KS,Kansas,NE,Nebraska,3,3884,1
+AK,Alaska,WA,Washington,3,3832,1
+OR,Oregon,CA,California,1,2796,1
+NE,Nebraska,WY,Wyoming,3,2638,1
+NM,New Mexico,CO,Colorado,2,2501,1
+SD,South Dakota,MT,Montana,3,2326,1
+MI,Michigan,MN,Minnesota,1,2002,1
+TX,Texas,CO,Colorado,2,1809,1
+ID,Idaho,MT,Montana,2,1178,1
+VT,Vermont,NY,New York,1,1069,1
+MO,Missouri,NE,Nebraska,1,810,1
+OK,Oklahoma,CO,Colorado,1,349,1
+CA,California,CA,California,52,8132464,0
+NY,New York,NY,New York,61,4114600,0
+FL,Florida,FL,Florida,67,3915846,0
+IL,Illinois,IL,Illinois,98,2506634,0
+PA,Pennsylvania,PA,Pennsylvania,48,2225052,0
+OH,Ohio,OH,Ohio,83,2186517,0
+GA,Georgia,GA,Georgia,128,2061075,0
+NC,North Carolina,NC,North Carolina,79,1961374,0
+MI,Michigan,MI,Michigan,80,1847790,0
+VA,Virginia,VA,Virginia,121,1612950,0
+NJ,New Jersey,NJ,New Jersey,18,1556180,0
+WA,Washington,WA,Washington,37,1537028,0
+MA,Massachusetts,MA,Massachusetts,14,1428910,0
+AZ,Arizona,AZ,Arizona,11,1279957,0
+MD,Maryland,MD,Maryland,22,1213900,0
+CO,Colorado,CO,Colorado,64,1188388,0
+MN,Minnesota,MN,Minnesota,87,1103079,0
+MO,Missouri,MO,Missouri,63,892028,0
+WI,Wisconsin,WI,Wisconsin,41,864971,0
+OR,Oregon,OR,Oregon,28,804809,0
+SC,South Carolina,SC,South Carolina,28,723137,0
+CT,Connecticut,CT,Connecticut,8,686173,0
+UT,Utah,UT,Utah,24,669655,0
+NV,Nevada,NV,Nevada,14,597809,0
+KS,Kansas,KS,Kansas,85,545960,0
+IA,Iowa,IA,Iowa,57,456363,0
+NM,New Mexico,NM,New Mexico,31,396789,0
+NE,Nebraska,NE,Nebraska,69,355666,0
+HI,Hawaii,HI,Hawaii,5,265939,0
+ME,Maine,ME,Maine,16,235359,0
+RI,Rhode Island,RI,Rhode Island,4,202882,0
+NH,New Hampshire,NH,New Hampshire,6,202122,0
+MT,Montana,MT,Montana,56,196856,0
+DE,Delaware,DE,Delaware,3,185964,0
+AK,Alaska,AK,Alaska,25,138931,0
+VT,Vermont,VT,Vermont,12,109942,0
+WY,Wyoming,WY,Wyoming,11,41784,0

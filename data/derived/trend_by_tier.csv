@@ -1,0 +1,638 @@
+policy_rank,policy_tier,ym,mean_drive_miles_weighted,n_counties
+1,Most Restrictive,2019-01,41.0,1515.0
+1,Most Restrictive,2019-02,41.0,1515.0
+1,Most Restrictive,2019-03,38.7,1515.0
+1,Most Restrictive,2019-04,38.4,1515.0
+1,Most Restrictive,2019-05,38.4,1515.0
+1,Most Restrictive,2019-06,38.4,1515.0
+1,Most Restrictive,2019-07,38.1,1515.0
+1,Most Restrictive,2019-08,38.8,1515.0
+1,Most Restrictive,2019-09,38.8,1515.0
+1,Most Restrictive,2019-10,38.8,1515.0
+1,Most Restrictive,2019-11,37.4,1515.0
+1,Most Restrictive,2019-12,37.4,1515.0
+1,Most Restrictive,2020-01,37.4,1515.0
+1,Most Restrictive,2020-02,37.4,1515.0
+1,Most Restrictive,2020-03,37.4,1515.0
+1,Most Restrictive,2020-04,37.5,1515.0
+1,Most Restrictive,2020-05,37.5,1515.0
+1,Most Restrictive,2020-06,37.5,1515.0
+1,Most Restrictive,2020-07,37.5,1515.0
+1,Most Restrictive,2020-08,37.5,1515.0
+1,Most Restrictive,2020-09,37.5,1515.0
+1,Most Restrictive,2020-10,36.9,1515.0
+1,Most Restrictive,2020-11,36.9,1515.0
+1,Most Restrictive,2020-12,36.9,1515.0
+1,Most Restrictive,2021-01,36.4,1515.0
+1,Most Restrictive,2021-02,36.4,1515.0
+1,Most Restrictive,2021-03,36.4,1515.0
+1,Most Restrictive,2021-04,36.4,1515.0
+1,Most Restrictive,2021-05,36.3,1515.0
+1,Most Restrictive,2021-06,36.3,1515.0
+1,Most Restrictive,2021-07,36.3,1515.0
+1,Most Restrictive,2021-08,36.3,1515.0
+1,Most Restrictive,2021-09,36.4,1515.0
+1,Most Restrictive,2021-10,36.5,1515.0
+1,Most Restrictive,2021-11,36.6,1515.0
+1,Most Restrictive,2021-12,36.6,1515.0
+1,Most Restrictive,2022-01,36.6,1515.0
+1,Most Restrictive,2022-02,36.5,1515.0
+1,Most Restrictive,2022-03,36.5,1515.0
+1,Most Restrictive,2022-04,37.5,1515.0
+1,Most Restrictive,2022-05,37.5,1515.0
+1,Most Restrictive,2022-06,44.1,1515.0
+1,Most Restrictive,2022-07,123.0,1515.0
+1,Most Restrictive,2022-08,195.7,1515.0
+1,Most Restrictive,2022-09,218.0,1515.0
+1,Most Restrictive,2022-10,218.8,1515.0
+1,Most Restrictive,2022-11,216.1,1515.0
+1,Most Restrictive,2022-12,216.1,1515.0
+1,Most Restrictive,2023-01,215.6,1515.0
+1,Most Restrictive,2023-02,215.6,1515.0
+1,Most Restrictive,2023-03,215.6,1515.0
+1,Most Restrictive,2023-04,215.4,1515.0
+1,Most Restrictive,2023-05,214.1,1515.0
+1,Most Restrictive,2023-06,214.1,1515.0
+1,Most Restrictive,2023-07,214.1,1515.0
+1,Most Restrictive,2023-08,217.5,1515.0
+1,Most Restrictive,2023-09,217.5,1515.0
+1,Most Restrictive,2023-10,217.5,1515.0
+1,Most Restrictive,2023-11,217.5,1515.0
+1,Most Restrictive,2023-12,217.5,1515.0
+1,Most Restrictive,2024-01,217.3,1515.0
+1,Most Restrictive,2024-02,217.3,1515.0
+1,Most Restrictive,2024-03,217.2,1515.0
+1,Most Restrictive,2024-04,217.2,1515.0
+1,Most Restrictive,2024-05,217.3,1515.0
+1,Most Restrictive,2024-06,217.3,1515.0
+1,Most Restrictive,2024-07,217.3,1515.0
+1,Most Restrictive,2024-08,217.8,1515.0
+1,Most Restrictive,2024-09,213.3,1515.0
+1,Most Restrictive,2024-10,213.3,1515.0
+1,Most Restrictive,2024-11,213.3,1515.0
+1,Most Restrictive,2024-12,213.3,1515.0
+1,Most Restrictive,2025-01,213.3,1515.0
+1,Most Restrictive,2025-02,213.3,1515.0
+1,Most Restrictive,2025-03,213.6,1515.0
+1,Most Restrictive,2025-04,213.7,1515.0
+1,Most Restrictive,2025-05,213.6,1515.0
+1,Most Restrictive,2025-06,213.7,1515.0
+1,Most Restrictive,2025-07,214.5,1515.0
+1,Most Restrictive,2025-08,213.2,1515.0
+1,Most Restrictive,2025-09,213.2,1515.0
+1,Most Restrictive,2025-10,212.6,1515.0
+1,Most Restrictive,2025-11,212.6,1515.0
+1,Most Restrictive,2025-12,212.6,1515.0
+1,Most Restrictive,2026-01,212.5,1515.0
+1,Most Restrictive,2026-02,212.5,1515.0
+1,Most Restrictive,2026-03,212.5,1515.0
+1,Most Restrictive,2026-04,212.5,1515.0
+1,Most Restrictive,2026-05,212.5,1515.0
+1,Most Restrictive,2026-06,212.5,1515.0
+1,Most Restrictive,2026-07,212.5,1515.0
+2,Very Restrictive,2019-01,42.2,122.0
+2,Very Restrictive,2019-02,42.2,122.0
+2,Very Restrictive,2019-03,42.2,122.0
+2,Very Restrictive,2019-04,42.2,122.0
+2,Very Restrictive,2019-05,42.2,122.0
+2,Very Restrictive,2019-06,42.2,122.0
+2,Very Restrictive,2019-07,42.2,122.0
+2,Very Restrictive,2019-08,42.2,122.0
+2,Very Restrictive,2019-09,42.2,122.0
+2,Very Restrictive,2019-10,42.2,122.0
+2,Very Restrictive,2019-11,42.2,122.0
+2,Very Restrictive,2019-12,42.2,122.0
+2,Very Restrictive,2020-01,42.2,122.0
+2,Very Restrictive,2020-02,42.2,122.0
+2,Very Restrictive,2020-03,42.2,122.0
+2,Very Restrictive,2020-04,42.2,122.0
+2,Very Restrictive,2020-05,42.2,122.0
+2,Very Restrictive,2020-06,42.2,122.0
+2,Very Restrictive,2020-07,41.1,122.0
+2,Very Restrictive,2020-08,41.1,122.0
+2,Very Restrictive,2020-09,41.1,122.0
+2,Very Restrictive,2020-10,41.1,122.0
+2,Very Restrictive,2020-11,41.1,122.0
+2,Very Restrictive,2020-12,41.1,122.0
+2,Very Restrictive,2021-01,41.1,122.0
+2,Very Restrictive,2021-02,41.1,122.0
+2,Very Restrictive,2021-03,41.1,122.0
+2,Very Restrictive,2021-04,41.1,122.0
+2,Very Restrictive,2021-05,41.1,122.0
+2,Very Restrictive,2021-06,41.1,122.0
+2,Very Restrictive,2021-07,41.1,122.0
+2,Very Restrictive,2021-08,41.1,122.0
+2,Very Restrictive,2021-09,41.1,122.0
+2,Very Restrictive,2021-10,41.1,122.0
+2,Very Restrictive,2021-11,41.1,122.0
+2,Very Restrictive,2021-12,41.1,122.0
+2,Very Restrictive,2022-01,40.8,122.0
+2,Very Restrictive,2022-02,40.8,122.0
+2,Very Restrictive,2022-03,40.8,122.0
+2,Very Restrictive,2022-04,40.8,122.0
+2,Very Restrictive,2022-05,40.8,122.0
+2,Very Restrictive,2022-06,46.8,122.0
+2,Very Restrictive,2022-07,46.8,122.0
+2,Very Restrictive,2022-08,41.1,122.0
+2,Very Restrictive,2022-09,41.3,122.0
+2,Very Restrictive,2022-10,35.3,122.0
+2,Very Restrictive,2022-11,35.3,122.0
+2,Very Restrictive,2022-12,35.4,122.0
+2,Very Restrictive,2023-01,35.4,122.0
+2,Very Restrictive,2023-02,35.4,122.0
+2,Very Restrictive,2023-03,35.2,122.0
+2,Very Restrictive,2023-04,35.2,122.0
+2,Very Restrictive,2023-05,35.0,122.0
+2,Very Restrictive,2023-06,35.0,122.0
+2,Very Restrictive,2023-07,35.0,122.0
+2,Very Restrictive,2023-08,35.0,122.0
+2,Very Restrictive,2023-09,35.0,122.0
+2,Very Restrictive,2023-10,40.9,122.0
+2,Very Restrictive,2023-11,40.9,122.0
+2,Very Restrictive,2023-12,40.9,122.0
+2,Very Restrictive,2024-01,43.7,122.0
+2,Very Restrictive,2024-02,40.9,122.0
+2,Very Restrictive,2024-03,40.9,122.0
+2,Very Restrictive,2024-04,40.9,122.0
+2,Very Restrictive,2024-05,40.9,122.0
+2,Very Restrictive,2024-06,40.9,122.0
+2,Very Restrictive,2024-07,40.9,122.0
+2,Very Restrictive,2024-08,42.1,122.0
+2,Very Restrictive,2024-09,42.1,122.0
+2,Very Restrictive,2024-10,42.1,122.0
+2,Very Restrictive,2024-11,42.1,122.0
+2,Very Restrictive,2024-12,42.1,122.0
+2,Very Restrictive,2025-01,42.1,122.0
+2,Very Restrictive,2025-02,42.1,122.0
+2,Very Restrictive,2025-03,42.3,122.0
+2,Very Restrictive,2025-04,42.3,122.0
+2,Very Restrictive,2025-05,42.1,122.0
+2,Very Restrictive,2025-06,44.4,122.0
+2,Very Restrictive,2025-07,44.4,122.0
+2,Very Restrictive,2025-08,44.4,122.0
+2,Very Restrictive,2025-09,44.4,122.0
+2,Very Restrictive,2025-10,44.4,122.0
+2,Very Restrictive,2025-11,44.4,122.0
+2,Very Restrictive,2025-12,44.4,122.0
+2,Very Restrictive,2026-01,44.4,122.0
+2,Very Restrictive,2026-02,44.4,122.0
+2,Very Restrictive,2026-03,42.1,122.0
+2,Very Restrictive,2026-04,42.1,122.0
+2,Very Restrictive,2026-05,42.1,122.0
+2,Very Restrictive,2026-06,42.1,122.0
+2,Very Restrictive,2026-07,42.1,122.0
+3,Restrictive,2019-01,43.7,415.0
+3,Restrictive,2019-02,43.7,415.0
+3,Restrictive,2019-03,43.7,415.0
+3,Restrictive,2019-04,43.7,415.0
+3,Restrictive,2019-05,43.7,415.0
+3,Restrictive,2019-06,43.7,415.0
+3,Restrictive,2019-07,43.7,415.0
+3,Restrictive,2019-08,44.6,415.0
+3,Restrictive,2019-09,44.6,415.0
+3,Restrictive,2019-10,44.6,415.0
+3,Restrictive,2019-11,44.6,415.0
+3,Restrictive,2019-12,44.6,415.0
+3,Restrictive,2020-01,44.6,415.0
+3,Restrictive,2020-02,44.6,415.0
+3,Restrictive,2020-03,44.6,415.0
+3,Restrictive,2020-04,44.6,415.0
+3,Restrictive,2020-05,44.6,415.0
+3,Restrictive,2020-06,44.4,415.0
+3,Restrictive,2020-07,44.4,415.0
+3,Restrictive,2020-08,44.4,415.0
+3,Restrictive,2020-09,44.4,415.0
+3,Restrictive,2020-10,44.4,415.0
+3,Restrictive,2020-11,44.4,415.0
+3,Restrictive,2020-12,44.4,415.0
+3,Restrictive,2021-01,44.3,415.0
+3,Restrictive,2021-02,44.3,415.0
+3,Restrictive,2021-03,44.3,415.0
+3,Restrictive,2021-04,44.4,415.0
+3,Restrictive,2021-05,44.4,415.0
+3,Restrictive,2021-06,44.4,415.0
+3,Restrictive,2021-07,44.4,415.0
+3,Restrictive,2021-08,44.4,415.0
+3,Restrictive,2021-09,44.4,415.0
+3,Restrictive,2021-10,44.4,415.0
+3,Restrictive,2021-11,44.4,415.0
+3,Restrictive,2021-12,44.4,415.0
+3,Restrictive,2022-01,44.4,415.0
+3,Restrictive,2022-02,44.4,415.0
+3,Restrictive,2022-03,44.4,415.0
+3,Restrictive,2022-04,44.4,415.0
+3,Restrictive,2022-05,44.4,415.0
+3,Restrictive,2022-06,44.8,415.0
+3,Restrictive,2022-07,57.4,415.0
+3,Restrictive,2022-08,57.4,415.0
+3,Restrictive,2022-09,57.6,415.0
+3,Restrictive,2022-10,57.6,415.0
+3,Restrictive,2022-11,56.9,415.0
+3,Restrictive,2022-12,56.9,415.0
+3,Restrictive,2023-01,56.8,415.0
+3,Restrictive,2023-02,54.3,415.0
+3,Restrictive,2023-03,54.3,415.0
+3,Restrictive,2023-04,54.3,415.0
+3,Restrictive,2023-05,53.2,415.0
+3,Restrictive,2023-06,53.2,415.0
+3,Restrictive,2023-07,53.2,415.0
+3,Restrictive,2023-08,53.2,415.0
+3,Restrictive,2023-09,53.2,415.0
+3,Restrictive,2023-10,45.0,415.0
+3,Restrictive,2023-11,45.0,415.0
+3,Restrictive,2023-12,45.0,415.0
+3,Restrictive,2024-01,43.7,415.0
+3,Restrictive,2024-02,43.7,415.0
+3,Restrictive,2024-03,43.4,415.0
+3,Restrictive,2024-04,43.4,415.0
+3,Restrictive,2024-05,43.4,415.0
+3,Restrictive,2024-06,43.4,415.0
+3,Restrictive,2024-07,43.4,415.0
+3,Restrictive,2024-08,43.4,415.0
+3,Restrictive,2024-09,40.0,415.0
+3,Restrictive,2024-10,40.0,415.0
+3,Restrictive,2024-11,40.0,415.0
+3,Restrictive,2024-12,40.0,415.0
+3,Restrictive,2025-01,40.0,415.0
+3,Restrictive,2025-02,40.0,415.0
+3,Restrictive,2025-03,41.3,415.0
+3,Restrictive,2025-04,37.9,415.0
+3,Restrictive,2025-05,36.8,415.0
+3,Restrictive,2025-06,40.3,415.0
+3,Restrictive,2025-07,40.1,415.0
+3,Restrictive,2025-08,36.6,415.0
+3,Restrictive,2025-09,36.6,415.0
+3,Restrictive,2025-10,41.0,415.0
+3,Restrictive,2025-11,36.6,415.0
+3,Restrictive,2025-12,36.6,415.0
+3,Restrictive,2026-01,36.6,415.0
+3,Restrictive,2026-02,36.6,415.0
+3,Restrictive,2026-03,36.6,415.0
+3,Restrictive,2026-04,36.6,415.0
+3,Restrictive,2026-05,36.7,415.0
+3,Restrictive,2026-06,36.7,415.0
+3,Restrictive,2026-07,36.5,415.0
+4,Some Restrictions/Protections,2019-01,21.7,313.0
+4,Some Restrictions/Protections,2019-02,21.7,313.0
+4,Some Restrictions/Protections,2019-03,21.6,313.0
+4,Some Restrictions/Protections,2019-04,21.6,313.0
+4,Some Restrictions/Protections,2019-05,21.6,313.0
+4,Some Restrictions/Protections,2019-06,21.6,313.0
+4,Some Restrictions/Protections,2019-07,21.7,313.0
+4,Some Restrictions/Protections,2019-08,21.7,313.0
+4,Some Restrictions/Protections,2019-09,21.7,313.0
+4,Some Restrictions/Protections,2019-10,21.7,313.0
+4,Some Restrictions/Protections,2019-11,21.7,313.0
+4,Some Restrictions/Protections,2019-12,21.7,313.0
+4,Some Restrictions/Protections,2020-01,21.7,313.0
+4,Some Restrictions/Protections,2020-02,21.7,313.0
+4,Some Restrictions/Protections,2020-03,21.7,313.0
+4,Some Restrictions/Protections,2020-04,20.9,313.0
+4,Some Restrictions/Protections,2020-05,20.9,313.0
+4,Some Restrictions/Protections,2020-06,20.9,313.0
+4,Some Restrictions/Protections,2020-07,20.9,313.0
+4,Some Restrictions/Protections,2020-08,21.0,313.0
+4,Some Restrictions/Protections,2020-09,21.0,313.0
+4,Some Restrictions/Protections,2020-10,21.0,313.0
+4,Some Restrictions/Protections,2020-11,21.0,313.0
+4,Some Restrictions/Protections,2020-12,21.0,313.0
+4,Some Restrictions/Protections,2021-01,20.9,313.0
+4,Some Restrictions/Protections,2021-02,21.0,313.0
+4,Some Restrictions/Protections,2021-03,20.9,313.0
+4,Some Restrictions/Protections,2021-04,20.9,313.0
+4,Some Restrictions/Protections,2021-05,20.9,313.0
+4,Some Restrictions/Protections,2021-06,20.9,313.0
+4,Some Restrictions/Protections,2021-07,21.1,313.0
+4,Some Restrictions/Protections,2021-08,21.1,313.0
+4,Some Restrictions/Protections,2021-09,21.1,313.0
+4,Some Restrictions/Protections,2021-10,21.1,313.0
+4,Some Restrictions/Protections,2021-11,21.1,313.0
+4,Some Restrictions/Protections,2021-12,21.1,313.0
+4,Some Restrictions/Protections,2022-01,21.0,313.0
+4,Some Restrictions/Protections,2022-02,21.0,313.0
+4,Some Restrictions/Protections,2022-03,21.0,313.0
+4,Some Restrictions/Protections,2022-04,21.0,313.0
+4,Some Restrictions/Protections,2022-05,21.0,313.0
+4,Some Restrictions/Protections,2022-06,21.0,313.0
+4,Some Restrictions/Protections,2022-07,25.8,313.0
+4,Some Restrictions/Protections,2022-08,21.9,313.0
+4,Some Restrictions/Protections,2022-09,21.9,313.0
+4,Some Restrictions/Protections,2022-10,59.2,313.0
+4,Some Restrictions/Protections,2022-11,21.9,313.0
+4,Some Restrictions/Protections,2022-12,22.0,313.0
+4,Some Restrictions/Protections,2023-01,22.0,313.0
+4,Some Restrictions/Protections,2023-02,22.0,313.0
+4,Some Restrictions/Protections,2023-03,21.9,313.0
+4,Some Restrictions/Protections,2023-04,21.6,313.0
+4,Some Restrictions/Protections,2023-05,21.6,313.0
+4,Some Restrictions/Protections,2023-06,21.6,313.0
+4,Some Restrictions/Protections,2023-07,21.6,313.0
+4,Some Restrictions/Protections,2023-08,21.7,313.0
+4,Some Restrictions/Protections,2023-09,21.9,313.0
+4,Some Restrictions/Protections,2023-10,21.9,313.0
+4,Some Restrictions/Protections,2023-11,21.9,313.0
+4,Some Restrictions/Protections,2023-12,21.9,313.0
+4,Some Restrictions/Protections,2024-01,21.5,313.0
+4,Some Restrictions/Protections,2024-02,21.5,313.0
+4,Some Restrictions/Protections,2024-03,21.4,313.0
+4,Some Restrictions/Protections,2024-04,20.5,313.0
+4,Some Restrictions/Protections,2024-05,20.5,313.0
+4,Some Restrictions/Protections,2024-06,20.7,313.0
+4,Some Restrictions/Protections,2024-07,20.8,313.0
+4,Some Restrictions/Protections,2024-08,20.7,313.0
+4,Some Restrictions/Protections,2024-09,20.6,313.0
+4,Some Restrictions/Protections,2024-10,20.6,313.0
+4,Some Restrictions/Protections,2024-11,20.6,313.0
+4,Some Restrictions/Protections,2024-12,20.6,313.0
+4,Some Restrictions/Protections,2025-01,20.6,313.0
+4,Some Restrictions/Protections,2025-02,20.6,313.0
+4,Some Restrictions/Protections,2025-03,20.5,313.0
+4,Some Restrictions/Protections,2025-04,20.5,313.0
+4,Some Restrictions/Protections,2025-05,20.5,313.0
+4,Some Restrictions/Protections,2025-06,20.5,313.0
+4,Some Restrictions/Protections,2025-07,20.5,313.0
+4,Some Restrictions/Protections,2025-08,20.0,313.0
+4,Some Restrictions/Protections,2025-09,20.1,313.0
+4,Some Restrictions/Protections,2025-10,20.1,313.0
+4,Some Restrictions/Protections,2025-11,19.7,313.0
+4,Some Restrictions/Protections,2025-12,19.7,313.0
+4,Some Restrictions/Protections,2026-01,19.5,313.0
+4,Some Restrictions/Protections,2026-02,19.5,313.0
+4,Some Restrictions/Protections,2026-03,19.5,313.0
+4,Some Restrictions/Protections,2026-04,19.5,313.0
+4,Some Restrictions/Protections,2026-05,19.5,313.0
+4,Some Restrictions/Protections,2026-06,19.3,313.0
+4,Some Restrictions/Protections,2026-07,19.3,313.0
+5,Protective,2019-01,17.5,123.0
+5,Protective,2019-02,17.5,123.0
+5,Protective,2019-03,17.5,123.0
+5,Protective,2019-04,17.5,123.0
+5,Protective,2019-05,17.6,123.0
+5,Protective,2019-06,17.7,123.0
+5,Protective,2019-07,17.7,123.0
+5,Protective,2019-08,17.6,123.0
+5,Protective,2019-09,17.4,123.0
+5,Protective,2019-10,17.5,123.0
+5,Protective,2019-11,17.6,123.0
+5,Protective,2019-12,17.6,123.0
+5,Protective,2020-01,17.6,123.0
+5,Protective,2020-02,17.6,123.0
+5,Protective,2020-03,17.4,123.0
+5,Protective,2020-04,17.4,123.0
+5,Protective,2020-05,17.4,123.0
+5,Protective,2020-06,17.4,123.0
+5,Protective,2020-07,17.4,123.0
+5,Protective,2020-08,17.5,123.0
+5,Protective,2020-09,17.5,123.0
+5,Protective,2020-10,17.5,123.0
+5,Protective,2020-11,17.5,123.0
+5,Protective,2020-12,17.5,123.0
+5,Protective,2021-01,17.5,123.0
+5,Protective,2021-02,17.9,123.0
+5,Protective,2021-03,17.9,123.0
+5,Protective,2021-04,17.9,123.0
+5,Protective,2021-05,17.9,123.0
+5,Protective,2021-06,17.9,123.0
+5,Protective,2021-07,17.9,123.0
+5,Protective,2021-08,17.9,123.0
+5,Protective,2021-09,17.9,123.0
+5,Protective,2021-10,17.9,123.0
+5,Protective,2021-11,17.9,123.0
+5,Protective,2021-12,17.9,123.0
+5,Protective,2022-01,15.7,123.0
+5,Protective,2022-02,15.7,123.0
+5,Protective,2022-03,15.7,123.0
+5,Protective,2022-04,15.7,123.0
+5,Protective,2022-05,15.7,123.0
+5,Protective,2022-06,16.1,123.0
+5,Protective,2022-07,16.1,123.0
+5,Protective,2022-08,16.1,123.0
+5,Protective,2022-09,16.2,123.0
+5,Protective,2022-10,16.2,123.0
+5,Protective,2022-11,16.2,123.0
+5,Protective,2022-12,16.2,123.0
+5,Protective,2023-01,16.2,123.0
+5,Protective,2023-02,16.2,123.0
+5,Protective,2023-03,16.2,123.0
+5,Protective,2023-04,16.2,123.0
+5,Protective,2023-05,16.2,123.0
+5,Protective,2023-06,16.2,123.0
+5,Protective,2023-07,16.2,123.0
+5,Protective,2023-08,16.1,123.0
+5,Protective,2023-09,16.1,123.0
+5,Protective,2023-10,16.1,123.0
+5,Protective,2023-11,16.1,123.0
+5,Protective,2023-12,16.1,123.0
+5,Protective,2024-01,16.6,123.0
+5,Protective,2024-02,16.4,123.0
+5,Protective,2024-03,16.4,123.0
+5,Protective,2024-04,16.4,123.0
+5,Protective,2024-05,16.4,123.0
+5,Protective,2024-06,16.7,123.0
+5,Protective,2024-07,16.7,123.0
+5,Protective,2024-08,16.7,123.0
+5,Protective,2024-09,16.7,123.0
+5,Protective,2024-10,16.7,123.0
+5,Protective,2024-11,16.7,123.0
+5,Protective,2024-12,19.6,123.0
+5,Protective,2025-01,19.6,123.0
+5,Protective,2025-02,19.6,123.0
+5,Protective,2025-03,19.6,123.0
+5,Protective,2025-04,19.6,123.0
+5,Protective,2025-05,19.6,123.0
+5,Protective,2025-06,19.6,123.0
+5,Protective,2025-07,19.6,123.0
+5,Protective,2025-08,19.6,123.0
+5,Protective,2025-09,19.6,123.0
+5,Protective,2025-10,19.6,123.0
+5,Protective,2025-11,19.6,123.0
+5,Protective,2025-12,19.6,123.0
+5,Protective,2026-01,19.5,123.0
+5,Protective,2026-02,19.5,123.0
+5,Protective,2026-03,19.4,123.0
+5,Protective,2026-04,19.4,123.0
+5,Protective,2026-05,19.4,123.0
+5,Protective,2026-06,19.4,123.0
+5,Protective,2026-07,19.4,123.0
+6,Very Protective,2019-01,15.1,308.0
+6,Very Protective,2019-02,14.8,308.0
+6,Very Protective,2019-03,14.8,308.0
+6,Very Protective,2019-04,14.8,308.0
+6,Very Protective,2019-05,14.8,308.0
+6,Very Protective,2019-06,14.8,308.0
+6,Very Protective,2019-07,14.7,308.0
+6,Very Protective,2019-08,14.7,308.0
+6,Very Protective,2019-09,14.7,308.0
+6,Very Protective,2019-10,14.7,308.0
+6,Very Protective,2019-11,14.7,308.0
+6,Very Protective,2019-12,14.7,308.0
+6,Very Protective,2020-01,14.7,308.0
+6,Very Protective,2020-02,14.5,308.0
+6,Very Protective,2020-03,14.5,308.0
+6,Very Protective,2020-04,14.6,308.0
+6,Very Protective,2020-05,14.6,308.0
+6,Very Protective,2020-06,14.4,308.0
+6,Very Protective,2020-07,14.3,308.0
+6,Very Protective,2020-08,14.3,308.0
+6,Very Protective,2020-09,14.3,308.0
+6,Very Protective,2020-10,14.3,308.0
+6,Very Protective,2020-11,14.3,308.0
+6,Very Protective,2020-12,14.3,308.0
+6,Very Protective,2021-01,14.1,308.0
+6,Very Protective,2021-02,14.1,308.0
+6,Very Protective,2021-03,14.0,308.0
+6,Very Protective,2021-04,14.0,308.0
+6,Very Protective,2021-05,14.0,308.0
+6,Very Protective,2021-06,14.0,308.0
+6,Very Protective,2021-07,14.0,308.0
+6,Very Protective,2021-08,14.0,308.0
+6,Very Protective,2021-09,14.0,308.0
+6,Very Protective,2021-10,14.0,308.0
+6,Very Protective,2021-11,14.2,308.0
+6,Very Protective,2021-12,14.2,308.0
+6,Very Protective,2022-01,14.1,308.0
+6,Very Protective,2022-02,14.1,308.0
+6,Very Protective,2022-03,14.6,308.0
+6,Very Protective,2022-04,14.6,308.0
+6,Very Protective,2022-05,14.6,308.0
+6,Very Protective,2022-06,14.6,308.0
+6,Very Protective,2022-07,14.4,308.0
+6,Very Protective,2022-08,14.6,308.0
+6,Very Protective,2022-09,14.7,308.0
+6,Very Protective,2022-10,14.7,308.0
+6,Very Protective,2022-11,14.2,308.0
+6,Very Protective,2022-12,14.2,308.0
+6,Very Protective,2023-01,13.6,308.0
+6,Very Protective,2023-02,13.4,308.0
+6,Very Protective,2023-03,13.4,308.0
+6,Very Protective,2023-04,13.3,308.0
+6,Very Protective,2023-05,13.3,308.0
+6,Very Protective,2023-06,13.2,308.0
+6,Very Protective,2023-07,13.2,308.0
+6,Very Protective,2023-08,12.8,308.0
+6,Very Protective,2023-09,12.8,308.0
+6,Very Protective,2023-10,12.8,308.0
+6,Very Protective,2023-11,12.8,308.0
+6,Very Protective,2023-12,12.8,308.0
+6,Very Protective,2024-01,12.7,308.0
+6,Very Protective,2024-02,12.7,308.0
+6,Very Protective,2024-03,12.7,308.0
+6,Very Protective,2024-04,12.7,308.0
+6,Very Protective,2024-05,12.7,308.0
+6,Very Protective,2024-06,12.3,308.0
+6,Very Protective,2024-07,12.3,308.0
+6,Very Protective,2024-08,12.2,308.0
+6,Very Protective,2024-09,12.1,308.0
+6,Very Protective,2024-10,12.1,308.0
+6,Very Protective,2024-11,12.1,308.0
+6,Very Protective,2024-12,12.1,308.0
+6,Very Protective,2025-01,12.2,308.0
+6,Very Protective,2025-02,12.2,308.0
+6,Very Protective,2025-03,12.2,308.0
+6,Very Protective,2025-04,12.6,308.0
+6,Very Protective,2025-05,13.4,308.0
+6,Very Protective,2025-06,13.5,308.0
+6,Very Protective,2025-07,12.9,308.0
+6,Very Protective,2025-08,12.9,308.0
+6,Very Protective,2025-09,12.9,308.0
+6,Very Protective,2025-10,12.8,308.0
+6,Very Protective,2025-11,12.8,308.0
+6,Very Protective,2025-12,12.8,308.0
+6,Very Protective,2026-01,12.8,308.0
+6,Very Protective,2026-02,12.8,308.0
+6,Very Protective,2026-03,12.8,308.0
+6,Very Protective,2026-04,13.0,308.0
+6,Very Protective,2026-05,13.0,308.0
+6,Very Protective,2026-06,13.0,308.0
+6,Very Protective,2026-07,13.0,308.0
+7,Most Protective,2019-01,9.6,345.0
+7,Most Protective,2019-02,9.6,345.0
+7,Most Protective,2019-03,9.6,345.0
+7,Most Protective,2019-04,9.6,345.0
+7,Most Protective,2019-05,9.6,345.0
+7,Most Protective,2019-06,9.6,345.0
+7,Most Protective,2019-07,9.6,345.0
+7,Most Protective,2019-08,9.5,345.0
+7,Most Protective,2019-09,9.4,345.0
+7,Most Protective,2019-10,9.4,345.0
+7,Most Protective,2019-11,9.4,345.0
+7,Most Protective,2019-12,9.4,345.0
+7,Most Protective,2020-01,9.4,345.0
+7,Most Protective,2020-02,9.4,345.0
+7,Most Protective,2020-03,9.4,345.0
+7,Most Protective,2020-04,9.5,345.0
+7,Most Protective,2020-05,9.5,345.0
+7,Most Protective,2020-06,9.5,345.0
+7,Most Protective,2020-07,9.4,345.0
+7,Most Protective,2020-08,9.4,345.0
+7,Most Protective,2020-09,9.4,345.0
+7,Most Protective,2020-10,9.4,345.0
+7,Most Protective,2020-11,9.4,345.0
+7,Most Protective,2020-12,9.4,345.0
+7,Most Protective,2021-01,9.4,345.0
+7,Most Protective,2021-02,9.5,345.0
+7,Most Protective,2021-03,9.5,345.0
+7,Most Protective,2021-04,9.5,345.0
+7,Most Protective,2021-05,9.5,345.0
+7,Most Protective,2021-06,9.5,345.0
+7,Most Protective,2021-07,9.3,345.0
+7,Most Protective,2021-08,9.3,345.0
+7,Most Protective,2021-09,9.3,345.0
+7,Most Protective,2021-10,9.3,345.0
+7,Most Protective,2021-11,9.3,345.0
+7,Most Protective,2021-12,9.3,345.0
+7,Most Protective,2022-01,9.7,345.0
+7,Most Protective,2022-02,9.6,345.0
+7,Most Protective,2022-03,9.6,345.0
+7,Most Protective,2022-04,9.6,345.0
+7,Most Protective,2022-05,9.7,345.0
+7,Most Protective,2022-06,9.2,345.0
+7,Most Protective,2022-07,9.2,345.0
+7,Most Protective,2022-08,9.2,345.0
+7,Most Protective,2022-09,9.3,345.0
+7,Most Protective,2022-10,9.3,345.0
+7,Most Protective,2022-11,9.0,345.0
+7,Most Protective,2022-12,9.1,345.0
+7,Most Protective,2023-01,8.9,345.0
+7,Most Protective,2023-02,8.8,345.0
+7,Most Protective,2023-03,8.9,345.0
+7,Most Protective,2023-04,8.9,345.0
+7,Most Protective,2023-05,8.8,345.0
+7,Most Protective,2023-06,8.8,345.0
+7,Most Protective,2023-07,8.8,345.0
+7,Most Protective,2023-08,8.8,345.0
+7,Most Protective,2023-09,8.9,345.0
+7,Most Protective,2023-10,8.8,345.0
+7,Most Protective,2023-11,9.1,345.0
+7,Most Protective,2023-12,8.9,345.0
+7,Most Protective,2024-01,8.7,345.0
+7,Most Protective,2024-02,8.7,345.0
+7,Most Protective,2024-03,8.7,345.0
+7,Most Protective,2024-04,8.7,345.0
+7,Most Protective,2024-05,8.7,345.0
+7,Most Protective,2024-06,8.8,345.0
+7,Most Protective,2024-07,8.8,345.0
+7,Most Protective,2024-08,8.7,345.0
+7,Most Protective,2024-09,8.7,345.0
+7,Most Protective,2024-10,8.5,345.0
+7,Most Protective,2024-11,8.6,345.0
+7,Most Protective,2024-12,8.6,345.0
+7,Most Protective,2025-01,8.6,345.0
+7,Most Protective,2025-02,8.7,345.0
+7,Most Protective,2025-03,8.7,345.0
+7,Most Protective,2025-04,8.7,345.0
+7,Most Protective,2025-05,8.7,345.0
+7,Most Protective,2025-06,8.7,345.0
+7,Most Protective,2025-07,8.7,345.0
+7,Most Protective,2025-08,8.7,345.0
+7,Most Protective,2025-09,8.7,345.0
+7,Most Protective,2025-10,8.7,345.0
+7,Most Protective,2025-11,8.7,345.0
+7,Most Protective,2025-12,8.7,345.0
+7,Most Protective,2026-01,8.7,345.0
+7,Most Protective,2026-02,8.7,345.0
+7,Most Protective,2026-03,8.7,345.0
+7,Most Protective,2026-04,8.7,345.0
+7,Most Protective,2026-05,8.7,345.0
+7,Most Protective,2026-06,8.7,345.0
+7,Most Protective,2026-07,8.7,345.0

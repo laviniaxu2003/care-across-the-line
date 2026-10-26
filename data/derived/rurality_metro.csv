@@ -1,0 +1,5 @@
+policy_group,county_type,n_counties,n_no_obgyn,pct_no_obgyn
+Ranks 1-2 (most restrictive),Metro,573,190,33.1588
+Ranks 1-2 (most restrictive),Nonmetro,1064,702,65.9774
+Ranks 6-7 (most protective),Metro,283,31,10.9541
+Ranks 6-7 (most protective),Nonmetro,370,166,44.8649

@@ -1,0 +1,162 @@
+{
+ "sources": {
+  "counties": "data/source/counties.csv",
+  "states": "data/source/states.csv",
+  "trend": "data/source/access_trend_by_tier.csv"
+ },
+ "trend": {
+  "r1_may2022": 37.5,
+  "r1_jun2022": 44.1,
+  "r1_jul2022": 123.0,
+  "r1_jan2023": 215.6,
+  "r1_jul2026": 212.5,
+  "r7_may2022": 9.7,
+  "r7_jan2023": 8.9,
+  "r7_jul2026": 8.7,
+  "first_month": "2019-01",
+  "last_month": "2026-07"
+ },
+ "burden": {
+  "top3_share_pct": 83.4193,
+  "top3_share_signed_pct": 86.2452,
+  "tx": 69.5029,
+  "la": 9.4295,
+  "tn": 4.4869,
+  "counties_used": 3140,
+  "states_positive": 41,
+  "top_n": 7
+ },
+ "overlap": {
+  "inc100": 589,
+  "inc100_no_obgyn": 316,
+  "inc100_no_obgyn_no_hosp": 297,
+  "inc100_no_obgyn_nonmetro": 246,
+  "inc100_none_both_nonmetro": 230,
+  "hit_twice_column": 836,
+  "scatter_eligible": 3140,
+  "scatter_excluded": [
+   "02063",
+   "02066",
+   "02261"
+  ],
+  "map_shapes_missing_for_plotted": [],
+  "shapes_without_row": [
+   "11001"
+  ]
+ },
+ "shortage": {
+  "r12_pct": 54.4899,
+  "r12_n": 1637,
+  "r12_none": 892,
+  "r67_pct": 30.1685,
+  "r67_n": 653,
+  "r67_none": 197,
+  "r1_only_pct": 52.8053,
+  "unknown_metro_r12": 0,
+  "unknown_metro_r67": 0,
+  "std_weight_metro": 0.4334,
+  "std_r12_pct": 51.7544,
+  "std_r67_pct": 30.1685,
+  "std_gap_share_pct": 88.7525
+ },
+ "catchment": {
+  "crossing_women": 16713939.0,
+  "crossing_pct": 25.6504,
+  "counties_crossing": 1484,
+  "pop_all": 65160557.0,
+  "pop_valid": 65158822.0,
+  "excluded_counties": [
+   "02063",
+   "02066",
+   "02261"
+  ],
+  "excluded_known_pop": 1735.0,
+  "cross_links": 100,
+  "overview_min_women": 50000,
+  "overview_links": 45,
+  "overview_share_pct": 94.9415,
+  "ref_per_clinic": 81572.5551,
+  "ref_clinics": 798.0,
+  "ref_assigned": 65094899.0
+ },
+ "kansas": {
+  "clinics": 7.0,
+  "clinics_may2022": 4.0,
+  "incoming": 6128642.0,
+  "retained": 545960.0,
+  "residents": 563769.0,
+  "assigned": 6674602.0,
+  "per_clinic": 953514.5714,
+  "origin_states": 5,
+  "ratio_to_ref": 11.6892
+ },
+ "dc": {
+  "incoming": 63923.0,
+  "origins": [
+   "VA"
+  ]
+ },
+ "clinics": {
+  "may2022": 790,
+  "jul2026": 798,
+  "states_to_zero": 13,
+  "states_zero_jul2026": 13
+ },
+ "display": {
+  "r1_may2022": "37.5",
+  "r1_jul2022": "123.0",
+  "r1_jan2023": "215.6",
+  "r1_jul2026": "212.5",
+  "r7_may2022": "9.7",
+  "r7_jan2023": "8.9",
+  "r7_jul2026": "8.7",
+  "burden_top3": "83.4%",
+  "burden_tx": "69.5%",
+  "burden_la": "9.4%",
+  "burden_tn": "4.5%",
+  "inc100": "589",
+  "inc100_no_obgyn": "316",
+  "inc100_no_obgyn_no_hosp": "297",
+  "inc100_no_obgyn_nonmetro": "246",
+  "scatter_eligible": "3,140",
+  "short_r12": "54.5%",
+  "short_r67": "30.2%",
+  "short_r12_metro": "33.2%",
+  "short_r67_metro": "11.0%",
+  "short_r12_nonmetro": "66.0%",
+  "short_r67_nonmetro": "44.9%",
+  "crossing_women": "16.7 million",
+  "crossing_women_exact": "16,713,939",
+  "crossing_pct": "25.7%",
+  "ks_clinics": "7",
+  "ks_incoming": "6.1 million",
+  "ks_incoming_exact": "6,128,642",
+  "ks_retained": "545,960",
+  "ks_residents": "563,769",
+  "ks_assigned": "6,674,602",
+  "ks_per_clinic": "953,515",
+  "ks_origin_states": "5",
+  "ref_per_clinic": "81,573",
+  "dc_incoming": "63,923",
+  "clinics_may2022": "790",
+  "clinics_jul2026": "798",
+  "states_to_zero": "13",
+  "overview_links": "45",
+  "overview_share": "94.9%",
+  "cross_links": "100",
+  "std_r12": "51.8%",
+  "std_r67": "30.2%",
+  "std_gap_share": "88.8%",
+  "std_weight_metro": "43.3%",
+  "short_r1_only": "52.8%",
+  "short_r12_n": "1,637",
+  "short_r67_n": "653",
+  "pop_all": "65,160,557",
+  "pop_valid": "65,158,822",
+  "excluded_known_pop": "1,735",
+  "counties_crossing": "1,484",
+  "burden_top3_signed": "86.2%",
+  "inc100_none_both_nonmetro": "230",
+  "ks_ratio": "11.7"
+ }
+}
