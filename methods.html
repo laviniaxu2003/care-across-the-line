@@ -41,14 +41,14 @@
       <tr><td>HRSA Area Health Resource File 2024&ndash;25<br><a class="mono" style="font-size:11.5px" href="https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf">data.hrsa.gov</a></td>
           <td>OB-GYNs (MD + DO, non-federal), hospitals providing obstetric care, women aged 15&ndash;44, USDA rural&ndash;urban codes</td>
           <td>OB-GYN and hospital counts: 2023</td><td>Observed counts; population estimates</td></tr>
-      <tr><td>CDC PLACES</td><td>Preventive care, insurance and transport measures (not charted)</td><td>BRFSS 2020 &amp; 2022</td><td><b>Modeled</b> small-area estimates</td></tr>
+      <tr><td>CDC PLACES</td><td>Preventive care, insurance, and transport measures (not charted)</td><td>BRFSS 2020 &amp; 2022</td><td><b>Modeled</b> small-area estimates</td></tr>
       <tr><td>CDC WONDER<br><a class="mono" style="font-size:11.5px" href="https://wonder.cdc.gov/">wonder.cdc.gov</a></td>
           <td>Infant mortality, preterm birth, prenatal visits (not charted)</td><td>2017&ndash;2024</td><td>Observed vital statistics, <b>exported by hand</b></td></tr>
       <tr><td>US county and state boundaries</td><td>us-atlas 3.0.1 (Census 2017 cartographic boundaries), state map and pre-projected county map</td><td>2017</td><td>Geometry</td></tr>
     </tbody>
   </table></div>
   <p style="margin-top:20px"><b>What is derived by us:</b> distance change shares, the added-distance burden, the 316-of-589 flag, the
-     state-to-state catchment tables, per-clinic catchments, the metro/nonmetro shares and every headline number. They are computed by
+     state-to-state catchment tables, per-clinic catchments, the metro/nonmetro shares, and every headline number. They are computed by
      <span class="mono">scripts/build_data.py</span> from the supplied tables and checked by <span class="mono">scripts/validate.py</span>.
      The supplied tables themselves were built by an earlier team script (<span class="mono">build_final.py</span>) from raw downloads
      that are not in this repository, so the steps before those tables cannot be rerun from here.</p>
@@ -63,7 +63,7 @@
       miles for Most Restrictive states.</span></li>
     <li><span class="num">B</span><span><b>Added distance burden.</b> For each county, women aged 15&ndash;44 &times; max(miles in July 2026 &minus;
       miles in May 2022, 0), summed by state and divided by the national sum. The unit is population &times; additional nearest-clinic miles,
-      a geographic exposure measure. Counting reductions as negative values would give Texas, Louisiana and Tennessee
+      a geographic exposure measure. Counting reductions as negative values would give Texas, Louisiana, and Tennessee
       <span data-h="burden_top3_signed">86.2%</span> instead of <span data-h="burden_top3">83.4%</span>.</span></li>
     <li><span class="num">C</span><span><b>Distance change and local resources.</b> The county change compares <b>May 2022 with July 2026</b>,
       a different comparison from the hook. &ldquo;At least 100 more miles and no OB-GYN&rdquo; is a flag we derived from that change. It is
@@ -112,18 +112,18 @@
   <h2>What these numbers do not say</h2>
   <ul class="take">
     <li><span class="num">01</span><span><b>Distance is exposure, not travel.</b> We measure how far the nearest clinic is, not where anyone actually
-      goes. Telehealth, shield laws, gestational limits, appointment availability, money, time off work and childcare all change real journeys,
+      goes. Telehealth, shield laws, gestational limits, appointment availability, money, time off work, and childcare all change real journeys,
       and none of them appear here.</span></li>
     <li><span class="num">02</span><span><b>Catchments are potential, not workload.</b> A catchment is the population whose nearest clinic is in a
-      state. It is not a count of patients, appointments or abortion seekers, and clinic counts say nothing about staffing or capacity.
+      state. It is not a count of patients, appointments, or abortion seekers, and clinic counts say nothing about staffing or capacity.
       The population is women aged 15&ndash;44, the group the source data report, which is not everyone who may need abortion care.</span></li>
     <li><span class="num">03</span><span><b>Policy is a fixed snapshot.</b> Every month and year is labeled with Guttmacher&rsquo;s October 2026
       classification. The trend chart therefore shows how places now classified as restrictive changed, not when each law took effect.</span></li>
     <li><span class="num">04</span><span><b>Local resources are a 2023 snapshot.</b> OB-GYN and obstetric-hospital counts were measured once, in 2023.
       They are not a pre-<i>Dobbs</i> baseline and do not show providers leaving.</span></li>
-    <li><span class="num">05</span><span><b>Descriptive, not causal.</b> Overlaps between distance, local resources, rurality and policy are descriptions.
+    <li><span class="num">05</span><span><b>Descriptive, not causal.</b> Overlaps between distance, local resources, rurality, and policy are descriptions.
       They do not isolate the effect of any policy.</span></li>
-    <li><span class="num">06</span><span><b>Health outcomes are not part of this story.</b> The supplied infant mortality, preterm and prenatal-visit tables
+    <li><span class="num">06</span><span><b>Health outcomes are not part of this story.</b> The supplied infant mortality, preterm, and prenatal-visit tables
       cover only a few post-<i>Dobbs</i> years and are aggregated by state. They cannot show either harm or the absence of harm, so the story
       does not use them.</span></li>
   </ul>
@@ -133,7 +133,7 @@
   <h2>Reproducing the site</h2>
   <p>From the repository root: <span class="mono">pip install -r requirements.txt</span>, then <span class="mono">python3 scripts/build_data.py</span>
      to rebuild <span class="mono">data/derived/</span> and run all validation checks, then <span class="mono">python3 -m http.server</span> and open
-     <span class="mono">http://localhost:8000</span>. The page must be served over HTTP; D3, TopoJSON and the fonts load from public CDNs, so it also
+     <span class="mono">http://localhost:8000</span>. The page must be served over HTTP; D3, TopoJSON, and the fonts load from public CDNs, so it also
      needs an internet connection. Details are in <span class="mono">README.md</span> and <span class="mono">docs/</span>.</p>
 </section>
 

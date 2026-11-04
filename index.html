@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Potential access to abortion care depends on geography, local healthcare resources and cross-state provider networks. A data story on travel distance, local care and shared catchments after Dobbs.">
+<meta name="description" content="Potential access to abortion care depends on geography, local healthcare resources, and cross-state provider networks. A data story on travel distance, local care, and shared catchments after Dobbs.">
 <meta name="color-scheme" content="light dark">
 <meta property="og:title" content="Care Across the Line">
-<meta property="og:description" content="Potential access to abortion care depends on geography, local healthcare resources and cross-state provider networks.">
+<meta property="og:description" content="Potential access to abortion care depends on geography, local healthcare resources, and cross-state provider networks.">
 <meta property="og:type" content="article">
 <title>Care Across the Line</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,15 +70,16 @@
     <div class="status" id="st-trend" role="status"></div>
     <div id="trend" class="chart"></div>
     <p class="summary" id="trend-summary">Most Restrictive: <span data-h="r1_may2022">37.5</span> miles in May 2022,
-      <span data-h="r1_jul2022">123.0</span> in July 2022, <span data-h="r1_jan2023">215.6</span> in January 2023 and
+      <span data-h="r1_jul2022">123.0</span> in July 2022, <span data-h="r1_jan2023">215.6</span> in January 2023, and
       <span data-h="r1_jul2026">212.5</span> in July 2026. Most Protective: <span data-h="r7_may2022">9.7</span>,
-      <span data-h="r7_jan2023">8.9</span> (January 2023) and <span data-h="r7_jul2026">8.7</span> (July 2026).</p>
+      <span data-h="r7_jan2023">8.9</span> (January 2023), and <span data-h="r7_jul2026">8.7</span> (July 2026).</p>
     <p class="note"><b>How to read this.</b> Each line is a policy group. Policy groups use Guttmacher&rsquo;s
       <b>October 2026</b> classification for every month shown; they are not a record of when each state&rsquo;s
       laws changed. The <i>Dobbs</i> decision was issued on June 24, 2022; the data are monthly, and July 2022 is the
       first month after the decision. Hover, tap, or focus the chart and use the arrow keys to read exact values.
       Source: Myers Abortion Facility Database; HRSA AHRF population.</p>
     <details class="data"><summary>Data table: key months, all seven policy groups</summary>
+      <div class="tblwrap" id="trend-table"></div>
       <p class="note" style="margin-top:0"><b>How the groups are defined.</b>
 Guttmacher sorts states into seven groups by the abortion restrictions and
 protections each state currently has in effect, netting one against the other.
@@ -87,8 +88,7 @@ place and none of the protections; Most Protective states are the reverse.
 Some Restrictions/Protections is the middle group, where restrictions and
 protections roughly offset. Only policies actually in effect count, so laws
 blocked by a court are excluded. This site applies Guttmacher&rsquo;s
-<b>October 2026</b> classification to every month shown.</p>
-      <div class="tblwrap" id="trend-table"></div></details>
+<b>October 2026</b> classification to every month shown.</p></details>
   </figure>
   <p class="transition">The increase was not evenly distributed.</p>
 </section>
@@ -105,7 +105,7 @@ blocked by a court are excluded. This site applies Guttmacher&rsquo;s
      (<span data-h="burden_la">9.4%</span>) and Tennessee (<span data-h="burden_tn">4.5%</span>), three states
      account for <b data-h="burden_top3">83.4%</b>.</p>
   <figure id="fig-burden" aria-labelledby="t-burden">
-    <h3 id="t-burden">Texas, Louisiana and Tennessee account for <span data-h="burden_top3">83.4%</span> of the added population-weighted distance</h3>
+    <h3 id="t-burden">Texas, Louisiana, and Tennessee account for <span data-h="burden_top3">83.4%</span> of the added population-weighted distance</h3>
     <p class="fig-sub">Each state&rsquo;s share of the total increase in (women aged 15&ndash;44 &times; added miles to the nearest clinic), May 2022 &rarr; July 2026</p>
     <div class="status" id="st-burden" role="status"></div>
     <div id="burden" class="chart"></div>
@@ -174,11 +174,10 @@ blocked by a court are excluded. This site applies Guttmacher&rsquo;s
       The vertical axis uses a <b>square-root scale</b> to spread out the many low values; tick labels show the original
       numbers. Dots are not jittered: counties with no OB-GYN sit exactly on the zero line. Dashed lines mark no change and
       +100 miles.</p>
-    <details class="data"><summary>Categories, missing data and sources</summary>
-      <p class="note">Map categories: distance change &le;0, &gt;0 to &lt;100, &ge;100 miles; supply 0, &gt;0 to 2.5, &gt;2.5 per
-      10,000. <b>Missing data:</b> three Alaska counties lack distance or OB-GYN data and are left out, and DC has no county
+    <details class="data"><summary>Missing data and sources</summary>
+      <p class="note"><b>Missing data:</b> three Alaska counties lack distance or OB-GYN data and are left out, and DC has no county
       record; striped map areas have no data. Connecticut&rsquo;s 8 counties have no metro code, so they appear only under &ldquo;All&rdquo;.
-      Sources: Myers Abortion Facility Database; HRSA Area Health Resource File; county boundaries: US Census via us-atlas 3.0.1.</p></details>
+      <b>Sources:</b> Myers Abortion Facility Database; HRSA Area Health Resource File; county boundaries: US Census via us-atlas 3.0.1.</p></details>
   </figure>
 
   <p style="margin-top:40px">States with restrictive policies have more rural counties, and rural counties tend to have fewer
@@ -305,9 +304,9 @@ blocked by a court are excluded. This site applies Guttmacher&rsquo;s
 </section>
 
 <footer>
-  Built for CS 1710 from the Myers Abortion Facility Database, the Guttmacher State Policy Database and
+  Built for CS 1710 from the Myers Abortion Facility Database, the Guttmacher State Policy Database, and
   HRSA&rsquo;s Area Health Resource File, using the team&rsquo;s processed tables.
-  <a href="methods.html">Data, methods and limitations &rarr;</a>
+  <a href="methods.html">Data, methods, and limitations &rarr;</a>
 </footer>
 </div>
 <div id="tip" role="status" aria-live="off"></div>

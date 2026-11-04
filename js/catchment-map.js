@@ -184,7 +184,7 @@ function profile(){
       var who=state.dir==="in"?d.origin_state:d.dest_state;
       return "<li>"+who+" <span>"+ns.M(d.women_15_44)+"</span><br><small style='color:var(--ink-3)'>"+d.counties+" "+(d.counties===1?"county":"counties")+"</small></li>";
     }).join("")+"</ol>":"<p class='sub'>None</p>";
-  if(!known) h+="<p class='sub'>DC is not in the supplied state tables, so its clinic count, residents and per-clinic value are unavailable.</p>";
+  if(!known) h+="<p class='sub'>DC is not in the supplied state tables, so its clinic count, residents, and per-clinic value are unavailable.</p>";
   el.innerHTML=h;
 }
 
