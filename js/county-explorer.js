@@ -40,7 +40,7 @@ function mapFill(){
   cpaths.attr("fill",function(f){ var d=rowOf(f), c=color(d); return c||"url(#hatch)"; })
     .attr("fill-opacity",function(f){ var d=rowOf(f); if(!d||!color(d)) return 1;
       if(!inFilter(d)||!inCell(d)) return .12;
-      return st.hl && !st.cell ? (d.inc100_no_obgyn?1:.18) : 1; })
+      return st.hl && !st.cell ? (d.inc100_no_obgyn?1:.3) : 1; })
     .attr("stroke",function(f){ return emph(rowOf(f))?"var(--ink)":"none"; })
     .attr("stroke-width",function(f){ return emph(rowOf(f))?.6:0; })
     .filter(function(f){ return emph(rowOf(f)); }).raise();
@@ -159,7 +159,7 @@ function select(fips){
 /* matrix legend with counts (updates with the filter) */
 function matrix(){
   var el=d3.select("#county-matrix").html("");
-  el.append("p").attr("class","counts").style("margin","10px 0 0").html("<b>Categories</b> (counties in the current filter; click a cell to emphasise it)");
+  el.append("p").attr("class","counts").style("margin","10px 0 0").html("<b>Categories</b> (counties in the current filter; click a cell to emphasise it; other categories are dimmed while the highlight is on)");
   var m=el.append("div").attr("class","matrix").attr("role","group").attr("aria-label","Category legend");
   m.append("div").attr("class","ay").text("OB-GYNs per 10,000 women");
   [3,2,1].forEach(function(sc){
