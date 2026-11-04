@@ -35,11 +35,15 @@ msvg.append("path").datum(stateMesh).attr("d",path).attr("fill","none").attr("st
   .attr("stroke-width",.9).attr("pointer-events","none");
 var mapMark=msvg.append("g").attr("pointer-events","none");
 function rowOf(f){ return byFips[String(f.id)]; }
+function emph(d){ return !!d && st.hl && !st.cell && d.inc100_no_obgyn && inFilter(d) && !!color(d); }
 function mapFill(){
   cpaths.attr("fill",function(f){ var d=rowOf(f), c=color(d); return c||"url(#hatch)"; })
     .attr("fill-opacity",function(f){ var d=rowOf(f); if(!d||!color(d)) return 1;
       if(!inFilter(d)||!inCell(d)) return .12;
-      return st.hl && !st.cell ? (d.inc100_no_obgyn?1:.55) : 1; });
+      return st.hl && !st.cell ? (d.inc100_no_obgyn?1:.18) : 1; })
+    .attr("stroke",function(f){ return emph(rowOf(f))?"var(--ink)":"none"; })
+    .attr("stroke-width",function(f){ return emph(rowOf(f))?.6:0; })
+    .filter(function(f){ return emph(rowOf(f)); }).raise();
 }
 function mapMarks(){
   var ids=[st.sel,st.hover].filter(Boolean);
@@ -103,12 +107,14 @@ function scatterDots(){
   delaunay=d3.Delaunay.from(vis,function(d){return x(d.drive_miles_change);},function(d){return y(d.obgyn_per_10k_women);});
   dots.selectAll("circle").data(vis,function(d){return d.fips;}).join("circle")
     .attr("cx",function(d){return x(d.drive_miles_change);}).attr("cy",function(d){return y(d.obgyn_per_10k_women);})
-    .attr("r",2.6)
+    .attr("r",function(d){ return st.hl&&!st.cell&&d.inc100_no_obgyn?3.4:2.6; })
     .attr("fill",function(d){ if(st.cell) return inCell(d)?color(d):"var(--dot)";
       return st.hl&&d.inc100_no_obgyn?"var(--accent)":"var(--dot)"; })
     .attr("fill-opacity",function(d){ if(st.cell) return inCell(d)?.9:.08;
-      return st.hl? (d.inc100_no_obgyn?.75:.22) : .35; })
-    .attr("stroke",function(d){ return st.cell&&inCell(d)?"var(--ink)":"none"; }).attr("stroke-width",.4);
+      return st.hl? (d.inc100_no_obgyn?.95:.1) : .35; })
+    .attr("stroke",function(d){ if(st.cell) return inCell(d)?"var(--ink)":"none";
+      return st.hl&&d.inc100_no_obgyn?"#fff":"none"; })
+    .attr("stroke-width",function(d){ return !st.cell&&st.hl&&d.inc100_no_obgyn?.6:.4; });
   scatterMarks();
 }
 function scatterMarks(){
