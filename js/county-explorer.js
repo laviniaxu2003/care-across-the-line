@@ -21,8 +21,7 @@ function ctype(d){ return d.metro===1?"Metro":d.metro===0?"Nonmetro":"Unknown (n
 /* ---------------- map ---------------- */
 var mapRoot=document.getElementById("county-map");
 var msvg=d3.select(mapRoot).append("svg").attr("viewBox","0 0 975 610").attr("role","img")
-  .attr("aria-labelledby","cmap-t cmap-d");
-msvg.append("title").attr("id","cmap-t").text("County map of distance change and OB-GYN supply categories");
+  .attr("aria-label","County map of distance change and OB-GYN supply categories").attr("aria-describedby","cmap-d");
 msvg.append("desc").attr("id","cmap-d").text("Counties colored by a 3 by 3 category: change in miles to the nearest abortion clinic and OB-GYNs per 10,000 women. Counts per category are in the legend below the map.");
 var pat=msvg.append("defs").append("pattern").attr("id","hatch").attr("patternUnits","userSpaceOnUse")
   .attr("width",5).attr("height",5).attr("patternTransform","rotate(45)");
@@ -65,8 +64,7 @@ function drawScatter(){
   x=d3.scaleLinear().domain([-240,800]).range([SM.l,SW-SM.r]);
   y=d3.scaleSqrt().domain([0,80]).range([SH-SM.b,SM.t]);
   var svg=d3.select(scRoot).append("svg").attr("viewBox","0 0 "+SW+" "+SH).attr("role","img")
-    .attr("aria-labelledby","csc-t csc-d");
-  svg.append("title").attr("id","csc-t").text("Scatterplot of county distance change against OB-GYN supply");
+    .attr("aria-label","Scatterplot of county distance change against OB-GYN supply").attr("aria-describedby","csc-d");
   svg.append("desc").attr("id","csc-d").text(head.overlap.scatter_eligible+" counties. Counties with an increase of at least 100 miles and no OB-GYN are highlighted: "+head.overlap.inc100_no_obgyn+" of them.");
   svg.append("g").attr("transform","translate(0,"+(SH-SM.b)+")")
     .call(d3.axisBottom(x).tickValues(narrow?[-200,0,200,400,600,800]:[-200,-100,0,100,200,300,400,500,600,700,800]).tickSizeOuter(0))
