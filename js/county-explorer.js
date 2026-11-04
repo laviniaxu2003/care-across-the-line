@@ -161,9 +161,9 @@ function matrix(){
   var el=d3.select("#county-matrix").html("");
   el.append("p").attr("class","counts").style("margin","10px 0 0").html("<b>Categories</b> (counties in the current filter; click a cell to emphasise it)");
   var m=el.append("div").attr("class","matrix").attr("role","group").attr("aria-label","Category legend");
-  m.append("div").attr("class","ay").text("OB-GYNs per 10,000 women (2023)");
+  m.append("div").attr("class","ay").text("OB-GYNs per 10,000 women");
   [3,2,1].forEach(function(sc){
-    m.append("div").attr("class","rl").text(SUP[sc-1]+(sc===3?" per 10k":""));
+    m.append("div").attr("class","rl").text(SUP[sc-1]);
     [1,2,3].forEach(function(dc){
       var n=plotted.filter(function(d){return inFilter(d)&&d.dist_class===dc&&d.supply_class===sc;}).length;
       var on=st.cell&&st.cell[0]===dc&&st.cell[1]===sc;
