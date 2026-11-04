@@ -161,6 +161,7 @@ function matrix(){
   var el=d3.select("#county-matrix").html("");
   el.append("p").attr("class","counts").style("margin","10px 0 0").html("<b>Categories</b> (counties in the current filter; click a cell to emphasise it)");
   var m=el.append("div").attr("class","matrix").attr("role","group").attr("aria-label","Category legend");
+  m.append("div").attr("class","ay").text("OB-GYNs per 10,000 women (2023)");
   [3,2,1].forEach(function(sc){
     m.append("div").attr("class","rl").text(SUP[sc-1]+(sc===3?" per 10k":""));
     [1,2,3].forEach(function(dc){
@@ -173,10 +174,9 @@ function matrix(){
         .text(ns.fmt(n)).on("click",function(){ st.cell=on?null:[dc,sc]; refresh(); });
     });
   });
-  m.append("div");
+  m.append("div").attr("class","sp");
   DIST.forEach(function(t){ m.append("div").attr("class","cl").text(t); });
-  el.append("p").attr("class","counts").style("margin-top","8px").html(
-    "Rows: OB-GYNs per 10,000 women aged 15–44, 2023. Columns: change in road miles to the nearest clinic, May 2022 → July 2026.");
+  m.append("div").attr("class","ax").text("Change in road miles, May 2022 → July 2026");
 }
 function counts(){
   var f=plotted.filter(inFilter), inc=f.filter(function(d){return d.drive_miles_change>=100;}),
