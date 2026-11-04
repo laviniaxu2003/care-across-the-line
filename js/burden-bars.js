@@ -15,8 +15,7 @@ function draw(){
   var annW=narrow?0:170;
   var x=d3.scaleLinear().domain([0,100]).range([M.l,W-M.r-annW]);
   var svg=d3.select(root).append("svg").attr("viewBox","0 0 "+W+" "+H).attr("role","img")
-    .attr("aria-labelledby","burden-t burden-d");
-  svg.append("title").attr("id","burden-t").text("Share of added population-weighted distance by state");
+    .attr("aria-label","Share of added population-weighted distance by state").attr("aria-describedby","burden-d");
   svg.append("desc").attr("id","burden-d").text(rows.map(function(d){return d.label+" "+pct(d.share_pct);}).join("; "));
   svg.append("g").attr("transform","translate(0,"+(H-M.b)+")")
     .call(d3.axisBottom(x).ticks(narrow?4:5).tickFormat(function(v){return v+"%";}).tickSize(-(H-M.b-M.t)))

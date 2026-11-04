@@ -153,13 +153,17 @@ input[type="search"]{width:260px}
 .panel h4{font-family:var(--f-body);font-size:14px;font-weight:600;margin:0 0 4px;color:var(--ink)}
 .counts{font-size:13.5px;color:var(--ink-2);margin:0 0 6px;max-width:none}
 .counts b{color:var(--ink)}
-.matrix{display:grid;grid-template-columns:auto repeat(3,minmax(0,64px));gap:3px;align-items:center;
+.matrix{display:grid;grid-template-columns:auto auto repeat(3,64px);grid-template-rows:repeat(3,34px) auto auto;gap:3px;align-items:center;justify-content:start;
   font-family:var(--f-mono);font-size:11.5px;color:var(--ink-2);margin-top:6px}
 .matrix .cell{height:34px;border:0;border-radius:2px;font:inherit;font-weight:600;cursor:pointer;
   display:flex;align-items:center;justify-content:center;padding:0}
 .matrix .cell[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:1px}
 .matrix .rl{text-align:right;padding-right:6px}
 .matrix .cl{text-align:center;line-height:1.2;padding-top:4px}
+.matrix .ay{grid-column:1;grid-row:1 / -1;white-space:nowrap;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;
+  line-height:1.15;font-size:10.5px;color:var(--ink-3);padding:0 4px 0 0}
+.matrix .sp{grid-column:2;grid-row:4}
+.matrix .ax{grid-column:2 / -1;grid-row:5;white-space:nowrap;text-align:center;font-size:10.5px;line-height:1.15;color:var(--ink-2);padding-top:4px}
 .details{background:var(--surface-2);border-radius:4px;padding:14px 16px;margin-top:16px;font-size:14px}
 .details h4{font-family:var(--f-display);font-size:18px;margin:0 0 8px}
 .details dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:0}

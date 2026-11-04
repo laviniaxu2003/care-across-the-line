@@ -21,8 +21,7 @@ function ctype(d){ return d.metro===1?"Metro":d.metro===0?"Nonmetro":"Unknown (n
 /* ---------------- map ---------------- */
 var mapRoot=document.getElementById("county-map");
 var msvg=d3.select(mapRoot).append("svg").attr("viewBox","0 0 975 610").attr("role","img")
-  .attr("aria-labelledby","cmap-t cmap-d");
-msvg.append("title").attr("id","cmap-t").text("County map of distance change and OB-GYN supply categories");
+  .attr("aria-label","County map of distance change and OB-GYN supply categories").attr("aria-describedby","cmap-d");
 msvg.append("desc").attr("id","cmap-d").text("Counties colored by a 3 by 3 category: change in miles to the nearest abortion clinic and OB-GYNs per 10,000 women. Counts per category are in the legend below the map.");
 var pat=msvg.append("defs").append("pattern").attr("id","hatch").attr("patternUnits","userSpaceOnUse")
   .attr("width",5).attr("height",5).attr("patternTransform","rotate(45)");
@@ -36,11 +35,15 @@ msvg.append("path").datum(stateMesh).attr("d",path).attr("fill","none").attr("st
   .attr("stroke-width",.9).attr("pointer-events","none");
 var mapMark=msvg.append("g").attr("pointer-events","none");
 function rowOf(f){ return byFips[String(f.id)]; }
+function emph(d){ return !!d && st.hl && !st.cell && d.inc100_no_obgyn && inFilter(d) && !!color(d); }
 function mapFill(){
   cpaths.attr("fill",function(f){ var d=rowOf(f), c=color(d); return c||"url(#hatch)"; })
     .attr("fill-opacity",function(f){ var d=rowOf(f); if(!d||!color(d)) return 1;
       if(!inFilter(d)||!inCell(d)) return .12;
-      return st.hl && !st.cell ? (d.inc100_no_obgyn?1:.55) : 1; });
+      return st.hl && !st.cell ? (d.inc100_no_obgyn?1:.3) : 1; })
+    .attr("stroke",function(f){ return emph(rowOf(f))?"var(--ink)":"none"; })
+    .attr("stroke-width",function(f){ return emph(rowOf(f))?.6:0; })
+    .filter(function(f){ return emph(rowOf(f)); }).raise();
 }
 function mapMarks(){
   var ids=[st.sel,st.hover].filter(Boolean);
@@ -65,8 +68,7 @@ function drawScatter(){
   x=d3.scaleLinear().domain([-240,800]).range([SM.l,SW-SM.r]);
   y=d3.scaleSqrt().domain([0,80]).range([SH-SM.b,SM.t]);
   var svg=d3.select(scRoot).append("svg").attr("viewBox","0 0 "+SW+" "+SH).attr("role","img")
-    .attr("aria-labelledby","csc-t csc-d");
-  svg.append("title").attr("id","csc-t").text("Scatterplot of county distance change against OB-GYN supply");
+    .attr("aria-label","Scatterplot of county distance change against OB-GYN supply").attr("aria-describedby","csc-d");
   svg.append("desc").attr("id","csc-d").text(head.overlap.scatter_eligible+" counties. Counties with an increase of at least 100 miles and no OB-GYN are highlighted: "+head.overlap.inc100_no_obgyn+" of them.");
   svg.append("g").attr("transform","translate(0,"+(SH-SM.b)+")")
     .call(d3.axisBottom(x).tickValues(narrow?[-200,0,200,400,600,800]:[-200,-100,0,100,200,300,400,500,600,700,800]).tickSizeOuter(0))
@@ -105,12 +107,14 @@ function scatterDots(){
   delaunay=d3.Delaunay.from(vis,function(d){return x(d.drive_miles_change);},function(d){return y(d.obgyn_per_10k_women);});
   dots.selectAll("circle").data(vis,function(d){return d.fips;}).join("circle")
     .attr("cx",function(d){return x(d.drive_miles_change);}).attr("cy",function(d){return y(d.obgyn_per_10k_women);})
-    .attr("r",2.6)
+    .attr("r",function(d){ return st.hl&&!st.cell&&d.inc100_no_obgyn?3.4:2.6; })
     .attr("fill",function(d){ if(st.cell) return inCell(d)?color(d):"var(--dot)";
       return st.hl&&d.inc100_no_obgyn?"var(--accent)":"var(--dot)"; })
     .attr("fill-opacity",function(d){ if(st.cell) return inCell(d)?.9:.08;
-      return st.hl? (d.inc100_no_obgyn?.75:.22) : .35; })
-    .attr("stroke",function(d){ return st.cell&&inCell(d)?"var(--ink)":"none"; }).attr("stroke-width",.4);
+      return st.hl? (d.inc100_no_obgyn?.95:.1) : .35; })
+    .attr("stroke",function(d){ if(st.cell) return inCell(d)?"var(--ink)":"none";
+      return st.hl&&d.inc100_no_obgyn?"#fff":"none"; })
+    .attr("stroke-width",function(d){ return !st.cell&&st.hl&&d.inc100_no_obgyn?.6:.4; });
   scatterMarks();
 }
 function scatterMarks(){
@@ -155,10 +159,11 @@ function select(fips){
 /* matrix legend with counts (updates with the filter) */
 function matrix(){
   var el=d3.select("#county-matrix").html("");
-  el.append("p").attr("class","counts").style("margin","10px 0 0").html("<b>Categories</b> (counties in the current filter; click a cell to emphasise it)");
+  el.append("p").attr("class","counts").style("margin","10px 0 0").html("<b>Categories</b> (counties in the current filter; click a cell to emphasise it; other categories are dimmed while the highlight is on)");
   var m=el.append("div").attr("class","matrix").attr("role","group").attr("aria-label","Category legend");
+  m.append("div").attr("class","ay").text("OB-GYNs per 10,000 women");
   [3,2,1].forEach(function(sc){
-    m.append("div").attr("class","rl").text(SUP[sc-1]+(sc===3?" per 10k":""));
+    m.append("div").attr("class","rl").text(SUP[sc-1]);
     [1,2,3].forEach(function(dc){
       var n=plotted.filter(function(d){return inFilter(d)&&d.dist_class===dc&&d.supply_class===sc;}).length;
       var on=st.cell&&st.cell[0]===dc&&st.cell[1]===sc;
@@ -169,10 +174,9 @@ function matrix(){
         .text(ns.fmt(n)).on("click",function(){ st.cell=on?null:[dc,sc]; refresh(); });
     });
   });
-  m.append("div");
+  m.append("div").attr("class","sp");
   DIST.forEach(function(t){ m.append("div").attr("class","cl").text(t); });
-  el.append("p").attr("class","counts").style("margin-top","8px").html(
-    "Rows: OB-GYNs per 10,000 women aged 15–44, 2023. Columns: change in road miles to the nearest clinic, May 2022 → July 2026.");
+  m.append("div").attr("class","ax").text("Change in road miles, May 2022 → July 2026");
 }
 function counts(){
   var f=plotted.filter(inFilter), inc=f.filter(function(d){return d.drive_miles_change>=100;}),
