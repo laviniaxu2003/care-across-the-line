@@ -15,18 +15,20 @@ var RANGES={focus:[ns.parseYM("2022-03"),ns.parseYM("2023-03")], full:[months[0]
 var DOBBS=new Date(2022,5,24);
 var show={1:true,7:true,2:false,3:false,4:false,5:false,6:false};
 var range="focus", cursor=null;
-var COLOR=function(r){ return r===1?"var(--accent)":r===7?"var(--protect)":"var(--tier-mid)"; };
+var COLOR=function(r){ return r===1?"var(--accent)":r===7?"var(--protect)":"var(--t"+r+")"; };
 var KEY=["2022-05","2022-07","2023-01"];
 function val(rank,ym){ var t=TIERS[rank-1].values.filter(function(d){return d.ym===ym;})[0]; return t&&t.v; }
 
-// legend control: ranks 1 and 7 always on; the other five are optional
-var tiers=d3.select("#trend-tiers").html("");
+// legend: ranks 1 and 7 are always shown (static keys); the other five are optional checkboxes
+var fixed=d3.select("#trend-fixed").html(""), tiers=d3.select("#trend-tiers").html("");
 TIERS.forEach(function(t){
-  var lab=tiers.append("label").attr("class","check");
-  var cb=lab.append("input").attr("type","checkbox").property("checked",show[t.rank]);
-  if(t.rank===1||t.rank===7) cb.property("disabled",true);
-  cb.on("change",function(){ show[t.rank]=this.checked; draw(); });
-  lab.append("i").attr("class","sw line").style("background",COLOR(t.rank)).style("height",t.rank===1||t.rank===7?"3px":"2px");
+  var key=t.rank===1||t.rank===7;
+  var lab=(key?fixed.append("span").attr("class","check static"):tiers.append("label").attr("class","check"));
+  if(!key){
+    lab.append("input").attr("type","checkbox").property("checked",show[t.rank])
+      .on("change",function(){ show[t.rank]=this.checked; draw(); });
+  }
+  lab.append("i").attr("class","sw line").attr("aria-hidden","true").style("background",COLOR(t.rank)).style("height",key?"3px":"2px");
   lab.append("span").text(t.name);
 });
 d3.selectAll("#fig-trend [data-range]").on("click",function(){

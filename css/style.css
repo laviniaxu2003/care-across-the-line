@@ -6,7 +6,9 @@
   --rule:#d2d5dd;
   --accent:#d6264f;      /* brand; most restrictive tier; emphasised subset */
   --protect:#2f63b8;     /* most protective tier */
-  --tier-mid:#9aa0ab;    /* the other five tiers when switched on */
+  --tier-mid:#9aa0ab;    /* neutral grey (kept for reference; trend tiers 2-6 now use --t2..--t6) */
+  /* optional intermediate trend tiers, ordered restrictive -> protective between --accent and --protect */
+  --t2:#c2461c; --t3:#a08300; --t4:#8a6bb0; --t5:#178a78; --t6:#2b8cc4;
   --receiver:#3f51b5;    /* incoming catchment */
   --retained:#a9afbb;    /* retained in-state catchment */
   --outgoing:#c46a12;    /* outgoing catchment */
@@ -29,6 +31,7 @@
   --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
   --ink:#edeff3; --ink-2:#b2b7c2; --ink-3:#8b909c; --rule:#2b2f38;
   --accent:#f0587a; --protect:#6f9be6; --tier-mid:#6b717d;
+  --t2:#f2804a; --t3:#e0c04a; --t4:#b49ae0; --t5:#3fc1a5; --t6:#8fd3f5;
   --receiver:#6d7ce4; --retained:#646a79; --outgoing:#c47d1f;
   --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6; --shadow:none;
 }}
@@ -36,6 +39,7 @@
   --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
   --ink:#edeff3; --ink-2:#b2b7c2; --ink-3:#8b909c; --rule:#2b2f38;
   --accent:#f0587a; --protect:#6f9be6; --tier-mid:#6b717d;
+  --t2:#f2804a; --t3:#e0c04a; --t4:#b49ae0; --t5:#3fc1a5; --t6:#8fd3f5;
   --receiver:#6d7ce4; --retained:#646a79; --outgoing:#c47d1f;
   --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6; --shadow:none;
 }
@@ -140,6 +144,14 @@ input[type="search"]{width:260px}
 .check{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2);cursor:pointer}
 .check input{width:16px;height:16px;accent-color:var(--accent)}
 .tiers{display:flex;flex-wrap:wrap;gap:6px 16px}
+.check.static{cursor:default}
+.check.static .sw{margin-left:4px}
+
+/* reading guide above a chart; methodology in a collapsible "About the Data" below it */
+.howto{font-size:14.5px;color:var(--ink-2);margin:0 0 14px;max-width:none;line-height:1.55}
+.howto b:first-child{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:400;margin-right:6px}
+details.about .note{margin-top:10px}
 
 /* loading / failure states */
 .status{font-family:var(--f-mono);font-size:13px;color:var(--ink-3);padding:28px 0;text-align:center}

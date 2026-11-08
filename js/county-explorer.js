@@ -183,9 +183,8 @@ function counts(){
       inc0=inc.filter(function(d){return d.obgyn===0;});
   var lab=st.metro==="all"?"all":st.metro==="1"?"metro":"nonmetro";
   document.getElementById("county-counts").innerHTML="<b>This view ("+lab+" counties):</b> "+ns.fmt(f.length)+" eligible counties; "+
-    ns.fmt(inc.length)+" with at least 100 more miles, of which <b>"+ns.fmt(inc0.length)+"</b> had no OB-GYN. "+
-    "<span style='color:var(--ink-3)'>National headline (all counties): "+head.display.inc100_no_obgyn+" of "+head.display.inc100+"."+
-    (st.metro!=="all"?" The 8 Connecticut counties without a metro code appear only under All.":"")+"</span>";
+    ns.fmt(inc.length)+" with at least 100 more miles, of which <b>"+ns.fmt(inc0.length)+"</b> had no OB-GYN."+
+    (st.metro!=="all"?" <span style='color:var(--ink-3)'>The 8 Connecticut counties without a metro code appear only under All.</span>":"");
 }
 function refresh(){ mapFill(); scatterDots(); matrix(); counts(); }
 

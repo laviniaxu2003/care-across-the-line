@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=10">
+<link rel="stylesheet" href="css/style.css?v=11">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 </head>
@@ -58,13 +58,17 @@
     <h3 id="t-trend">In the most restrictive states, the nearest clinic jumped from about 40 to more than 200 miles away within months</h3>
     <p class="fig-sub">Average road miles to the nearest open abortion clinic, weighted by women aged 15&ndash;44,
       by state policy group</p>
+    <p class="howto"><b>How to read</b> Hover, tap, or focus the chart and use the arrow keys to read exact values. Policy
+      groups use Guttmacher&rsquo;s October 2026 classification for each state.</p>
     <div class="controls">
       <div class="ctl"><span class="lab" id="lab-range">Time range</span>
         <div class="seg" role="group" aria-labelledby="lab-range">
           <button type="button" data-range="focus" aria-pressed="true">Mar 2022 &ndash; Mar 2023</button>
           <button type="button" data-range="full" aria-pressed="false">Jan 2019 &ndash; Jul 2026</button>
         </div></div>
-      <div class="ctl"><span class="lab">Policy groups shown</span>
+      <div class="ctl"><span class="lab">Always shown</span>
+        <div class="tiers" id="trend-fixed"></div></div>
+      <div class="ctl"><span class="lab">Add policy groups</span>
         <div class="tiers" id="trend-tiers"></div></div>
     </div>
     <div class="status" id="st-trend" role="status"></div>
@@ -73,14 +77,10 @@
       <span data-h="r1_jul2022">123.0</span> in July 2022, <span data-h="r1_jan2023">215.6</span> in January 2023, and
       <span data-h="r1_jul2026">212.5</span> in July 2026. Most Protective: <span data-h="r7_may2022">9.7</span>,
       <span data-h="r7_jan2023">8.9</span> (January 2023), and <span data-h="r7_jul2026">8.7</span> (July 2026).</p>
-    <p class="note"><b>How to read this.</b> Each line is a policy group. Policy groups use Guttmacher&rsquo;s
-      <b>October 2026</b> classification for every month shown; they are not a record of when each state&rsquo;s
-      laws changed. The <i>Dobbs</i> decision was issued on June 24, 2022; the data are monthly, and July 2022 is the
-      first month after the decision. Hover, tap, or focus the chart and use the arrow keys to read exact values.
-      Source: Myers Abortion Facility Database; HRSA AHRF population.</p>
-    <details class="data"><summary>Data table: key months, all seven policy groups</summary>
-      <div class="tblwrap" id="trend-table"></div>
-      <p class="note" style="margin-top:0"><b>How the groups are defined.</b>
+    <details class="data about"><summary>About the data</summary>
+      <p class="note"><b>Timing.</b> The <i>Dobbs</i> decision was issued on June 24, 2022 (dashed line). The data are
+        monthly, and July 2022 is the first month after the decision.</p>
+      <p class="note"><b>How the groups are defined.</b>
 Guttmacher sorts states into seven groups by the abortion restrictions and
 protections each state currently has in effect, netting one against the other.
 Most Restrictive states have essentially all of the tracked restrictions in
@@ -88,56 +88,55 @@ place and none of the protections; Most Protective states are the reverse.
 Some Restrictions/Protections is the middle group, where restrictions and
 protections roughly offset. Only policies actually in effect count, so laws
 blocked by a court are excluded. This site applies Guttmacher&rsquo;s
-<b>October 2026</b> classification to every month shown.</p></details>
+<b>October 2026</b> classification to every month shown; the groups are not a record of when each state&rsquo;s
+laws changed.</p>
+      <p class="note"><b>Sources.</b> Myers Abortion Facility Database; HRSA AHRF population.</p></details>
+    <details class="data"><summary>Data table: key months, all seven policy groups</summary>
+      <div class="tblwrap" id="trend-table"></div></details>
   </figure>
-  <p class="transition">The increase was not evenly distributed.</p>
+  <p class="transition">However, the increase in distance to the nearest clinic was not evenly distributed across states.</p>
 </section>
 
 <!-- B. CONCENTRATION -->
 <section id="concentration" aria-labelledby="h-conc">
   <p class="stage">Where distance grew</p>
-  <h2 id="h-conc">Three states account for most of the added distance burden</h2>
-  <p>A longer drive matters more where more people face it. So for each county we
-     multiplied the added miles by the number of women aged 15&ndash;44 living
-     there, and added those up by state. Shorter trips count as zero, never as
-     credit.</p>
-  <p>Texas alone accounts for <b data-h="burden_tx">69.5%</b> of this added burden. Together with Louisiana
-     (<span data-h="burden_la">9.4%</span>) and Tennessee (<span data-h="burden_tn">4.5%</span>), three states
-     account for <b data-h="burden_top3">83.4%</b>.</p>
+  <h2 id="h-conc">Which states account for the greatest added distance burden?</h2>
+  <p>When we weight each county&rsquo;s increase in distance by its population of women aged 15&ndash;44, Texas,
+     Louisiana, and Tennessee together account for <b data-h="burden_top3">83.4%</b> of the total added burden.
+     For women seeking care, longer distances may also mean additional travel time and expense.</p>
   <figure id="fig-burden" aria-labelledby="t-burden">
     <h3 id="t-burden">Texas, Louisiana, and Tennessee account for <span data-h="burden_top3">83.4%</span> of the added population-weighted distance</h3>
     <p class="fig-sub">Each state&rsquo;s share of the total increase in (women aged 15&ndash;44 &times; added miles to the nearest clinic), May 2022 &rarr; July 2026</p>
     <div class="status" id="st-burden" role="status"></div>
     <div id="burden" class="chart"></div>
-    <p class="note"><b>Formula.</b> For each county: women aged 15&ndash;44 &times; max(miles in July 2026 &minus; miles in May 2022, 0).
-      A state&rsquo;s share is its sum divided by the national sum. This is a measure of geographic exposure, not miles actually
-      traveled, patients, or counties. Including reductions as negative values would give a different figure. Two Alaska
-      counties without distance data and one without population are excluded.</p>
+    <details class="data about"><summary>About the data</summary>
+      <p class="note"><b>Formula.</b> For each county: women aged 15&ndash;44 &times; max(miles in July 2026 &minus; miles in May 2022, 0).
+        Shorter trips count as zero, never as credit. A state&rsquo;s share is its sum divided by the national sum. This is a
+        measure of geographic exposure, not miles actually traveled, patients, or counties. Including reductions as negative
+        values would give a different figure. Two Alaska counties without distance data and one without population are excluded.</p>
+      <p class="note"><b>Sources.</b> Myers Abortion Facility Database; HRSA AHRF population.</p></details>
     <details class="data"><summary>Data table: every state with an added burden</summary>
       <div class="tblwrap" id="burden-table"></div></details>
   </figure>
-  <p class="transition">Distance is one barrier. In <span data-h="inc100_no_obgyn">316</span> of the
-     <span data-h="inc100">589</span> counties that gained 100 miles or more, there
-     was no OB-GYN at all.</p>
+  <p class="transition">Many women who now live further from the nearest abortion clinic face yet another burden: lack of
+     access to maternity care.</p>
 </section>
 
 <!-- C. LOCAL RESOURCES -->
 <section id="local-care" aria-labelledby="h-local">
   <p class="stage">Local resources</p>
-  <h2 id="h-local">Longer journeys overlap with limited local care</h2>
-  <p>Of those <b data-h="inc100_no_obgyn">316</b> counties,
-     <b data-h="inc100_no_obgyn_no_hosp">297</b> also had no hospital providing
-     obstetric care, and <span data-h="inc100_no_obgyn_nonmetro">246</span> are
-     nonmetro.</p>
-  <p>These counts are a single 2023 snapshot, so they show where maternity care was
-     already thin, not whether providers left after <i>Dobbs</i>. What they do show
-     is that the largest increases in distance landed on places that had the least
-     local care to begin with.</p>
+  <h2 id="h-local">Where do reproductive healthcare barriers overlap?</h2>
+  <p><b data-h="inc100">589</b> counties gained 100 miles or more to the nearest abortion clinic. In
+     <b data-h="inc100_no_obgyn">316</b> of those, there was no OB-GYN at all. A 2023 snapshot shows that the
+     largest increases in distance landed on places that had the least local care to begin with.</p>
 
   <figure id="fig-county" aria-labelledby="t-county">
     <h3 id="t-county">Hundreds of counties with large distance increases had no OB-GYN in 2023</h3>
     <p class="fig-sub">Change in road miles to the nearest abortion clinic (May 2022 &rarr; July 2026) against OB-GYNs per
       10,000 women aged 15&ndash;44 (2023), by county</p>
+    <p class="howto"><b>How to read</b> Each county appears twice: on the map, colored by its combination of distance change
+      and OB-GYN supply, and as a dot in the scatterplot. Hover or tap for details, click to keep a county selected, and use
+      the filters, search, or category legend to focus the view.</p>
     <div class="controls">
       <div class="ctl"><span class="lab" id="lab-ctype">County type</span>
         <div class="seg" role="group" aria-labelledby="lab-ctype" id="ctype">
@@ -152,6 +151,8 @@ blocked by a court are excluded. This site applies Guttmacher&rsquo;s
         <label class="check"><input type="checkbox" id="hl-toggle" checked> Highlight +100 miles and no OB-GYN</label></div>
       <div class="ctl"><span class="lab">&nbsp;</span><button type="button" class="plain" id="county-reset">Reset</button></div>
     </div>
+    <p class="note" style="margin:0 0 10px">Counties are classified using USDA Rural-Urban Continuum Codes (1&ndash;3: metro;
+      4&ndash;9: nonmetro). These categories are not equivalent to strictly urban and rural areas.</p>
     <p class="counts" id="county-counts" aria-live="polite"></p>
     <div class="status" id="st-county" role="status"></div>
     <div class="explorer">
@@ -170,19 +171,21 @@ blocked by a court are excluded. This site applies Guttmacher&rsquo;s
     <p class="summary"><span data-h="inc100_no_obgyn">316</span> of the <span data-h="inc100">589</span> counties with at
       least 100 additional miles had no OB-GYN recorded in 2023; <span data-h="inc100_no_obgyn_no_hosp">297</span> of those
       also had no hospital providing obstetric care. These are overlapping groups of counties, not separate categories.</p>
-    <p class="note"><b>How to read this.</b> One dot per county (<span data-h="scatter_eligible">3,140</span> with both measures).
-      The vertical axis uses a <b>square-root scale</b> to spread out the many low values; tick labels show the original
-      numbers. Dots are not jittered: counties with no OB-GYN sit exactly on the zero line. Dashed lines mark no change and
-      +100 miles.</p>
-    <details class="data"><summary>Missing data and sources</summary>
-      <p class="note"><b>Missing data:</b> three Alaska counties lack distance or OB-GYN data and are left out, and DC has no county
-      record; striped map areas have no data. Connecticut&rsquo;s 8 counties have no metro code, so they appear only under &ldquo;All&rdquo;.
-      <b>Sources:</b> Myers Abortion Facility Database; HRSA Area Health Resource File; county boundaries: US Census via us-atlas 3.0.1.</p></details>
+    <details class="data about"><summary>About the data</summary>
+      <p class="note"><b>Scatterplot.</b> One dot per county (<span data-h="scatter_eligible">3,140</span> with both measures).
+        The vertical axis uses a <b>square-root scale</b> to spread out the many low values; tick labels show the original
+        numbers. Dots are not jittered: counties with no OB-GYN sit exactly on the zero line. Dashed lines mark no change and
+        +100 miles.</p>
+      <p class="note"><b>Timing.</b> OB-GYN and hospital counts are a single 2023 snapshot, so they show where maternity care
+        was already thin, not whether providers left after <i>Dobbs</i>. Of the <span data-h="inc100_no_obgyn">316</span>
+        counties above, <span data-h="inc100_no_obgyn_nonmetro">246</span> are nonmetro.</p>
+      <p class="note"><b>Missing data.</b> Three Alaska counties lack distance or OB-GYN data and are left out, and DC has no county
+      record; striped map areas have no data. Connecticut&rsquo;s 8 counties have no metro code, so they appear only under &ldquo;All&rdquo;.</p>
+      <p class="note"><b>Sources.</b> Myers Abortion Facility Database; HRSA Area Health Resource File; county boundaries: US Census via us-atlas 3.0.1.</p></details>
   </figure>
 
-  <p style="margin-top:40px">States with restrictive policies have more rural counties, and rural counties tend to have fewer
-     OB-GYNs. Comparing metro counties with metro counties, and nonmetro with nonmetro, shows whether the difference
-     between policy groups is only a matter of rurality.</p>
+  <p style="margin-top:40px">States with restrictive policies tend to have more nonmetro counties, and nonmetro counties tend to
+     have fewer OB-GYNs. But even accounting for rurality, the most restrictive states have fewer providers for maternity care.</p>
   <figure id="fig-rural" aria-labelledby="t-rural">
     <h3 id="t-rural">The gap is present within both metro and nonmetro counties</h3>
     <p class="fig-sub">Share of counties with no OB-GYN recorded in 2023, by county type and state policy group</p>
@@ -312,9 +315,9 @@ blocked by a court are excluded. This site applies Guttmacher&rsquo;s
 <div id="tip" role="status" aria-live="off"></div>
 
 <script src="js/data.js"></script>
-<script src="js/distance-trend.js"></script>
+<script src="js/distance-trend.js?v=11"></script>
 <script src="js/burden-bars.js"></script>
-<script src="js/county-explorer.js"></script>
+<script src="js/county-explorer.js?v=11"></script>
 <script src="js/rurality.js"></script>
 <script src="js/catchment-map.js"></script>
 <script src="js/clinic-load.js"></script>
