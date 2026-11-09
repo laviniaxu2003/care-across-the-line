@@ -23,7 +23,7 @@ function draw(){
       a.selectAll("text").attr("font-size",11.5).attr("fill","var(--ink-2)"); });
   // key
   var k=svg.append("g").attr("transform","translate("+M.l+",12)");
-  [[R67,"var(--protect)","Policy ranks 6–7"],[R12,"var(--accent)","Policy ranks 1–2"]].forEach(function(e,i){
+  [[R67,"var(--pol-7)","Policy ranks 6–7"],[R12,"var(--pol-1)","Policy ranks 1–2"]].forEach(function(e,i){
     var g=k.append("g").attr("transform","translate("+(i*(narrow?120:150))+",0)");
     g.append("circle").attr("r",6).attr("cy",-4).attr("fill",e[1]);
     g.append("text").attr("x",11).attr("font-size",12).attr("fill","var(--ink-2)").text(e[2]);
@@ -34,7 +34,7 @@ function draw(){
       .attr("fill","var(--ink)").text(t);
     svg.append("line").attr("x1",x(a.pct_no_obgyn)).attr("x2",x(b.pct_no_obgyn)).attr("y1",yy).attr("y2",yy)
       .attr("stroke","var(--ink-3)").attr("stroke-width",2.5);
-    [[a,"var(--protect)",-1],[b,"var(--accent)",1]].forEach(function(p){
+    [[a,"var(--pol-7)",-1],[b,"var(--pol-1)",1]].forEach(function(p){
       svg.append("circle").attr("cx",x(p[0].pct_no_obgyn)).attr("cy",yy).attr("r",7.5).attr("fill",p[1])
         .attr("stroke","var(--surface-1)").attr("stroke-width",2)
         .on("mousemove",function(e){ ns.tip(e,"<div class='t'>"+t+", "+p[0].policy_group.replace(/ \(.*/,"")+"</div>"+

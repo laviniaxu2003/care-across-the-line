@@ -12,11 +12,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=11">
+<link rel="stylesheet" href="css/style.css?v=13">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 </head>
 <body>
+
+<nav class="railnav" aria-label="Sections">
+  <p class="rl">Care Across the Line</p>
+  <ol>
+    <li><a href="#distance" data-sec="distance">How far is the nearest clinic?</a></li>
+    <li><a href="#concentration" data-sec="concentration">Where distance grew</a></li>
+    <li><a href="#local-care" data-sec="local-care">Where barriers overlap</a></li>
+    <li><a href="#across" data-sec="across">Care across state lines</a></li>
+    <li><a href="#planning" data-sec="planning">What this means</a></li>
+  </ol>
+  <p class="foot"><a href="methods.html">Data &amp; methods &rarr;</a></p>
+</nav>
 
 <nav><div class="wrap">
   <a class="brand" href="index.html">Care Across the <i>Line</i></a>
@@ -207,7 +219,7 @@ laws changed.</p>
 <!-- D. MAIN MESSAGE: CROSS-STATE CATCHMENTS -->
 <section id="across" aria-labelledby="h-across">
   <p class="stage">Across state lines</p>
-  <h2 id="h-across">Access does not stop at the state line</h2>
+  <h2 id="h-across">What about care across state lines?</h2>
   <div class="msg">
     <p class="big"><em data-h="crossing_women">16.7 million</em> women aged 15&ndash;44 live in counties whose nearest open
       abortion clinic is in another state.</p>
@@ -223,19 +235,12 @@ laws changed.</p>
 
   <figure id="fig-catch" aria-labelledby="t-catch">
     <span class="flag">Potential geographic catchment, not observed patient travel</span>
-    <h3 id="t-catch">Kansas&rsquo;s seven clinics are the nearest option for counties in five other states</h3>
+    <h3 id="t-catch">Clinic catchments do not stop at state borders</h3>
     <p class="fig-sub">Each arrow joins a home state to the state holding the nearest clinic for some of its counties
       (July 2026). Width is proportional to the number of women aged 15&ndash;44 in those counties.</p>
-    <div class="controls">
-      <div class="ctl"><label class="lab" for="catch-select">Jurisdiction</label>
-        <select id="catch-select"></select></div>
-      <div class="ctl"><span class="lab" id="lab-dir">Show connections</span>
-        <div class="seg" role="group" aria-labelledby="lab-dir" id="catch-dir">
-          <button type="button" data-dir="in" aria-pressed="true">Incoming</button>
-          <button type="button" data-dir="out" aria-pressed="false">Outgoing</button>
-        </div></div>
-      <div class="ctl"><span class="lab">&nbsp;</span><button type="button" class="plain" id="catch-overview">Show overview of all states</button></div>
-    </div>
+    <p class="howto"><b>How to read</b> Every arrow points from where women live to the state holding their nearest
+      clinic. A state is shaded ochre if it has no open clinic left, violet if it is the nearest option for people
+      living in another state. <b>Click any state</b> for its own figures on the right; click it again to go back.</p>
     <div class="status" id="st-catch" role="status"></div>
     <div class="catch">
       <div class="panel">
@@ -245,46 +250,14 @@ laws changed.</p>
       </div>
       <div class="panel profile" id="catch-profile" aria-live="polite"></div>
     </div>
-    <p class="note"><b>How to read this.</b> Arrows are drawn between state centers and are schematic. They show where the
-      nearest clinic is for each county (road distance from the county, Myers database, July 2026), added up by home state
-      and clinic state. They are not routes, actual trips, appointments, or patients. Retained catchment means residents whose
-      nearest clinic is in their own state; incoming means residents of other states whose nearest clinic is here; a state
-      can have both incoming and outgoing connections. Click a state or choose one from the list; small jurisdictions such as
-      DC are easiest to choose from the list. Population: women aged 15&ndash;44 (HRSA AHRF), the population the source data
-      use, not a count of people seeking abortion care.</p>
-  </figure>
-</section>
-
-<!-- E. SUPPORTING: PER-CLINIC CATCHMENT -->
-<section id="per-clinic" aria-labelledby="h-load">
-  <p class="stage">Clinics and catchments</p>
-  <h2 id="h-load">A small number of clinics can be the nearest option for a large region</h2>
-  <p>Kansas has <span data-h="ks_clinics">7</span> clinics. They are the nearest option for
-     <b data-h="ks_incoming_exact">6,128,642</b> women aged 15&ndash;44 who live in other states, plus
-     <span data-h="ks_retained">545,960</span> Kansas residents (of <span data-h="ks_residents">563,769</span>; the rest
-     have a nearer clinic in another state). That is <b data-h="ks_assigned">6,674,602</b> women in all, or about
-     <b data-h="ks_per_clinic">953,515</b> per clinic.</p>
-  <figure id="fig-load" aria-labelledby="t-load">
-    <h3 id="t-load">Kansas&rsquo;s potential catchment per clinic is far larger than any other state&rsquo;s</h3>
-    <p class="fig-sub">Every row is a state that is the nearest option for at least one county in another state. The hollow dot is
-      the potential catchment per clinic from the state&rsquo;s own residents whose nearest clinic is in-state. The filled dot adds
-      residents of other states whose nearest clinic is there. The distance between them is the incoming catchment.</p>
-    <div class="legend">
-      <span><i class="sw dot" style="background:var(--surface-1);border:2px solid var(--ink-3)"></i>Retained local catchment per clinic</span>
-      <span><i class="sw dot" style="background:var(--receiver)"></i>Total assigned catchment per clinic</span>
-      <span><i class="sw line" style="background:var(--ink)"></i>All 50 states combined: <span data-h="ref_per_clinic">81,573</span> per clinic</span>
-    </div>
-    <div class="status" id="st-load" role="status"></div>
-    <div id="load" class="chart"></div>
-    <p class="note" id="load-dc"></p>
-    <p class="note"><b>How to read this.</b> Women aged 15&ndash;44 per open clinic, July 2026. The scale is <b>logarithmic</b>:
-      each labeled gridline is a fixed multiple of the one before, because Kansas sits roughly ten times beyond most other
-      states. The number in parentheses is the count of open clinics. The reference line divides all the population assigned
-      to the 50 states by their 798 clinics; DC is not included because its clinic count is not in the supplied data. Clinic
-      counts do not measure staffing, appointment capacity, services offered, or actual use, so this is a potential catchment
-      per clinic, not a patient load. Selecting a state on the map above highlights its row here, and clicking a row selects
-      it on the map.</p>
-    <details class="data"><summary>Data table</summary><div class="tblwrap" id="load-table"></div></details>
+    <details class="data about"><summary>About the data</summary>
+      <p class="note"><b>What the arrows are.</b> Arrows are drawn between state centers and are schematic. They show where
+        the nearest clinic is for each county (road distance from the county, Myers database, July 2026), added up by home
+        state and clinic state. They are not routes, actual trips, appointments, or patients.</p>
+      <p class="note"><b>Population.</b> Women aged 15&ndash;44 (HRSA AHRF), the population the source data use. This is a
+        count of who lives nearest to a clinic, not a count of people seeking abortion care.</p>
+      <p class="note"><b>Small jurisdictions.</b> DC is too small to click on the map, so it is marked with a labelled dot.</p>
+      <p class="note"><b>Sources.</b> Myers Abortion Facility Database; HRSA AHRF population; state boundaries: US Census via us-atlas 3.0.1.</p></details>
   </figure>
 </section>
 
@@ -293,7 +266,7 @@ laws changed.</p>
   <p class="stage">What follows</p>
   <h2 id="h-plan">What this means for planning</h2>
   <p>These data describe where the nearest clinic is and what other care exists nearby. They cannot identify an optimal way
-     to fund or place services, but they point to four priorities.</p>
+     to fund or place services, but they point to five priorities.</p>
   <ul class="take">
     <li><span class="num">01</span><span><b>Look beyond state policy maps to understand cross-border access.</b>
       <span class="ev">For <span data-h="crossing_women">16.7 million</span> women aged 15&ndash;44, the nearest clinic is in another state.</span></span></li>
@@ -301,7 +274,13 @@ laws changed.</p>
       <span class="ev"><span data-h="inc100_no_obgyn">316</span> counties gained at least 100 miles and had no OB-GYN in 2023; most are nonmetro.</span></span></li>
     <li><span class="num">03</span><span><b>Consider potential regional catchments when allocating clinic resources and travel support.</b>
       <span class="ev">Kansas&rsquo;s <span data-h="ks_clinics">7</span> clinics are the nearest option for <span data-h="ks_incoming">6.1 million</span> women in other states.</span></span></li>
-    <li><span class="num">04</span><span><b>Use geographic access data alongside service-capacity and utilization data for more equitable planning.</b>
+    <li><span class="num">04</span><span><b>Where distance puts abortion care out of reach, make sure maternity care is reachable.</b>
+      <span class="ev">A woman who cannot practically travel for an abortion is a woman who may carry a pregnancy to term.
+      In <span data-h="inc100_no_obgyn">316</span> counties that gained at least 100 miles, there was no OB-GYN at all, and
+      <span data-h="inc100_no_obgyn_no_hosp">297</span> of those also had no hospital providing obstetric care. Whatever
+      one thinks about abortion policy, those counties need prenatal and delivery care that does not require a long drive
+      either.</span></span></li>
+    <li><span class="num">05</span><span><b>Use geographic access data alongside service-capacity and utilization data for more equitable planning.</b>
       <span class="ev">Distance and clinic counts show potential access only; they say nothing about appointment availability, staffing, or who actually travels.</span></span></li>
   </ul>
 </section>
@@ -315,12 +294,12 @@ laws changed.</p>
 <div id="tip" role="status" aria-live="off"></div>
 
 <script src="js/data.js"></script>
-<script src="js/distance-trend.js?v=11"></script>
+<script src="js/distance-trend.js?v=13"></script>
 <script src="js/burden-bars.js"></script>
 <script src="js/county-explorer.js?v=12"></script>
-<script src="js/rurality.js"></script>
-<script src="js/catchment-map.js"></script>
-<script src="js/clinic-load.js"></script>
-<script src="js/main.js"></script>
+<script src="js/rurality.js?v=13"></script>
+<script src="js/catchment-map.js?v=13"></script>
+<script src="js/main.js?v=13"></script>
+<script src="js/section-nav.js?v=13"></script>
 </body>
 </html>

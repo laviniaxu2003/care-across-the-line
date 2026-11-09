@@ -6,9 +6,12 @@
   --rule:#d2d5dd;
   --accent:#d6264f;      /* brand; most restrictive tier; emphasised subset */
   --protect:#2f63b8;     /* most protective tier */
-  --tier-mid:#9aa0ab;    /* neutral grey (kept for reference; trend tiers 2-6 now use --t2..--t6) */
-  /* optional intermediate trend tiers, ordered restrictive -> protective between --accent and --protect */
-  --t2:#c2461c; --t3:#a08300; --t4:#8a6bb0; --t5:#178a78; --t6:#2b8cc4;
+  --tier-mid:#9aa0ab;    /* neutral grey */
+  /* Policy scale, ranks 1-7. Deliberately NOT red/blue: those read as party colours in a US
+     political map. Two validated poles (ochre = most restrictive, violet = most protective)
+     with an ordinal grey ramp between them, strongest nearest each pole. */
+  --pol-1:#a36400; --pol-2:#595e64; --pol-3:#6b7177; --pol-4:#7e848a;
+  --pol-5:#91979e; --pol-6:#a5acb2; --pol-7:#703d9f;
   --receiver:#3f51b5;    /* incoming catchment */
   --retained:#a9afbb;    /* retained in-state catchment */
   --outgoing:#c46a12;    /* outgoing catchment */
@@ -31,7 +34,8 @@
   --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
   --ink:#edeff3; --ink-2:#b2b7c2; --ink-3:#8b909c; --rule:#2b2f38;
   --accent:#f0587a; --protect:#6f9be6; --tier-mid:#6b717d;
-  --t2:#f2804a; --t3:#e0c04a; --t4:#b49ae0; --t5:#3fc1a5; --t6:#8fd3f5;
+  --pol-1:#c48026; --pol-2:#a5acb2; --pol-3:#91979e; --pol-4:#7e848a;
+  --pol-5:#6b7177; --pol-6:#595e64; --pol-7:#9e70cf;
   --receiver:#6d7ce4; --retained:#646a79; --outgoing:#c47d1f;
   --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6; --shadow:none;
 }}
@@ -39,7 +43,8 @@
   --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
   --ink:#edeff3; --ink-2:#b2b7c2; --ink-3:#8b909c; --rule:#2b2f38;
   --accent:#f0587a; --protect:#6f9be6; --tier-mid:#6b717d;
-  --t2:#f2804a; --t3:#e0c04a; --t4:#b49ae0; --t5:#3fc1a5; --t6:#8fd3f5;
+  --pol-1:#c48026; --pol-2:#a5acb2; --pol-3:#91979e; --pol-4:#7e848a;
+  --pol-5:#6b7177; --pol-6:#595e64; --pol-7:#9e70cf;
   --receiver:#6d7ce4; --retained:#646a79; --outgoing:#c47d1f;
   --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6; --shadow:none;
 }
@@ -246,3 +251,30 @@ footer a{color:var(--ink-2)}
   .compare .arrow{padding-bottom:14px}
   .banner{padding:10px 16px}
 }
+
+/* ---- sticky section rail (wide screens only; the top nav covers narrow ones) ---- */
+.railnav{display:none}
+@media (min-width:1120px){
+  body{padding-left:208px}
+  .railnav{display:block;position:fixed;left:0;top:0;width:208px;height:100vh;z-index:50;
+    border-right:1px solid var(--rule);background:var(--surface-2);
+    padding:26px 16px 26px 22px;overflow-y:auto}
+  .railnav .rl{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-3);margin:0 0 14px}
+  .railnav ol{list-style:none;margin:0;padding:0;counter-reset:r}
+  .railnav li{counter-increment:r;margin:0 0 2px}
+  .railnav a{display:flex;gap:9px;align-items:baseline;text-decoration:none;color:var(--ink-2);
+    font-size:13.5px;line-height:1.35;padding:7px 9px 7px 8px;border-radius:3px;
+    border-left:2px solid transparent}
+  .railnav a::before{content:counter(r,decimal-leading-zero);font-family:var(--f-mono);font-size:10.5px;
+    color:var(--ink-3);flex:none}
+  .railnav a:hover{background:var(--surface-1);color:var(--ink)}
+  .railnav a[aria-current="true"]{color:var(--ink);font-weight:600;border-left-color:var(--pol-1);
+    background:var(--surface-1)}
+  .railnav a[aria-current="true"]::before{color:var(--pol-1)}
+  .railnav .foot{margin-top:18px;padding-top:14px;border-top:1px solid var(--rule);
+    font-size:12.5px}
+  .railnav .foot a{padding-left:0;border-left:0}
+  .railnav .foot a::before{content:none}
+}
+@media (prefers-reduced-motion:no-preference){ html{scroll-behavior:smooth} }

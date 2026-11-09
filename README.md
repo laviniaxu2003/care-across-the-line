@@ -28,7 +28,7 @@ public CDNs, so the site also needs an internet connection. It is static and Git
 ## Structure
 
 ```
-index.html              the story (sections A–F)
+index.html              the story (sections A–E)
 methods.html            sources, formulas, coverage, limitations
 css/style.css           shared styles (light + dark tokens)
 js/data.js              explicit CSV parsing, loaders, loading/failure states, tooltip, event bus
@@ -36,9 +36,9 @@ js/distance-trend.js    A  distance to nearest clinic by policy group, 2019–20
 js/burden-bars.js       B  state shares of added population-weighted distance
 js/county-explorer.js   C  linked county map + scatterplot (from the Milestone 6 dashboard)
 js/rurality.js          C2 metro/nonmetro paired dots
-js/catchment-map.js     D  catchment map + receiving-state profile (novel view)
-js/clinic-load.js       E  potential catchment per clinic (corrected dumbbell)
+js/catchment-map.js     D  catchment map + state profile (novel view)
 js/main.js              wiring
+js/section-nav.js       sticky section rail (scroll spy; links work without it)
 data/source/            supplied processed inputs (unchanged; see PROVENANCE.md)
 data/derived/           generated chart tables + headline.json (do not edit by hand)
 data/geo/               state and county TopoJSON (see README.md there)
@@ -57,7 +57,7 @@ call it from `js/main.js` with `ns.run("#st-<name>", ["<dataset>"], draw)` so it
 states. Use CSS variables for every colour so dark mode keeps working, and the shared
 `ns.tip(event, html)` / `ns.hideTip` for tooltips. If the chart's numbers appear in the text, add them
 to `display` in `build_data.py` and mark the text with `data-h="<key>"`; `validate.py` will then check
-them. `js/clinic-load.js` is a compact worked example.
+them. `js/rurality.js` is a compact worked example.
 
 ## Sources
 

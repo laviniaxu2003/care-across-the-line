@@ -26,8 +26,6 @@ if(document.querySelector("#county-map"))
   ns.run("#st-county",["counties","counties-geo","head"],function(c,g,h){ ns.countyExplorer(c,g,h); });
 if(document.querySelector("#rural"))
   ns.run("#st-rural",["rurality"],function(r){ ns.rurality(r,"#rural"); });
-if(document.querySelector("#load"))
-  ns.run("#st-load",["recv","head"],function(r,h){ ns.clinicLoad({recv:r,head:h},"#load"); });
 if(document.querySelector("#map"))
   ns.run("#st-catch",["flows","recv","head","states"],function(f,r,h,topo){
     ns.catchmentMap({flows:f,recv:r,head:h,topo:topo},"#map"); });

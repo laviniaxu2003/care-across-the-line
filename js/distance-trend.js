@@ -15,7 +15,7 @@ var RANGES={focus:[ns.parseYM("2022-03"),ns.parseYM("2023-03")], full:[months[0]
 var DOBBS=new Date(2022,5,24);
 var show={1:true,7:true,2:false,3:false,4:false,5:false,6:false};
 var range="focus", cursor=null;
-var COLOR=function(r){ return r===1?"var(--accent)":r===7?"var(--protect)":"var(--t"+r+")"; };
+var COLOR=function(r){ return "var(--pol-"+r+")"; };   // ochre -> grey ramp -> violet, never red/blue
 var KEY=["2022-05","2022-07","2023-01"];
 function val(rank,ym){ var t=TIERS[rank-1].values.filter(function(d){return d.ym===ym;})[0]; return t&&t.v; }
 
@@ -99,7 +99,7 @@ function draw(){
   KEY.forEach(function(ym){
     var d=TIERS[0].values.filter(function(v){return v.ym===ym;})[0];
     svg.append("circle").attr("cx",x(d.date)).attr("cy",y(d.v)).attr("r",4.5)
-      .attr("fill","var(--accent)").attr("stroke","var(--surface-1)").attr("stroke-width",2);
+      .attr("fill","var(--pol-1)").attr("stroke","var(--surface-1)").attr("stroke-width",2);
     svg.append("text").attr("x",x(d.date)+pos[ym][1]).attr("y",y(d.v)+pos[ym][2]).attr("text-anchor",pos[ym][0])
       .attr("font-size",12).attr("fill","var(--ink)").attr("paint-order","stroke").attr("stroke","var(--surface-1)").attr("stroke-width",3)
       .text(ns.f1(d.v)+" mi"+(narrow?"":", "+d3.timeFormat("%b %Y")(d.date)));
