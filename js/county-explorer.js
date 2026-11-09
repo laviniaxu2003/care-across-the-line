@@ -53,7 +53,7 @@ function mapMarks(){
 }
 cpaths.on("mousemove",function(e,f){
     var d=rowOf(f); st.hover=d?d.fips:null; mapMarks(); scatterMarks();
-    ns.tip(e,d?tipHtml(d):"<div class='t'>"+(f.properties.name||"")+"</div>No county record in the data");
+    ns.tip(e,d?tipHtml(d,true):"<div class='t'>"+(f.properties.name||"")+"</div>No county record in the data");
     if(!st.sel) details(d,"hovered");
   }).on("mouseleave",function(){ st.hover=null; mapMarks(); scatterMarks(); ns.hideTip(); if(!st.sel) details(null); })
   .on("click",function(e,f){ var d=rowOf(f); if(d) select(d.fips===st.sel?null:d.fips); });
@@ -91,13 +91,15 @@ function drawScatter(){
   dots=svg.append("g");
   marks=svg.append("g").attr("pointer-events","none");
   var over=svg.append("rect").attr("x",SM.l).attr("y",SM.t).attr("width",SW-SM.l-SM.r).attr("height",SH-SM.t-SM.b)
-    .attr("fill","transparent").style("cursor","crosshair");
+    .attr("fill","transparent");
   function find(e){ if(!delaunay||!vis.length) return null; var p=d3.pointer(e); var i=delaunay.find(p[0],p[1]);
     var d=vis[i]; return Math.hypot(x(d.drive_miles_change)-p[0],y(d.obgyn_per_10k_women)-p[1])<14?d:null; }
-  over.on("pointermove",function(e){ var d=find(e); st.hover=d?d.fips:null; mapMarks(); scatterMarks();
-      if(d){ ns.tip(e,tipHtml(d)); if(!st.sel) details(d,"hovered"); } else { ns.hideTip(); if(!st.sel) details(null); } })
-    .on("pointerleave",function(){ st.hover=null; mapMarks(); scatterMarks(); ns.hideTip(); if(!st.sel) details(null); })
-    .on("click",function(e){ var d=find(e); select(d?(d.fips===st.sel?null:d.fips):null); });
+  // hover previews a county; clicking a dot does not select (selection is made on the map or by search).
+  // pointerdown lets a touch tap preview too; a touch preview stays until the next tap rather than vanishing on lift.
+  over.on("pointermove pointerdown",function(e){ var d=find(e); st.hover=d?d.fips:null; mapMarks(); scatterMarks();
+      if(d){ ns.tip(e,tipHtml(d,false)); if(!st.sel) details(d,"hovered"); } else { ns.hideTip(); if(!st.sel) details(null); } })
+    .on("pointerleave",function(e){ if(e.pointerType==="touch") return;
+      st.hover=null; mapMarks(); scatterMarks(); ns.hideTip(); if(!st.sel) details(null); });
   scatterDots();
 }
 function scatterDots(){
@@ -128,16 +130,16 @@ function scatterMarks(){
 
 /* ---------------- shared pieces ---------------- */
 function v(n,f,suf){ return n==null?"not available":(f||ns.fmt)(n)+(suf||""); }
-function tipHtml(d){
+function tipHtml(d,clickable){
   return "<div class='t'>"+d.county+", "+d.state+"</div>"+
     "<span class='k'>miles, May 2022 → Jul 2026</span> "+v(d.drive_miles_may2022,ns.f1)+" → "+v(d.drive_miles_jul2026,ns.f1)+"<br>"+
     "<span class='k'>change</span> "+v(d.drive_miles_change,d3.format("+,.1f"))+" mi<br>"+
     "<span class='k'>OB-GYNs 2023</span> "+v(d.obgyn)+" ("+v(d.obgyn_per_10k_women,d3.format(",.2f"))+" per 10k)<br>"+
-    "<span class='k'>click to keep details</span>";
+    (clickable?"<span class='k'>click to keep details</span>":"");
 }
 function details(d,tag){
   var el=document.getElementById("county-details");
-  if(!d){ el.innerHTML="<p class='counts' style='margin:0'>Select a county on the map or chart, or search by name, to see its details here.</p>"; return; }
+  if(!d){ el.innerHTML="<p class='counts' style='margin:0'>Select a county on the map, or search by name, to see its details here.</p>"; return; }
   var cat=d.dist_class&&d.supply_class?("Distance change "+DIST[d.dist_class-1]+"; OB-GYN supply "+SUP[d.supply_class-1]+" per 10k"):"Not in a map category: a plotted value is missing";
   el.innerHTML="<h4>"+d.county+", "+d.state+" <span class='flag' style='margin:0 0 0 6px;vertical-align:middle'>"+tag+"</span></h4><dl>"+
     "<dt>Road miles to nearest clinic, May 2022</dt><dd>"+v(d.drive_miles_may2022,ns.f1)+"</dd>"+
