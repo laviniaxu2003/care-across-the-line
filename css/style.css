@@ -143,6 +143,8 @@ figcaption,.note{font-size:13.5px;color:var(--ink-3);margin-top:16px;max-width:n
 button.plain{font:inherit;font-size:13.5px;background:var(--surface-1);color:var(--ink);border:1px solid var(--rule);
   border-radius:4px;padding:7px 12px;cursor:pointer;min-height:36px}
 button.plain:hover{border-color:var(--ink-3)}
+button.plain:disabled{color:var(--ink-3);cursor:default;opacity:.65}
+button.plain:disabled:hover{border-color:var(--rule)}
 input[type="search"],select{font:inherit;font-size:14px;background:var(--surface-1);color:var(--ink);
   border:1px solid var(--rule);border-radius:4px;padding:7px 10px;min-height:36px;min-width:0;max-width:100%}
 input[type="search"]{width:260px}

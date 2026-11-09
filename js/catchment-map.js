@@ -158,9 +158,11 @@ function render(){
   } else {
     var r=byAbbr[selected], mine=shown.filter(touches);
     note.innerHTML="<b>"+r.name+"</b> selected: "+mine.length+" cross-state connection"+(mine.length===1?"":"s")+
-      " drawn. Click it again to go back to all states. Arrows narrower than "+MINPX+
+      " drawn. Use <b>Show all states</b> above, or click it again, to go back. Arrows narrower than "+MINPX+
       " px are drawn at "+MINPX+" px so they stay visible.";
   }
+  var rb=document.getElementById("catch-reset");
+  if(rb) rb.disabled=!selected;
   desc.text(note.textContent);
   profile();
 }
@@ -210,6 +212,7 @@ function profile(){
 }
 
 function select(abbr){ selected=(abbr===selected?null:abbr)||null; render(); }
+d3.select("#catch-reset").on("click",function(){ select(null); });
 shapes.on("click",function(e,f){ select(byName[f.properties.name].abbr); })
   .on("mousemove",function(e,f){
     var r=byName[f.properties.name];
