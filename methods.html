@@ -8,9 +8,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=25">
+<link rel="stylesheet" href="css/style.css?v=26">
 </head>
 <body>
+
+<nav class="railnav" aria-label="Sections">
+  <p class="rl">Data &amp; methods</p>
+  <ol>
+    <li><a href="#sources" data-sec="sources">Sources</a></li>
+    <li><a href="#definitions" data-sec="definitions">Definitions and formulas</a></li>
+    <li><a href="#coverage" data-sec="coverage">Coverage and missing data</a></li>
+    <li><a href="#limits" data-sec="limits">What the numbers do not say</a></li>
+    <li><a href="#reproduce" data-sec="reproduce">Reproducing the site</a></li>
+  </ol>
+  <p class="foot"><a href="index.html">&larr; Back to the story</a></p>
+</nav>
 <nav><div class="wrap">
   <a class="brand" href="index.html">Care Across the <i>Line</i></a>
   <a class="lnk" href="index.html">The story</a>
@@ -26,8 +38,8 @@
     we derived. This page says which is which, and what the numbers cannot tell you.</p>
 </header>
 
-<section>
-  <h2>The sources</h2>
+<section id="sources" aria-labelledby="h-sources">
+  <h2 id="h-sources">The sources</h2>
   <p>Five public sources, merged by county FIPS code into the team&rsquo;s processed tables (October 2026). The charts on this site use the
      first three; the CDC sources are kept in the repository for possible future views.</p>
   <div class="tblwrap"><table class="src">
@@ -54,8 +66,8 @@
      that are not in this repository, so the steps before those tables cannot be rerun from here.</p>
 </section>
 
-<section>
-  <h2>Definitions and formulas</h2>
+<section id="definitions" aria-labelledby="h-definitions">
+  <h2 id="h-definitions">Definitions and formulas</h2>
   <ul class="take">
     <li><span class="num">A</span><span><b>Average distance by policy group.</b> The mean of county road miles to the nearest open clinic,
       weighted by women aged 15&ndash;44, taken from the supplied <span class="mono">access_trend_by_tier.csv</span> (not re-averaged).
@@ -92,8 +104,8 @@
   </ul>
 </section>
 
-<section>
-  <h2>Coverage and missing data</h2>
+<section id="coverage" aria-labelledby="h-coverage">
+  <h2 id="h-coverage">Coverage and missing data</h2>
   <p>The county table has 3,143 rows, but not every measure covers every row. Blank values are kept as missing, never as zero; real zero
      OB-GYN counts are kept.</p>
   <div class="tblwrap"><table class="src">
@@ -108,8 +120,8 @@
   </table></div>
 </section>
 
-<section>
-  <h2>What these numbers do not say</h2>
+<section id="limits" aria-labelledby="h-limits">
+  <h2 id="h-limits">What these numbers do not say</h2>
   <ul class="take">
     <li><span class="num">01</span><span><b>Distance is exposure, not travel.</b> We measure how far the nearest clinic is, not where anyone actually
       goes. Telehealth, shield laws, gestational limits, appointment availability, money, time off work, and childcare all change real journeys,
@@ -129,8 +141,8 @@
   </ul>
 </section>
 
-<section>
-  <h2>Reproducing the site</h2>
+<section id="reproduce" aria-labelledby="h-reproduce">
+  <h2 id="h-reproduce">Reproducing the site</h2>
   <p>From the repository root: <span class="mono">pip install -r requirements.txt</span>, then <span class="mono">python3 scripts/build_data.py</span>
      to rebuild <span class="mono">data/derived/</span> and run all validation checks, then <span class="mono">python3 -m http.server</span> and open
      <span class="mono">http://localhost:8000</span>. The page must be served over HTTP; D3, TopoJSON, and the fonts load from public CDNs, so it also
@@ -141,5 +153,6 @@
   CS 1710 &middot; Claire Gutermuth, Chloe Qiu, Lavinia Xu &middot; <a href="index.html">Back to the story &rarr;</a>
 </footer>
 </div>
+<script src="js/section-nav.js?v=13"></script>
 </body>
 </html>

@@ -1,90 +1,74 @@
 /* Care Across the Line - shared styles
    Every data colour is a token below, redefined for dark mode, so charts never hard-code colour. */
 /* ---------------------------------------------------------------------------
-   Palette: Harvard Medical School identity colours, stepped to pass the
-   contrast and colour-vision checks. Source hues are HMS; the exact steps are
-   not, because several HMS values sit outside the usable lightness band or
-   collide under red-green colour blindness (Saffron #D16103 against Ivy
-   #52854C is only dE 5.4 for protanopia, below the dE 6 floor).
+   Palette: ochre -> copper -> khaki -> grey -> lilac -> violet -> purple. Every
+   policy group has its own colour, diverging through grey so the order still
+   reads. All seven sit on the blue-yellow axis, which survives red-green colour
+   blindness: the poles are dE2000 ~53 apart under protanopia/deuteranopia, and
+   no two groups fall below dE 9.7 under protan, deutan or tritan simulation in
+   either mode. Deliberately not red/blue, which read as party colours.
 
-   Semantics            token            HMS hue
-   greater burden       --pol-1          Saffron
-   greater access       --pol-7          Ivy
-   intermediate ranks   --pol-2..6       Slate, ordinal ramp
-   connections          --conn           Indigo
-   institutional        --accent         Crimson (chrome + one emphasised subset)
-   neutral data         --retained/--neutral/--dot  Shade, Slate
-   subtle highlight     --spot           Creme
+   Semantics            token
+   greater burden       --pol-1          ochre
+   greater access       --pol-7          violet
+   intermediate ranks   --pol-2..6       copper, khaki, grey, lilac, violet
+   connections          --conn           violet (same as the destination states)
+   brand / emphasis     --accent
    Hue never carries meaning alone: every chart pairs it with a legend, a
    direct label, position, or a data table.
    --------------------------------------------------------------------------- */
 :root{
-  --page:#f3f3f1;                                  /* Parchment */
-  --surface-1:#ffffff; --surface-2:#e9e9e5;
-  --ink:#1e1e1e;                                   /* Ink */
-  --ink-2:#5c5550; --ink-3:#736c67;                /* 6.6:1 and 4.6:1 on --page */
-  --rule:#d7d6d2;
-  --accent:#a51c30;                                /* Crimson, as published */
-  --pol-1:#db7334; --pol-1-text:#b65100;           /* Saffron: burden. -text clears 4.5:1 */
-  --pol-2:#566168; --pol-3:#69737b; --pol-4:#7b868f; --pol-5:#8f9aa3; --pol-6:#a3aeb7;
-  --pol-7:#387133; --pol-7-text:#387133;           /* Ivy: access */
-  --conn:#3d5196;                                  /* Indigo: cross-state connections */
-  --retained:#bac5c6;                              /* Shade */
-  --neutral:#c8cfcf; --dot:#6b7780;                /* Shade, Slate */
-  --spot:#f4edca;                                  /* Creme */
+  --page:#e7e9ee; --surface-1:#ffffff; --surface-2:#f1f3f7;
+  --ink:#14161c; --ink-2:#4a4f5a; --ink-3:#6f7480;
+  --rule:#d2d5dd;
+  --accent:#d6264f;
+  --pol-1:#a36400; --pol-1-text:#a36400;
+  --pol-2:#d4892a; --pol-3:#b8a477; --pol-4:#8e9399; --pol-5:#bfa9e0; --pol-6:#9670d4;
+  --pol-7:#703d9f; --pol-7-text:#703d9f;
+  --conn:#703d9f;
+  --link:#3f51b5;                                  /* links and focus ring, as on main */
+  --retained:#a9afbb; --neutral:#c9cdd5; --dot:#5b6170;
+  --spot:#ff8fa6;
   /* Bivariate 3x3: --b<distance class><supply row>. Distance 1 = <=0, 2 = >0 to <100,
-     3 = >=100 mi; supply row 1 = >2.5 per 10k, 2 = >0 to 2.5, 3 = none. Supply runs from
-     Pear/Ivy (care nearby) toward clay, distance from pale toward Saffron, and the
-     emphasised corner is Crimson. No blue: on a US county map, blue against crimson
-     reads as an election result whatever it actually encodes. Lightness drops along
-     both axes, so neither is carried by hue alone. The worst neighbouring pair is
-     dE 9.0; a bivariate ramp cannot reach the dE 15 categorical floor without ceasing
-     to be a ramp, so the matrix legend carries the counts and every county states its
-     category in the tooltip and the detail panel. */
-  --b11:#e5f2d7; --b21:#d8d49f; --b31:#d9a648;
-  --b12:#d2d0c0; --b22:#cba682; --b32:#cd6a2f;
-  --b13:#bea99d; --b23:#b27666; --b33:#a51c30;
+     3 = >=100 mi; supply row 1 = >2.5 per 10k, 2 = >0 to 2.5, 3 = none. */
+  --b11:#e6e7ea; --b21:#f3cfa6; --b31:#e39a55;
+  --b12:#b9d3e6; --b22:#cdb9a0; --b32:#b77a4a;
+  --b13:#6fa3cc; --b23:#7f8f9d; --b33:#b3123f;
   --f-display:"Fraunces",Georgia,"Times New Roman",serif;
   --f-body:"Archivo",system-ui,-apple-system,sans-serif;
   --f-mono:"DM Mono",ui-monospace,SFMono-Regular,monospace;
   --measure:85ch;
   /* sizes used by the catchment panel; values follow the DM Mono label style used elsewhere */
   --label:11px; --meta:13px; --caption:13.5px; --track:.14em;
-  --body:clamp(16px, 0.95rem + 0.12vw, 17px);
+  --body:clamp(17px, 0.9rem + 0.45vw, 20px);   /* story text: larger on wide screens, since paragraphs run full width */
 }
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
-  --page:#141619; --surface-1:#1a1d20; --surface-2:#22262a;
-  --ink:#f1f1ee; --ink-2:#bfbeb7; --ink-3:#9d9c93; --rule:#2f3337;
-  --accent:#df676b;
-  --pol-1:#d7763d; --pol-1-text:#e58a57;
-  --pol-2:#a3aeb7; --pol-3:#8f9aa3; --pol-4:#7b868f; --pol-5:#69737b; --pol-6:#566168;
-  --pol-7:#007b5e; --pol-7-text:#7ebe77;
-  --conn:#7189cf;
-  --retained:#5a6166; --neutral:#333a3e; --dot:#9aa4ab; --spot:#e7d89f;
-  --b11:#303924; --b21:#514c1a; --b31:#855600;
-  --b12:#4c493c; --b22:#7b5a39; --b32:#c05d20;
-  --b13:#6f5c51; --b23:#a56a5a; --b33:#f66b71;
+  --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
+  --ink:#edeff3; --ink-2:#b2b7c2; --ink-3:#8b909c; --rule:#2b2f38;
+  --accent:#f0587a;
+  --pol-1:#c48026; --pol-1-text:#c48026;
+  --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
+  --pol-7:#9e70cf; --pol-7-text:#9e70cf;
+  --conn:#9e70cf; --link:#6d7ce4;
+  --retained:#646a79; --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6;
 }}
 :root[data-theme="dark"]{
-  --page:#141619; --surface-1:#1a1d20; --surface-2:#22262a;
-  --ink:#f1f1ee; --ink-2:#bfbeb7; --ink-3:#9d9c93; --rule:#2f3337;
-  --accent:#df676b;
-  --pol-1:#d7763d; --pol-1-text:#e58a57;
-  --pol-2:#a3aeb7; --pol-3:#8f9aa3; --pol-4:#7b868f; --pol-5:#69737b; --pol-6:#566168;
-  --pol-7:#007b5e; --pol-7-text:#7ebe77;
-  --conn:#7189cf;
-  --retained:#5a6166; --neutral:#333a3e; --dot:#9aa4ab; --spot:#e7d89f;
-  --b11:#303924; --b21:#514c1a; --b31:#855600;
-  --b12:#4c493c; --b22:#7b5a39; --b32:#c05d20;
-  --b13:#6f5c51; --b23:#a56a5a; --b33:#f66b71;
+  --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
+  --ink:#edeff3; --ink-2:#b2b7c2; --ink-3:#8b909c; --rule:#2b2f38;
+  --accent:#f0587a;
+  --pol-1:#c48026; --pol-1-text:#c48026;
+  --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
+  --pol-7:#9e70cf; --pol-7-text:#9e70cf;
+  --conn:#9e70cf; --link:#6d7ce4;
+  --retained:#646a79; --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--page);color:var(--ink);
-  font-family:var(--f-body);font-size:var(--body);line-height:1.65;-webkit-font-smoothing:antialiased}
+  font-family:var(--f-body);font-size:17px;line-height:1.66;-webkit-font-smoothing:antialiased}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:26px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-:focus-visible{outline:3px solid var(--conn);outline-offset:2px}
+:focus-visible{outline:3px solid var(--link);outline-offset:2px}
 
 /* nav */
 nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--page) 86%,transparent);
@@ -120,15 +104,15 @@ section{padding-block:78px;border-top:1px solid var(--rule)}
 .stage{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.2em;
   text-transform:uppercase;color:var(--ink-3);margin:0 0 16px;display:flex;align-items:center;gap:11px}
 .stage::before{content:"";width:34px;height:2px;background:var(--accent);flex:none}
-h2{font-family:var(--f-body);font-size:clamp(27px,3.1vw,38px);font-weight:700;
-  letter-spacing:-.018em;line-height:1.18;margin:0 0 18px;text-wrap:wrap;max-width:none}
-h3{font-family:var(--f-body);font-size:18.5px;font-weight:600;margin:0 0 6px;letter-spacing:-.005em;
+h2{font-family:var(--f-display);font-size:clamp(30px,4.6vw,50px);font-weight:800;
+  letter-spacing:-.02em;line-height:1.06;margin:0 0 22px;text-wrap:wrap;max-width:none}
+h3{font-family:var(--f-display);font-size:22px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em;
   text-wrap:wrap;max-width:none}
 p{max-width:none;font-size:var(--body);margin:0 0 20px;color:var(--ink-2)}
 p b,p strong{color:var(--ink);font-weight:600}
-a{color:var(--conn)}
-.transition{font-family:var(--f-body);font-weight:600;font-size:clamp(18px,1.7vw,21px);line-height:1.4;
-  color:var(--ink);margin:44px 0 0;max-width:var(--measure)}
+a{color:var(--link)}
+.transition{font-family:var(--f-display);font-style:italic;font-weight:600;font-size:clamp(20px,2.4vw,25px);
+  color:var(--ink);margin:40px 0 0;max-width:var(--measure)}
 
 /* stat tiles */
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:34px 0 0}
@@ -154,7 +138,6 @@ a{color:var(--conn)}
 /* figures */
 figure{margin:38px 0 0;background:var(--surface-1);border:0;border-radius:6px;
   padding:28px 30px 30px;box-shadow:none;min-width:0}
-figure h3{letter-spacing:-.005em}
 figure svg{display:block;width:100%;height:auto;overflow:visible}
 figure svg text{font-family:var(--f-mono)}
 figure h3{max-width:none}
@@ -196,20 +179,6 @@ input[type="search"]{width:260px}
 .check.static{cursor:default}
 .check.static .sw{margin-left:4px}
 
-/* Progressive disclosure for secondary controls. The primary interaction for each
-   chart stays visible; filters and options that only matter once you are exploring
-   sit behind a subdued summary. */
-details.more{margin:0}
-details.more > summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:7px;
-  font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:var(--ink-3);
-  padding:7px 0;min-height:36px}
-details.more > summary::-webkit-details-marker{display:none}
-details.more > summary::before{content:"+";font-size:13px;line-height:1;width:14px;height:14px;
-  border:1px solid var(--rule);border-radius:2px;display:grid;place-items:center;flex:none}
-details.more[open] > summary::before{content:"\2212"}
-details.more > summary:hover{color:var(--ink)}
-details.more[open] > summary{color:var(--ink-2)}
-details.more .controls{margin-top:4px}
 
 /* reading guide above a chart; methodology in a collapsible "About the Data" below it */
 .howto{font-size:14.5px;color:var(--ink-2);margin:0 0 14px;max-width:none;line-height:1.55}
@@ -242,7 +211,7 @@ details.about .note{margin-top:10px}
 .matrix .sp{grid-column:2;grid-row:4}
 .matrix .ax{grid-column:2 / -1;grid-row:5;white-space:nowrap;text-align:center;font-size:10.5px;line-height:1.15;color:var(--ink-2);padding-top:4px}
 .details{background:var(--surface-2);border-radius:4px;padding:14px 16px;margin-top:16px;font-size:14px}
-.details h4{font-family:var(--f-body);font-size:16px;font-weight:600;margin:0 0 8px}
+.details h4{font-family:var(--f-display);font-size:18px;margin:0 0 8px}
 .details .big-n{font-family:var(--f-display);font-size:30px;font-weight:900;line-height:1.05;
   letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
 .details .cue{font-size:13px;color:var(--ink-3);margin:10px 0 0;line-height:1.5}
@@ -256,7 +225,7 @@ details.about .note{margin-top:10px}
 .catch{display:grid;grid-template-columns:minmax(0,2.9fr) minmax(0,1fr);gap:26px;align-items:start;margin:6px 0 0}
 .catch .chart{min-width:0}
 .jpanel{min-width:0;border-left:1px solid var(--rule);padding-left:20px}
-.jpanel h4{font-size:19px;font-weight:700;margin:0 0 2px;letter-spacing:-.01em}
+.jpanel h4{font-family:var(--f-display);font-size:22px;font-weight:800;margin:0 0 2px;letter-spacing:-.01em}
 .jpanel .big-n{font-family:var(--f-display);font-weight:900;font-size:34px;line-height:1.05;
   letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink)}
 .jpanel .sub{font-size:var(--caption);color:var(--ink-3);margin:2px 0 0;line-height:1.45}
@@ -332,7 +301,7 @@ table.src td:first-child{color:var(--ink);font-weight:600}
 #tip{position:fixed;pointer-events:none;opacity:0;transition:opacity .09s;z-index:60;
   background:var(--ink);color:var(--page);border-radius:3px;padding:10px 12px;font-size:13px;
   line-height:1.5;max-width:280px;box-shadow:0 8px 28px rgba(0,0,0,.22)}
-#tip .t{font-family:var(--f-body);font-weight:600;margin-bottom:5px;font-size:14px}
+#tip .t{font-family:var(--f-display);font-weight:700;margin-bottom:5px;font-size:14px}
 #tip .k{color:var(--neutral);font-family:var(--f-mono);font-size:11px}
 footer{padding-block:48px 80px;font-size:13.5px;color:var(--ink-3);border-top:1px solid var(--rule)}
 footer a{color:var(--ink-2)}

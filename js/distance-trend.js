@@ -16,7 +16,7 @@ var DOBBS=new Date(2022,5,24);
 var show={1:true,7:true,2:false,3:false,4:false,5:false,6:false};
 var range="focus", cursor=null;
 var cty=null;   // the selected county's own line, once its monthly values have arrived: {name, vals}
-var COLOR=function(r){ return "var(--pol-"+r+")"; };          // Saffron -> Slate ramp -> Ivy
+var COLOR=function(r){ return "var(--pol-"+r+")"; };          // one colour per policy group, ochre -> grey -> purple; never red/blue
 // Series colour is tuned for a 3px stroke; the -text steps are darkened so the
 // direct labels clear 4.5:1 as type. Never red/blue: those read as party colours.
 var TEXTCOLOR=function(r){ return r===1||r===7?"var(--pol-"+r+"-text)":"var(--pol-"+r+")"; };
@@ -93,7 +93,7 @@ function draw(){
   var lg=svg.append("g").attr("clip-path","url(#"+cid+")");
   lg.selectAll("path").data(vis).join("path").attr("fill","none")
     .attr("stroke",function(t){return COLOR(t.rank);})
-    .attr("stroke-width",function(t){return t.rank===1||t.rank===7?3:1.5;})
+    .attr("stroke-width",function(t){return t.rank===1||t.rank===7?3:2;})
     .attr("d",function(t){return line(t.values);});
   // direct labels at the right end
   vis.forEach(function(t){

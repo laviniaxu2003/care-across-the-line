@@ -7,8 +7,8 @@
    people leaving a state that still has clinics. The map now has one view, the overview of every
    state, and clicking a state highlights it and fills the profile panel on the right.
 
-   Colour: Saffron for states with no clinic left, Ivy for states that are the nearest option for
-   another state's residents, Indigo for the connections themselves. Deliberately not red/blue,
+   Colour: ochre for states with no clinic left, violet for states that are the nearest option for
+   another state's residents and for the connections into them. Deliberately not red/blue,
    which read as party colours on a US map.
 
    Revised Nov 2026 (2): the links are tapered ribbons rather than arrows. Width at the origin is

@@ -115,7 +115,7 @@ function scatterDots(){
     .attr("fill-opacity",function(d){ if(st.cell) return inCell(d)?.9:.08;
       return st.hl? (d.inc100_no_obgyn?.95:.1) : .35; })
     .attr("stroke",function(d){ if(st.cell) return inCell(d)?"var(--ink)":"none";
-      return st.hl&&d.inc100_no_obgyn?"var(--surface-1)":"none"; })
+      return st.hl&&d.inc100_no_obgyn?"#fff":"none"; })
     .attr("stroke-width",function(d){ return !st.cell&&st.hl&&d.inc100_no_obgyn?.6:.4; });
   scatterMarks();
 }
@@ -178,14 +178,14 @@ function matrix(){
     [1,2,3].forEach(function(dc){
       var n=plotted.filter(function(d){return inFilter(d)&&d.dist_class===dc&&d.supply_class===sc;}).length;
       var on=st.cell&&st.cell[0]===dc&&st.cell[1]===sc;
-      // only the emphasised corner is dark enough in light mode (and light enough in
-      // dark mode) to need the inverse ink; --surface-1 flips with the colour scheme
-      var inv=(dc===3&&sc===1);
+      // the bivariate cells keep their light-mode colours in dark mode too, so the
+      // label ink is fixed: white on the three darkest cells, near-black elsewhere
+      var dark=(dc===3&&sc===1)||(dc===2&&sc===1)||(dc===3&&sc===2);
       // d3 removes an attribute set to null, so coerce: a toggle button must always
       // expose aria-pressed, not drop it when off
       m.append("button").attr("type","button").attr("class","cell").attr("aria-pressed",on?"true":"false")
         .attr("aria-label","Distance change "+DIST[dc-1]+", OB-GYN supply "+SUP[sc-1]+": "+n+" counties")
-        .style("background","var(--b"+dc+(4-sc)+")").style("color",inv?"var(--surface-1)":"var(--ink)")
+        .style("background","var(--b"+dc+(4-sc)+")").style("color",dark?"#fff":"#14161c")
         .text(ns.fmt(n)).on("click",function(){ st.cell=on?null:[dc,sc]; refresh(); });
     });
   });
