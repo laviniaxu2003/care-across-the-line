@@ -64,6 +64,15 @@ check("monthly panel May 2022 / Jul 2026 equal counties.csv",
       np.allclose(j["2022-05"], j.drive_miles_may2022, equal_nan=True) and np.allclose(j["2026-07"], j.drive_miles_jul2026, equal_nan=True),
       f"{len(j)} counties compared")
 
+cm = pd.read_csv(OUT / "county_monthly.csv", dtype={"fips": str}).set_index("fips")
+check("county_monthly: one row per fips, 91 months Jan 2019–Jul 2026 (no 02063/02066; plus DC 11001, which has no county row)",
+      list(cm.columns) == months and cm.index.is_unique
+      and set(cm.index) ^ set(c.fips) == {"02063", "02066", "11001"}, f"{len(cm)} rows x {len(cm.columns)} months")
+jj = cv.set_index("fips").join(cm[["2022-05", "2026-07"]], how="inner")   # 3,141 counties in both
+check("county_monthly 2022-05 / 2026-07 equal counties_view drive_miles_may2022 / jul2026",
+      len(jj) == len(cv) - 2 and np.allclose(jj["2022-05"], jj.drive_miles_may2022, atol=0.05, equal_nan=True)
+      and np.allclose(jj["2026-07"], jj.drive_miles_jul2026, atol=0.05, equal_nan=True), f"{len(jj)} counties compared")
+
 print("— missingness (missing is never zero)")
 miss_dist = sorted(c[c.drive_miles_change.isna()].fips)
 miss_pop = sorted(c[c.women_15_44.isna()].fips)
@@ -117,6 +126,8 @@ print("— chart summaries")
 check("burden shares sum to 100% (all states)", np.isclose(bs.share_pct.sum(), 100))
 check("burden chart shares sum to 100% (top states + Other)", np.isclose(bch.share_pct.sum(), 100))
 check("'Other states' is last and flagged", bch.iloc[-1].is_other == 1 and bch.is_other.sum() == 1)
+check("women_affected x avg_added_miles = burden (every row, both tables)",
+      all(np.allclose(t.women_affected * t.avg_added_miles, t.burden, rtol=1e-6) for t in (bs, bch)))
 b = c.dropna(subset=["drive_miles_change", "women_15_44"])
 bb = (b.women_15_44 * b.drive_miles_change.clip(lower=0)).groupby(b.state_abbr).sum()
 check("TX+LA+TN share recomputed = 83.4%", round(bb[["TX", "LA", "TN"]].sum() / bb.sum() * 100, 1) == round(H["burden"]["top3_share_pct"], 1) == 83.4)

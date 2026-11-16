@@ -56,7 +56,7 @@ cpaths.on("mousemove",function(e,f){
     ns.tip(e,d?tipHtml(d,true):"<div class='t'>"+(f.properties.name||"")+"</div>No county record in the data");
     if(!st.sel) details(d,"hovered");
   }).on("mouseleave",function(){ st.hover=null; mapMarks(); scatterMarks(); ns.hideTip(); if(!st.sel) details(null); })
-  .on("click",function(e,f){ var d=rowOf(f); if(d) select(d.fips===st.sel?null:d.fips); });
+  .on("click",function(e,f){ var d=rowOf(f); if(d) ns.selectCounty(d.fips===st.sel?null:d.fips); });
 
 /* ---------------- scatter ---------------- */
 var scRoot=document.getElementById("county-scatter");
@@ -139,7 +139,15 @@ function tipHtml(d,clickable){
 }
 function details(d,tag){
   var el=document.getElementById("county-details");
-  if(!d){ el.innerHTML="<p class='counts' style='margin:0'>Select a county on the map, or search by name, to see its details here.</p>"; return; }
+  if(!d){
+    // Empty state carries the section's finding, so the panel is never dead space,
+    // and ends on the one cue a first-time visitor needs.
+    el.innerHTML="<h4>All counties</h4>"+
+      "<div class='big-n'>"+head.display.inc100_no_obgyn+"</div>"+
+      "<p class='counts' style='margin:2px 0 0'>of the "+head.display.inc100+
+      " counties that gained 100 miles or more had no OB-GYN in 2023.</p>"+
+      "<p class='cue'>Click any county, here or on the map, to see its own figures.</p>";
+    return; }
   var cat=d.dist_class&&d.supply_class?("Distance change "+DIST[d.dist_class-1]+"; OB-GYN supply "+SUP[d.supply_class-1]+" per 10k"):"Not in a map category: a plotted value is missing";
   el.innerHTML="<h4>"+d.county+", "+d.state+" <span class='flag' style='margin:0 0 0 6px;vertical-align:middle'>"+tag+"</span></h4><dl>"+
     "<dt>Road miles to nearest clinic, May 2022</dt><dd>"+v(d.drive_miles_may2022,ns.f1)+"</dd>"+
@@ -161,7 +169,8 @@ function select(fips){
 /* matrix legend with counts (updates with the filter) */
 function matrix(){
   var el=d3.select("#county-matrix").html("");
-  el.append("p").attr("class","counts").style("margin","10px 0 0").html("<b>Categories</b> (counties in the current filter; click a cell to emphasise it; other categories are dimmed while the highlight is on)");
+  el.append("p").attr("class","counts").style("margin","10px 0 0")
+    .html("<b>Categories</b> <span style='color:var(--ink-3)'>&middot; counties in view; click a cell to isolate it</span>");
   var m=el.append("div").attr("class","matrix").attr("role","group").attr("aria-label","Category legend");
   m.append("div").attr("class","ay").text("OB-GYNs per 10,000 women");
   [3,2,1].forEach(function(sc){
@@ -169,8 +178,12 @@ function matrix(){
     [1,2,3].forEach(function(dc){
       var n=plotted.filter(function(d){return inFilter(d)&&d.dist_class===dc&&d.supply_class===sc;}).length;
       var on=st.cell&&st.cell[0]===dc&&st.cell[1]===sc;
+      // the bivariate cells keep their light-mode colours in dark mode too, so the
+      // label ink is fixed: white on the three darkest cells, near-black elsewhere
       var dark=(dc===3&&sc===1)||(dc===2&&sc===1)||(dc===3&&sc===2);
-      m.append("button").attr("type","button").attr("class","cell").attr("aria-pressed",on)
+      // d3 removes an attribute set to null, so coerce: a toggle button must always
+      // expose aria-pressed, not drop it when off
+      m.append("button").attr("type","button").attr("class","cell").attr("aria-pressed",on?"true":"false")
         .attr("aria-label","Distance change "+DIST[dc-1]+", OB-GYN supply "+SUP[sc-1]+": "+n+" counties")
         .style("background","var(--b"+dc+(4-sc)+")").style("color",dark?"#fff":"#14161c")
         .text(ns.fmt(n)).on("click",function(){ st.cell=on?null:[dc,sc]; refresh(); });
@@ -184,9 +197,10 @@ function counts(){
   var f=plotted.filter(inFilter), inc=f.filter(function(d){return d.drive_miles_change>=100;}),
       inc0=inc.filter(function(d){return d.obgyn===0;});
   var lab=st.metro==="all"?"all":st.metro==="1"?"metro":"nonmetro";
-  document.getElementById("county-counts").innerHTML="<b>This view ("+lab+" counties):</b> "+ns.fmt(f.length)+" eligible counties; "+
-    ns.fmt(inc.length)+" with at least 100 more miles, of which <b>"+ns.fmt(inc0.length)+"</b> had no OB-GYN."+
-    (st.metro!=="all"?" <span style='color:var(--ink-3)'>The 8 Connecticut counties without a metro code appear only under All.</span>":"");
+  document.getElementById("county-counts").innerHTML=
+    ns.fmt(f.length)+" counties"+(st.metro==="all"?"":" ("+lab+")")+
+    " &middot; "+ns.fmt(inc.length)+" gained 100+ miles &middot; <b>"+ns.fmt(inc0.length)+"</b> of those had no OB-GYN"+
+    (st.metro!=="all"?"<br><span style='color:var(--ink-3)'>Connecticut&rsquo;s 8 counties have no metro code and appear only under All.</span>":"");
 }
 function refresh(){ mapFill(); scatterDots(); matrix(); counts(); }
 
@@ -199,11 +213,11 @@ d3.selectAll("#ctype button").on("click",function(){
 d3.select("#hl-toggle").on("change",function(){ st.hl=this.checked; refresh(); });
 var list=d3.select("#county-list");
 rows.slice().sort(function(a,b){return d3.ascending(a.label,b.label);}).forEach(function(d){ list.append("option").attr("value",d.label); });
-var byLabel={}; rows.forEach(function(d){ byLabel[d.label.toLowerCase()]=d; });
+ns.countyReady();
 function doSearch(){
   var q=this.value.trim().toLowerCase(); if(!q) return;
-  var d=byLabel[q]||rows.filter(function(r){return r.label.toLowerCase().indexOf(q)===0;})[0];
-  if(d){ select(d.fips); }
+  var d=ns.matchCounty(q);
+  if(d){ ns.selectCounty(d.fips); }
   else document.getElementById("county-details").innerHTML="<p class='counts' style='margin:0'>No county matches “"+this.value+"”. Try the form “Hinds, MS”.</p>";
 }
 d3.select("#county-search").on("change",doSearch).on("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); doSearch.call(this); } });
@@ -211,9 +225,14 @@ d3.select("#county-reset").on("click",function(){
   st={metro:"all",hl:true,sel:null,hover:null,cell:null};
   d3.selectAll("#ctype button").attr("aria-pressed",function(){return this.dataset.metro==="all";});
   document.getElementById("hl-toggle").checked=true; document.getElementById("county-search").value="";
-  select(null); refresh();
+  ns.selectCounty(null); select(null); refresh();
 });
 
 drawScatter(); refresh(); mapMarks(); details(null);
 ns.onResize(function(){ drawScatter(); scatterMarks(); });
+// the shared selection drives st.sel
+ns.onCounty(function(f){
+  select(f&&byFips[f]?f:null);
+  document.getElementById("county-search").value=f&&byFips[f]?byFips[f].label:"";
+});
 };

@@ -24,6 +24,7 @@ python3 scripts/build_data.py
 |---|---|---|---|
 | Strict parsing | `build_data.py` `read_strict` | `counties.csv`, `states.csv`, `access_trend_by_tier.csv` | text columns kept as text (FIPS stays `"01001"`); blank → missing; any non-numeric text in a numeric column stops the build |
 | A. Distance trend | `build_data.py` | `access_trend_by_tier.csv` | `trend_by_tier.csv` (7 tiers × 91 months; supplied weighted means, not re-averaged) |
+| A2. County monthly | `build_data.py` | `county_distance_monthly.csv` | `county_monthly.csv` (one row per fips, one column per month, miles to 1 decimal; fetched only when a county is chosen) |
 | B. Added burden | `build_data.py` | `counties.csv` | `burden_by_state.csv` (all states), `burden_chart.csv` (top 7 + "Other 34 states", last) |
 | C. County view | `build_data.py` | `counties.csv` | `counties_view.csv` (15 source columns + `dist_class`, `supply_class`, `inc100_no_obgyn`) |
 | C2. Rurality | `build_data.py` | `counties.csv` | `rurality_metro.csv` (ranks 1–2 vs 6–7 × metro / nonmetro, with denominators) |
@@ -32,8 +33,8 @@ python3 scripts/build_data.py
 | Geometry join | `build_data.py` | `data/geo/counties-albers-10m.json` (ids only) | unmatched ids reported in `headline.json` |
 | Validation | `validate.py` | source, derived, HTML | PASS/FAIL list; non-zero exit on any failure |
 
-The 5.8 MB monthly county panel is used only for validation; the browser loads the small
-pre-aggregated trend table instead. The outcome tables are not loaded by the browser.
+The 5.8 MB monthly county panel is never loaded by the browser. The trend chart loads the small
+pre-aggregated trend table; the compact `county_monthly.csv` is fetched only once a reader picks a county. The outcome tables are not loaded by the browser.
 
 ## Category definitions (county view)
 

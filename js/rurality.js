@@ -50,4 +50,14 @@ rows.forEach(function(d){ h+="<tr><td>"+d.county_type+"</td><td>"+d.policy_group
 document.getElementById("rural-table").innerHTML=h+"</tbody></table><p class='note'>Every county in these groups has a metro code. Connecticut&rsquo;s legacy counties, which lack one, are in policy rank 5 and so are not part of this comparison. Alaska&rsquo;s Valdez-Cordova has no OB-GYN data and is excluded.</p>";
 draw();
 ns.onResize(draw);
+
+// "your county": which row it falls in, and whether it had an OB-GYN in 2023
+var cl=document.createElement("p"); cl.className="counts"; cl.hidden=true; root.insertAdjacentElement("afterend",cl);
+ns.onCounty(function(f){
+  var d=ns.countyRow(f);
+  cl.hidden=!d; if(!d){ cl.textContent=""; return; }
+  var s=d.county+(d.metro===1?" is a metro county":d.metro===0?" is a nonmetro county":" has no metro code, so it is in neither row");
+  s+=d.obgyn==null?"; its 2023 OB-GYN data are not available.":d.obgyn>0?", and it had an OB-GYN in 2023.":", and it had no OB-GYN in 2023.";
+  cl.textContent=s;
+});
 };

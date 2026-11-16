@@ -1,52 +1,78 @@
 /* Care Across the Line - shared styles
    Every data colour is a token below, redefined for dark mode, so charts never hard-code colour. */
+/* ---------------------------------------------------------------------------
+   Palette: ochre -> salmon -> olive -> grey -> slate violet -> orchid -> purple.
+   Every policy group has its own colour, warm on the restrictive side and violet
+   on the protective side. The poles sit on the blue-yellow axis, which survives
+   red-green colour blindness (dE2000 ~53 apart under protanopia/deuteranopia), and
+   no two groups fall below dE 9.9 under protan, deutan or tritan simulation.
+   Every line, bar and legend swatch clears 3:1 against the chart surface.
+   --conn is a darker violet (lighter in dark mode) than --pol-7 so cross-state
+   bands stay visible where they land on a destination state.
+   Deliberately not red/blue, which read as party colours.
+
+   Semantics            token
+   greater burden       --pol-1          ochre
+   greater access       --pol-7          violet
+   intermediate ranks   --pol-2..6       salmon, olive, grey, slate violet, orchid
+   connections          --conn           deep violet (a shade of the destination colour)
+   brand / emphasis     --accent
+   Hue never carries meaning alone: every chart pairs it with a legend, a
+   direct label, position, or a data table.
+   --------------------------------------------------------------------------- */
 :root{
   --page:#e7e9ee; --surface-1:#ffffff; --surface-2:#f1f3f7;
   --ink:#14161c; --ink-2:#4a4f5a; --ink-3:#6f7480;
   --rule:#d2d5dd;
-  --accent:#d6264f;      /* brand; most restrictive tier; emphasised subset */
-  --protect:#2f63b8;     /* most protective tier */
-  --tier-mid:#9aa0ab;    /* neutral grey */
-  /* Policy scale, ranks 1-7. Deliberately NOT red/blue: those read as party colours in a US
-     political map. Two validated poles (ochre = most restrictive, violet = most protective)
-     with an ordinal grey ramp between them, strongest nearest each pole. */
-  --pol-1:#a36400; --pol-2:#595e64; --pol-3:#6b7177; --pol-4:#7e848a;
-  --pol-5:#91979e; --pol-6:#a5acb2; --pol-7:#703d9f;
-  --receiver:#3f51b5;    /* incoming catchment */
-  --retained:#a9afbb;    /* retained in-state catchment */
-  --outgoing:#c46a12;    /* outgoing catchment */
-  --neutral:#c9cdd5;
-  --dot:#5b6170;
-  --spot:#ff8fa6;        /* highlight on the dark message panel */
-  /* 3x3 categorical scheme: --b<distance class><supply row>; distance 1 = <=0, 2 = >0 to <100, 3 = >=100 mi;
-     supply row 1 = >2.5, 2 = >0 to 2.5, 3 = none. The emphasised cell (>=100 mi, no OB-GYN) is crimson. */
-  --b11:#e6e7ea; --b21:#f3cfa6; --b31:#e39a55;
-  --b12:#b9d3e6; --b22:#cdb9a0; --b32:#b77a4a;
+  --accent:#d6264f;
+  --pol-1:#a36400; --pol-1-text:#a36400;
+  --pol-2:#d46e56; --pol-3:#655b3a; --pol-4:#85848c; --pol-5:#635a7f; --pol-6:#9e6dbc;
+  --pol-7:#703d9f; --pol-7-text:#703d9f;
+  /* The journey explorer has its own three semantic colours, validated as a set in
+     both modes (worst pair dE 9.0 protan light, 8.7 dark; all three clear 3:1).
+     They are deliberately separate from the seven-step policy scale above. */
+  --origin:#db7334;  /* Saffron: where women live */
+  --dest:#387133;    /* Ivy: the state holding their nearest clinic */
+  --path:#3d5196;    /* Indigo: the connection between them */
+  --conn:#3f1c63;                                  /* bands: a darker violet so they stand out over destination states */
+  --link:#3f51b5;                                  /* links and focus ring, as on main */
+  --retained:#8a909c; --neutral:#8d929b; --dot:#5b6170;
+  --spot:#ff8fa6;
+  --road-line:#f6f1dc;                             /* road centre line: a pale marking, visible under every CVD simulation */
+  /* Bivariate 3x3: --b<distance class><supply row>. Distance 1 = <=0, 2 = >0 to <100,
+     3 = >=100 mi; supply row 1 = >2.5 per 10k, 2 = >0 to 2.5, 3 = none. */
+  --b11:#e6e7ea; --b21:#f9c9b6; --b31:#e39a55;
+  --b12:#aad5f2; --b22:#b6a082; --b32:#b77a4a;
   --b13:#6fa3cc; --b23:#7f8f9d; --b33:#b3123f;
-  --shadow:0 1px 2px rgba(20,22,28,.06), 0 10px 30px rgba(20,22,28,.05);
   --f-display:"Fraunces",Georgia,"Times New Roman",serif;
   --f-body:"Archivo",system-ui,-apple-system,sans-serif;
   --f-mono:"DM Mono",ui-monospace,SFMono-Regular,monospace;
-  --text:85ch;
+  --measure:85ch;
+  /* sizes used by the catchment panel; values follow the DM Mono label style used elsewhere */
+  --label:11px; --meta:13px; --caption:13.5px; --track:.14em;
   --body:clamp(17px, 0.9rem + 0.45vw, 20px);   /* story text: larger on wide screens, since paragraphs run full width */
 }
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
   --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
   --ink:#edeff3; --ink-2:#b2b7c2; --ink-3:#8b909c; --rule:#2b2f38;
-  --accent:#f0587a; --protect:#6f9be6; --tier-mid:#6b717d;
-  --pol-1:#c48026; --pol-2:#a5acb2; --pol-3:#91979e; --pol-4:#7e848a;
-  --pol-5:#6b7177; --pol-6:#595e64; --pol-7:#9e70cf;
-  --receiver:#6d7ce4; --retained:#646a79; --outgoing:#c47d1f;
-  --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6; --shadow:none;
+  --accent:#f0587a;
+  --pol-1:#c48026; --pol-1-text:#c48026;
+  --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
+  --pol-7:#9e70cf; --pol-7-text:#9e70cf;
+  --conn:#d2b8f5; --link:#6d7ce4;
+  --origin:#d7763d; --dest:#007b5e; --path:#7189cf;
+  --retained:#9aa0ab; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
 }}
 :root[data-theme="dark"]{
   --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
   --ink:#edeff3; --ink-2:#b2b7c2; --ink-3:#8b909c; --rule:#2b2f38;
-  --accent:#f0587a; --protect:#6f9be6; --tier-mid:#6b717d;
-  --pol-1:#c48026; --pol-2:#a5acb2; --pol-3:#91979e; --pol-4:#7e848a;
-  --pol-5:#6b7177; --pol-6:#595e64; --pol-7:#9e70cf;
-  --receiver:#6d7ce4; --retained:#646a79; --outgoing:#c47d1f;
-  --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6; --shadow:none;
+  --accent:#f0587a;
+  --pol-1:#c48026; --pol-1-text:#c48026;
+  --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
+  --pol-7:#9e70cf; --pol-7-text:#9e70cf;
+  --conn:#d2b8f5; --link:#6d7ce4;
+  --origin:#d7763d; --dest:#007b5e; --path:#7189cf;
+  --retained:#9aa0ab; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--page);color:var(--ink);
@@ -54,7 +80,7 @@ body{margin:0;background:var(--page);color:var(--ink);
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:26px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-:focus-visible{outline:3px solid var(--protect);outline-offset:2px}
+:focus-visible{outline:3px solid var(--link);outline-offset:2px}
 
 /* nav */
 nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--page) 86%,transparent);
@@ -80,40 +106,50 @@ h1{font-family:var(--f-display);font-size:clamp(44px,9vw,96px);font-weight:900;
   line-height:1.38;max-width:none;margin:30px 0 0;color:var(--ink-2)}
 .lede b{color:var(--ink);font-weight:900}
 .byline{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-3);margin:32px 0 0;max-width:none}
+/* Line motif. The same rule appears three times, never more: closing the hero,
+   marking each section, and flagging the section you are reading. */
+.hero::after{content:"";display:block;height:2px;margin-top:34px;
+  background:linear-gradient(90deg,var(--accent) 0 72px,var(--rule) 72px 100%)}
 
 /* sections */
-section{padding-block:64px;border-top:1px solid var(--rule)}
+section{padding-block:78px;border-top:1px solid var(--rule)}
 .stage{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.2em;
   text-transform:uppercase;color:var(--ink-3);margin:0 0 16px;display:flex;align-items:center;gap:11px}
-.stage::before{content:"";width:26px;height:3px;background:var(--accent);flex:none}
+.stage::before{content:"";width:34px;height:2px;background:var(--accent);flex:none}
 h2{font-family:var(--f-display);font-size:clamp(30px,4.6vw,50px);font-weight:800;
   letter-spacing:-.02em;line-height:1.06;margin:0 0 22px;text-wrap:wrap;max-width:none}
 h3{font-family:var(--f-display);font-size:22px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em;
   text-wrap:wrap;max-width:none}
 p{max-width:none;font-size:var(--body);margin:0 0 20px;color:var(--ink-2)}
 p b,p strong{color:var(--ink);font-weight:600}
-a{color:var(--receiver)}
+a{color:var(--link)}
 .transition{font-family:var(--f-display);font-style:italic;font-weight:600;font-size:clamp(20px,2.4vw,25px);
-  color:var(--ink);margin:40px 0 0;max-width:var(--text)}
+  color:var(--ink);margin:40px 0 0;max-width:var(--measure)}
 
-/* comparison + stat tiles */
-.compare{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 28px;margin:28px 0 32px}
-.compare .v{font-family:var(--f-display);font-weight:900;font-size:clamp(44px,7vw,76px);line-height:1;
-  letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.compare .v small{font-size:.38em;font-weight:700;letter-spacing:0;margin-left:4px}
-.compare .v.after{color:var(--accent)}
-.compare .l{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);margin-top:8px}
-.compare .arrow{font-size:36px;color:var(--ink-3);padding-bottom:22px}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:30px 0 0}
-.tile{background:var(--surface-1);border:1px solid var(--rule);border-radius:4px;padding:22px;box-shadow:var(--shadow)}
+/* stat tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:34px 0 0}
+.tile{background:var(--surface-1);border:0;border-radius:6px;padding:22px 24px;box-shadow:none}
 .tile .n{font-family:var(--f-display);font-size:clamp(34px,4.6vw,48px);font-weight:900;
   letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
 .tile .n.hl{color:var(--accent)}
 .tile .l{font-size:13.5px;color:var(--ink-2);margin-top:12px;line-height:1.5}
 
+
+/* ---- the road: an editorial companion to the trend line ---- */
+.road-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 18px;margin:2px 0 4px}
+.road-num{font-family:var(--f-display);font-weight:900;font-size:clamp(46px,7.5vw,84px);line-height:1;
+  letter-spacing:-.035em;color:var(--pol-1-text);font-variant-numeric:tabular-nums;margin:0;max-width:none}
+.road-num small{font-size:.26em;font-weight:700;letter-spacing:0;margin-left:6px;color:var(--ink-2)}
+.road-cap{font-size:13.5px;color:var(--ink-3);margin:0;max-width:none;line-height:1.5}
+.road-cap b{color:var(--ink-2)}
+.road-svg{margin:4px 0 2px}
+.road-svg svg{display:block;width:100%;height:auto;overflow:visible}
+.road-ctl{margin:6px 0 0}
+@media (max-width:620px){ .road-head{gap:2px 12px} }
+
 /* figures */
-figure{margin:30px 0 0;background:var(--surface-1);border:1px solid var(--rule);border-radius:4px;
-  padding:24px 26px 26px;box-shadow:var(--shadow);min-width:0}
+figure{margin:38px 0 0;background:var(--surface-1);border:0;border-radius:6px;
+  padding:28px 30px 30px;box-shadow:none;min-width:0}
 figure svg{display:block;width:100%;height:auto;overflow:visible}
 figure svg text{font-family:var(--f-mono)}
 figure h3{max-width:none}
@@ -130,6 +166,7 @@ figcaption,.note{font-size:13.5px;color:var(--ink-3);margin-top:16px;max-width:n
 .sw{width:13px;height:13px;border-radius:2px;display:inline-block;flex:none}
 .sw.line{height:3px;width:20px;border-radius:0}
 .sw.dot{border-radius:50%;width:10px;height:10px}
+.sw.ring{border-radius:50%;background:none;border:1.5px solid var(--ink);width:12px;height:12px}
 
 /* controls */
 .controls{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;margin:4px 0 16px}
@@ -154,6 +191,7 @@ input[type="search"]{width:260px}
 .check.static{cursor:default}
 .check.static .sw{margin-left:4px}
 
+
 /* reading guide above a chart; methodology in a collapsible "About the Data" below it */
 .howto{font-size:14.5px;color:var(--ink-2);margin:0 0 14px;max-width:none;line-height:1.55}
 .howto b:first-child{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
@@ -169,6 +207,7 @@ details.about .note{margin-top:10px}
 /* county explorer layout */
 .explorer{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:22px;align-items:start}
 .panel{min-width:0}
+
 .panel h4{font-family:var(--f-body);font-size:14px;font-weight:600;margin:0 0 4px;color:var(--ink)}
 .counts{font-size:13.5px;color:var(--ink-2);margin:0 0 6px;max-width:none}
 .counts b{color:var(--ink)}
@@ -185,22 +224,66 @@ details.about .note{margin-top:10px}
 .matrix .ax{grid-column:2 / -1;grid-row:5;white-space:nowrap;text-align:center;font-size:10.5px;line-height:1.15;color:var(--ink-2);padding-top:4px}
 .details{background:var(--surface-2);border-radius:4px;padding:14px 16px;margin-top:16px;font-size:14px}
 .details h4{font-family:var(--f-display);font-size:18px;margin:0 0 8px}
+.details .big-n{font-family:var(--f-display);font-size:30px;font-weight:900;line-height:1.05;
+  letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.details .cue{font-size:13px;color:var(--ink-3);margin:10px 0 0;line-height:1.5}
 .details dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:0}
 .details dt{color:var(--ink-3);font-size:13px}
 .details dd{margin:0;font-family:var(--f-mono);font-size:13.5px;color:var(--ink)}
 .missing{fill:url(#hatch)}
 
-/* catchment layout */
-.catch{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:22px;align-items:start}
-.profile h4{font-family:var(--f-display);font-size:24px;font-weight:800;margin:0 0 2px}
-.profile .sub{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);margin:0 0 12px}
-.profile table{width:100%;border-collapse:collapse;font-size:13.5px}
-.profile td{padding:5px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-.profile td:last-child{text-align:right;font-family:var(--f-mono);color:var(--ink)}
-.profile .bar{height:10px;display:flex;border-radius:2px;overflow:hidden;margin:10px 0 4px;background:var(--surface-2)}
-.profile ol{margin:6px 0 0;padding-left:20px;font-size:13.5px}
-.profile li{margin:2px 0}
-.profile li span{font-family:var(--f-mono);float:right}
+/* catchment: the map is the figure. The panel is a narrow, borderless column
+   beside it rather than a second card, so nothing competes with the geography. */
+.catch{display:grid;grid-template-columns:minmax(0,2.9fr) minmax(0,1fr);gap:26px;align-items:start;margin:6px 0 0}
+.catch .chart{min-width:0}
+.jpanel{min-width:0;border-left:1px solid var(--rule);padding-left:20px}
+.jpanel h4{font-family:var(--f-display);font-size:22px;font-weight:800;margin:0 0 2px;letter-spacing:-.01em}
+.jpanel .big-n{font-family:var(--f-display);font-weight:900;font-size:34px;line-height:1.05;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.jpanel .sub{font-size:var(--caption);color:var(--ink-3);margin:2px 0 0;line-height:1.45}
+.jpanel .hint{font-size:var(--caption);color:var(--ink-3);margin:14px 0 0;line-height:1.45}
+.jpanel .lead{font-family:var(--f-mono);font-size:var(--label);letter-spacing:var(--track);text-transform:uppercase;
+  color:var(--ink-3);margin:16px 0 6px}
+/* destination list: name, figure, and a bar that is the same quantity the band encodes */
+ol.dests{list-style:none;margin:0;padding:0}
+ol.dests li{margin:0 0 10px}
+ol.dests button{display:block;width:100%;text-align:left;background:none;border:0;padding:3px 0;
+  font:inherit;color:inherit;cursor:pointer;border-radius:3px}
+ol.dests button:hover .d,ol.dests button[aria-pressed="true"] .d{color:var(--ink)}
+ol.dests .r{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+ol.dests .d{font-size:14px;font-weight:600;color:var(--ink-2)}
+ol.dests .n{font-size:var(--caption);font-variant-numeric:tabular-nums;color:var(--ink-3);flex:none}
+ol.dests .bar{height:4px;border-radius:2px;background:var(--surface-2);margin-top:4px;overflow:hidden}
+ol.dests .bar i{display:block;height:100%;background:var(--conn)}
+ol.dests button[aria-pressed="true"] .bar i{background:var(--pol-7)}
+ol.dests small{display:block;font-size:12px;color:var(--ink-3);margin-top:2px}
+/* the traced journey reads inside the panel, not as another paragraph */
+.jroute{margin:0 0 12px;padding:12px 14px;background:var(--surface-2);border-radius:5px}
+.jroute .od{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
+.jroute .od .ar{color:var(--conn);margin:0 5px}
+.jroute .big-n{font-size:28px;margin-top:4px}
+.catch-foot{display:flex;flex-wrap:wrap;gap:6px 26px;align-items:baseline;margin:14px 0 0}
+.catch-foot .legend{margin:0}
+.catch-foot .note{margin:0;flex:1 1 320px;min-width:0}
+/* an inline text button, so "show all" does not become another chrome control */
+button.linkish{font:inherit;font-size:inherit;background:none;border:0;padding:0;cursor:pointer;
+  color:var(--conn);text-decoration:underline;text-underline-offset:2px}
+button.linkish:hover{color:var(--ink)}
+.jpanel details.more > summary{padding:10px 0 4px}
+.jpanel table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+.jpanel td{padding:5px 0;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink-2)}
+.jpanel td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* featured states: three verified examples, then the way back */
+.pick{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:14px 0 2px}
+.pick-hint{font-size:var(--caption);color:var(--ink-3);margin-right:2px}
+.chip{font:inherit;font-size:var(--meta);font-weight:600;background:var(--surface-2);color:var(--ink-2);
+  border:1px solid var(--rule);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:34px}
+.chip:hover{border-color:var(--ink-3);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface-1)}
+.chip.ghost{background:none}
+.chip:disabled{opacity:.45;cursor:default}
+.chip:disabled:hover{border-color:var(--rule);color:var(--ink-2)}
 
 /* pull quote / message */
 .msg{background:var(--ink);color:var(--page);border-radius:4px;padding:44px 44px;margin:8px 0 0}
@@ -231,12 +314,13 @@ table.src td:first-child{color:var(--ink);font-weight:600}
   background:var(--ink);color:var(--page);border-radius:3px;padding:10px 12px;font-size:13px;
   line-height:1.5;max-width:280px;box-shadow:0 8px 28px rgba(0,0,0,.22)}
 #tip .t{font-family:var(--f-display);font-weight:700;margin-bottom:5px;font-size:14px}
-#tip .k{color:var(--neutral);font-family:var(--f-mono);font-size:11px}
+#tip .k{color:color-mix(in srgb,var(--page) 72%,var(--ink));font-family:var(--f-mono);font-size:11px}
 footer{padding-block:48px 80px;font-size:13.5px;color:var(--ink-3);border-top:1px solid var(--rule)}
 footer a{color:var(--ink-2)}
 
 @media (max-width:900px){
   .explorer,.catch{grid-template-columns:1fr}
+  .jpanel{border-left:0;border-top:1px solid var(--rule);padding-left:0;padding-top:16px}
 }
 @media (max-width:620px){
   .wrap{padding-inline:16px}
@@ -246,7 +330,7 @@ footer a{color:var(--ink-2)}
   nav a.lnk + a.lnk{margin-left:10px}
   h3{font-size:20px}
   .msg{padding:28px 20px}
-  figure{padding:16px 14px 18px}
+  figure{padding:20px 16px 22px}
   .hero{padding-block:56px 36px}
   input[type="search"]{width:100%}
   .ctl{width:100%}
@@ -271,9 +355,9 @@ footer a{color:var(--ink-2)}
   .railnav a::before{content:counter(r,decimal-leading-zero);font-family:var(--f-mono);font-size:10.5px;
     color:var(--ink-3);flex:none}
   .railnav a:hover{background:var(--surface-1);color:var(--ink)}
-  .railnav a[aria-current="true"]{color:var(--ink);font-weight:600;border-left-color:var(--pol-1);
+  .railnav a[aria-current="true"]{color:var(--ink);font-weight:600;border-left-color:var(--accent);
     background:var(--surface-1)}
-  .railnav a[aria-current="true"]::before{color:var(--pol-1)}
+  .railnav a[aria-current="true"]::before{color:var(--accent)}
   .railnav .foot{margin-top:18px;padding-top:14px;border-top:1px solid var(--rule);
     font-size:12.5px}
   .railnav .foot a{padding-left:0;border-left:0}
