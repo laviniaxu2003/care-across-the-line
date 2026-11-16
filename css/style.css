@@ -52,7 +52,7 @@
   --f-display:"Fraunces",Georgia,"Times New Roman",serif;
   --f-body:"Archivo",system-ui,-apple-system,sans-serif;
   --f-code:ui-monospace,SFMono-Regular,Menlo,monospace;
-  --measure:66ch;                              /* prose only; charts, panels and tables are exempt */
+  --measure:85ch;                              /* only .transition is capped; all other text runs the container width */
   --body:clamp(16px, 0.95rem + 0.12vw, 17px);
   --label:12px;                                /* short identifiers: kickers, control labels, table heads */
   --meta:13px;                                 /* nav, byline, status, summaries */
@@ -113,7 +113,7 @@ nav a.lnk[aria-current="page"]{color:var(--ink);border-bottom:2px solid var(--ac
 h1{font-family:var(--f-display);font-size:clamp(44px,9vw,96px);font-weight:900;
   letter-spacing:-.025em;line-height:.98;margin:0;text-wrap:wrap;max-width:none}
 .lede{font-weight:400;font-size:clamp(20px,1.5vw,23px);line-height:1.5;
-  max-width:var(--measure);margin:28px 0 0;color:var(--ink-2)}
+  max-width:none;margin:28px 0 0;color:var(--ink-2)}
 .lede b{color:var(--ink);font-weight:600}
 .byline{font-size:var(--meta);color:var(--ink-3);margin:30px 0 0;max-width:none}
 /* Line motif. The same rule appears three times, never more: closing the hero,
@@ -127,13 +127,11 @@ section{padding-block:78px;border-top:1px solid var(--rule)}
   text-transform:uppercase;color:var(--ink-3);margin:0 0 16px;display:flex;align-items:center;gap:11px}
 .stage::before{content:"";width:34px;height:2px;background:var(--accent);flex:none}
 h2{font-size:clamp(28px,2.9vw,36px);font-weight:700;letter-spacing:-.015em;line-height:1.2;
-  margin:0 0 18px;text-wrap:wrap;max-width:24ch}
-h3{font-size:20px;font-weight:600;margin:0 0 6px;letter-spacing:-.005em;text-wrap:wrap;max-width:46ch}
-p{max-width:var(--measure);font-size:var(--body);margin:0 0 20px;color:var(--ink-2)}
-/* prose is measured; anything over a chart, panel or table is not */
-.fig-sub,.howto,.note,.summary,.counts,figcaption,.transition,ul.take li{max-width:var(--measure)}
-.chart,.explorer,.catch,.panel,.profile,.matrix,.legend,.controls,.tblwrap,
-.road-svg,.road-head,figure>svg,.tiles,.details dl{max-width:none}
+  margin:0 0 18px;text-wrap:wrap;max-width:none}
+h3{font-size:20px;font-weight:600;margin:0 0 6px;letter-spacing:-.005em;text-wrap:wrap;max-width:none}
+p{max-width:none;font-size:var(--body);margin:0 0 20px;color:var(--ink-2)}
+/* text runs the width of whatever contains it; only the transition line is capped */
+.transition{max-width:var(--measure)}
 p b,p strong{color:var(--ink);font-weight:600}
 a{color:var(--conn)}
 .transition{font-weight:600;font-size:clamp(19px,1.6vw,22px);line-height:1.45;
@@ -316,7 +314,7 @@ button.linkish:hover{color:var(--ink)}
 /* pull quote / message */
 .msg{background:var(--ink);color:var(--page);border-radius:4px;padding:44px 44px;margin:8px 0 0}
 .msg .big{font-size:clamp(25px,3.2vw,36px);font-weight:700;
-  line-height:1.25;letter-spacing:-.015em;margin:0 0 20px;max-width:28ch;color:var(--page)}
+  line-height:1.25;letter-spacing:-.015em;margin:0 0 20px;max-width:none;color:var(--page)}
 .msg .big em{font-style:normal;color:var(--spot)}
 .msg p{color:var(--page);opacity:.85;margin:0}
 
