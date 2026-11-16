@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=18">
+<link rel="stylesheet" href="css/style.css?v=19">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 </head>
@@ -84,11 +84,11 @@
           <button type="button" data-range="focus" aria-pressed="true">Mar 2022 &ndash; Mar 2023</button>
           <button type="button" data-range="full" aria-pressed="false">Jan 2019 &ndash; Jul 2026</button>
         </div></div>
-      <div class="ctl"><span class="lab">Always shown</span>
+      <div class="ctl"><span class="lab">Policy groups</span>
         <div class="tiers" id="trend-fixed"></div></div>
-      <div class="ctl"><span class="lab">Add policy groups</span>
-        <div class="tiers" id="trend-tiers"></div></div>
     </div>
+    <details class="more"><summary>Add the five middle policy groups</summary>
+      <div class="controls"><div class="ctl"><div class="tiers" id="trend-tiers"></div></div></div></details>
     <div class="status" id="st-trend" role="status"></div>
     <div id="trend" class="chart"></div>
     <p class="summary" id="trend-summary">Most Restrictive, in miles: <span data-h="r1_may2022">37.5</span> (May 2022),
@@ -154,22 +154,25 @@ laws changed.</p>
   <figure id="fig-county" aria-labelledby="t-county">
     <h3 id="t-county">Distance change against local OB-GYN supply, by county</h3>
     <p class="fig-sub">Added road miles (May 2022 &rarr; July 2026) against OB-GYNs per 10,000 women aged 15&ndash;44 (2023)</p>
-    <p class="howto"><b>How to read</b> Each county appears twice, on the map and as a dot. Hover for details, click to
-      keep one.</p>
+    <p class="howto"><b>How to read</b> Every county appears twice, on the map and as a dot.
+      <b>Click one</b> to hold its details open.</p>
     <div class="controls">
-      <div class="ctl"><span class="lab" id="lab-ctype">County type</span>
-        <div class="seg" role="group" aria-labelledby="lab-ctype" id="ctype">
-          <button type="button" data-metro="all" aria-pressed="true">All</button>
-          <button type="button" data-metro="1" aria-pressed="false">Metro</button>
-          <button type="button" data-metro="0" aria-pressed="false">Nonmetro</button>
-        </div></div>
       <div class="ctl"><label class="lab" for="county-search">Find a county</label>
         <input type="search" id="county-search" list="county-list" placeholder="e.g. Hinds, MS" autocomplete="off">
         <datalist id="county-list"></datalist></div>
-      <div class="ctl"><span class="lab">Emphasis</span>
-        <label class="check"><input type="checkbox" id="hl-toggle" checked> Highlight +100 miles and no OB-GYN</label></div>
       <div class="ctl"><span class="lab">&nbsp;</span><button type="button" class="plain" id="county-reset">Reset</button></div>
     </div>
+    <details class="more"><summary>Filter and emphasis</summary>
+      <div class="controls">
+        <div class="ctl"><span class="lab" id="lab-ctype">County type</span>
+          <div class="seg" role="group" aria-labelledby="lab-ctype" id="ctype">
+            <button type="button" data-metro="all" aria-pressed="true">All</button>
+            <button type="button" data-metro="1" aria-pressed="false">Metro</button>
+            <button type="button" data-metro="0" aria-pressed="false">Nonmetro</button>
+          </div></div>
+        <div class="ctl"><span class="lab">Emphasis</span>
+          <label class="check"><input type="checkbox" id="hl-toggle" checked> Highlight +100 miles and no OB-GYN</label></div>
+      </div></details>
     <p class="counts" id="county-counts" aria-live="polite"></p>
     <div class="status" id="st-county" role="status"></div>
     <div class="explorer">
@@ -245,8 +248,8 @@ laws changed.</p>
     <h3 id="t-catch">Which state holds the nearest clinic</h3>
     <p class="fig-sub">Arrows run from where women live to the state holding their nearest clinic, July 2026; width is
       proportional to the women aged 15&ndash;44 involved.</p>
-    <p class="howto"><b>How to read</b> Amber: no open clinic left. Green: nearest option for people living elsewhere.
-      Indigo arrows are the connections between them. <b>Click any state</b> for its figures.</p>
+    <p class="howto"><b>How to read</b> Arrows run from where women live to the state holding their nearest clinic.
+      <b>Click any state</b> for its own figures.</p>
     <div class="controls">
       <div class="ctl"><span class="lab">&nbsp;</span>
         <button type="button" class="plain" id="catch-reset" disabled>Show all states</button></div>
@@ -299,9 +302,9 @@ laws changed.</p>
 <div id="tip" role="status" aria-live="off"></div>
 
 <script src="js/data.js?v=14"></script>
-<script src="js/distance-trend.js?v=18"></script>
+<script src="js/distance-trend.js?v=19"></script>
 <script src="js/burden-bars.js?v=17"></script>
-<script src="js/county-explorer.js?v=18"></script>
+<script src="js/county-explorer.js?v=20"></script>
 <script src="js/rurality.js?v=14"></script>
 <script src="js/catchment-map.js?v=18"></script>
 <script src="js/county-find.js?v=14"></script>

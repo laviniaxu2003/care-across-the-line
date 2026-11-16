@@ -139,7 +139,15 @@ function tipHtml(d,clickable){
 }
 function details(d,tag){
   var el=document.getElementById("county-details");
-  if(!d){ el.innerHTML="<p class='counts' style='margin:0'>Select a county on the map, or search by name, to see its details here.</p>"; return; }
+  if(!d){
+    // Empty state carries the section's finding, so the panel is never dead space,
+    // and ends on the one cue a first-time visitor needs.
+    el.innerHTML="<h4>All counties</h4>"+
+      "<div class='big-n'>"+head.display.inc100_no_obgyn+"</div>"+
+      "<p class='counts' style='margin:2px 0 0'>of the "+head.display.inc100+
+      " counties that gained 100 miles or more had no OB-GYN in 2023.</p>"+
+      "<p class='cue'>Click any county, here or on the map, to see its own figures.</p>";
+    return; }
   var cat=d.dist_class&&d.supply_class?("Distance change "+DIST[d.dist_class-1]+"; OB-GYN supply "+SUP[d.supply_class-1]+" per 10k"):"Not in a map category: a plotted value is missing";
   el.innerHTML="<h4>"+d.county+", "+d.state+" <span class='flag' style='margin:0 0 0 6px;vertical-align:middle'>"+tag+"</span></h4><dl>"+
     "<dt>Road miles to nearest clinic, May 2022</dt><dd>"+v(d.drive_miles_may2022,ns.f1)+"</dd>"+
@@ -161,7 +169,8 @@ function select(fips){
 /* matrix legend with counts (updates with the filter) */
 function matrix(){
   var el=d3.select("#county-matrix").html("");
-  el.append("p").attr("class","counts").style("margin","10px 0 0").html("<b>Categories</b> (counties in the current filter; click a cell to emphasise it; other categories are dimmed while the highlight is on)");
+  el.append("p").attr("class","counts").style("margin","10px 0 0")
+    .html("<b>Categories</b> <span style='color:var(--ink-3)'>&middot; counties in view; click a cell to isolate it</span>");
   var m=el.append("div").attr("class","matrix").attr("role","group").attr("aria-label","Category legend");
   m.append("div").attr("class","ay").text("OB-GYNs per 10,000 women");
   [3,2,1].forEach(function(sc){
@@ -172,7 +181,9 @@ function matrix(){
       // only the emphasised corner is dark enough in light mode (and light enough in
       // dark mode) to need the inverse ink; --surface-1 flips with the colour scheme
       var inv=(dc===3&&sc===1);
-      m.append("button").attr("type","button").attr("class","cell").attr("aria-pressed",on)
+      // d3 removes an attribute set to null, so coerce: a toggle button must always
+      // expose aria-pressed, not drop it when off
+      m.append("button").attr("type","button").attr("class","cell").attr("aria-pressed",on?"true":"false")
         .attr("aria-label","Distance change "+DIST[dc-1]+", OB-GYN supply "+SUP[sc-1]+": "+n+" counties")
         .style("background","var(--b"+dc+(4-sc)+")").style("color",inv?"var(--surface-1)":"var(--ink)")
         .text(ns.fmt(n)).on("click",function(){ st.cell=on?null:[dc,sc]; refresh(); });
@@ -186,9 +197,10 @@ function counts(){
   var f=plotted.filter(inFilter), inc=f.filter(function(d){return d.drive_miles_change>=100;}),
       inc0=inc.filter(function(d){return d.obgyn===0;});
   var lab=st.metro==="all"?"all":st.metro==="1"?"metro":"nonmetro";
-  document.getElementById("county-counts").innerHTML="<b>This view ("+lab+" counties):</b> "+ns.fmt(f.length)+" eligible counties; "+
-    ns.fmt(inc.length)+" with at least 100 more miles, of which <b>"+ns.fmt(inc0.length)+"</b> had no OB-GYN."+
-    (st.metro!=="all"?" <span style='color:var(--ink-3)'>The 8 Connecticut counties without a metro code appear only under All.</span>":"");
+  document.getElementById("county-counts").innerHTML=
+    ns.fmt(f.length)+" counties"+(st.metro==="all"?"":" ("+lab+")")+
+    " &middot; "+ns.fmt(inc.length)+" gained 100+ miles &middot; <b>"+ns.fmt(inc0.length)+"</b> of those had no OB-GYN"+
+    (st.metro!=="all"?"<br><span style='color:var(--ink-3)'>Connecticut&rsquo;s 8 counties have no metro code and appear only under All.</span>":"");
 }
 function refresh(){ mapFill(); scatterDots(); matrix(); counts(); }
 

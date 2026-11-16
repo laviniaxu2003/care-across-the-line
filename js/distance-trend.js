@@ -44,11 +44,12 @@ d3.selectAll("#fig-trend [data-range]").on("click",function(){
 
 var readout=document.createElement("p"); readout.className="counts"; readout.setAttribute("aria-live","polite");
 function setReadout(){
-  if(!cursor){ readout.innerHTML="Hover, tap, or focus the chart and use the arrow keys to read values for any month."; return; }
+  if(!cursor){ readout.innerHTML="Hover, tap, or focus the chart and use the arrow keys to read any month."; return; }
   var ym=d3.timeFormat("%Y-%m")(cursor);
   readout.innerHTML="<b>"+ns.mo(cursor)+"</b>: "+TIERS.filter(function(t){return show[t.rank];}).map(function(t){
     return t.name+" <b>"+ns.f1(val(t.rank,ym))+"</b> mi"; }).join(" · ")+
-    (cty?" · "+cty.name+" <b>"+(cval(ym)==null?"not available":ns.f1(cval(ym))+"</b> mi"):"");
+    (cty?" · "+cty.name+" <b>"+(cval(ym)==null?"not available":ns.f1(cval(ym))+"</b> mi"):"")+
+    "<span style='color:var(--ink-3)'> · drag the chart or use the arrow keys for any month</span>";
 }
 
 function draw(){
@@ -141,6 +142,12 @@ function draw(){
     setReadout();
   }
   var inRange=months.filter(function(m){return m>=RANGES[range][0]&&m<=RANGES[range][1];});
+  // Open on the first month after the decision, so the readout shows real values
+  // straight away instead of an instruction. Escape still clears it.
+  if(!cursor&&inRange.length){
+    var after=inRange.filter(function(m){return m>=DOBBS;});
+    cursor=after.length?after[0]:inRange[inRange.length-1];
+  }
   function nearest(px){ var d=x.invert(px); return inRange.reduce(function(a,b){ return Math.abs(b-d)<Math.abs(a-d)?b:a; }); }
   svg.append("rect").attr("x",M.l).attr("y",M.t).attr("width",W-M.l-M.r).attr("height",H-M.t-M.b)
     .attr("fill","transparent")
