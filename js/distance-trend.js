@@ -130,23 +130,31 @@ function draw(){
   });
 
   // hover / tap / keyboard: a month cursor with persistent readout
-  var rule=svg.append("line").attr("y1",M.t).attr("y2",H-M.b).attr("stroke","var(--ink-3)").attr("opacity",0);
+  var rule=svg.append("line").attr("y1",M.t).attr("y2",H-M.b).attr("stroke","var(--ink-3)")
+    .attr("stroke-width",1).attr("opacity",0);
   var dots=svg.append("g");
   function place(){
     if(!cursor){ rule.attr("opacity",0); dots.selectAll("*").remove(); setReadout(); return; }
     var ym=d3.timeFormat("%Y-%m")(cursor);
-    rule.attr("x1",x(cursor)).attr("x2",x(cursor)).attr("opacity",1);
-    dots.selectAll("circle").data(vis).join("circle").attr("r",3.5).attr("cx",x(cursor))
-      .attr("cy",function(t){return y(val(t.rank,ym));}).attr("fill",function(t){return COLOR(t.rank);});
-    if(cty&&cval(ym)!=null) dots.append("circle").attr("r",3.5).attr("cx",x(cursor)).attr("cy",y(cval(ym))).attr("fill","var(--ink)");
+    rule.attr("x1",x(cursor)).attr("x2",x(cursor)).attr("opacity",.38);
+    // series colour keeps the dot tied to its line; the surface ring stops it reading
+    // as a data point of its own where lines run close together
+    dots.selectAll("circle").data(vis).join("circle").attr("r",3).attr("cx",x(cursor))
+      .attr("cy",function(t){return y(val(t.rank,ym));}).attr("fill",function(t){return COLOR(t.rank);})
+      .attr("stroke","var(--surface-1)").attr("stroke-width",1.5);
+    if(cty&&cval(ym)!=null) dots.append("circle").attr("r",3).attr("cx",x(cursor)).attr("cy",y(cval(ym)))
+      .attr("fill","var(--ink)").attr("stroke","var(--surface-1)").attr("stroke-width",1.5);
     setReadout();
   }
   var inRange=months.filter(function(m){return m>=RANGES[range][0]&&m<=RANGES[range][1];});
-  // Open on the first month after the decision, so the readout shows real values
-  // straight away instead of an instruction. Escape still clears it.
+  // Open on July 2022: the first month after the decision, one of the three months
+  // KEY already annotates on the chart and the figure the summary line quotes. Taken
+  // from KEY so the default can never drift away from an annotated moment. Escape
+  // still clears it; the fallback only matters if a range ever excludes the month.
   if(!cursor&&inRange.length){
-    var after=inRange.filter(function(m){return m>=DOBBS;});
-    cursor=after.length?after[0]:inRange[inRange.length-1];
+    var want=+ns.parseYM(KEY[1]);
+    cursor=inRange.filter(function(m){return +m===want;})[0] ||
+           inRange.filter(function(m){return m>=DOBBS;})[0] || inRange[inRange.length-1];
   }
   function nearest(px){ var d=x.invert(px); return inRange.reduce(function(a,b){ return Math.abs(b-d)<Math.abs(a-d)?b:a; }); }
   svg.append("rect").attr("x",M.l).attr("y",M.t).attr("width",W-M.l-M.r).attr("height",H-M.t-M.b)
