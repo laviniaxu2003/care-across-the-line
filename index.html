@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=19">
+<link rel="stylesheet" href="css/style.css?v=20">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 </head>
@@ -65,11 +65,17 @@
 
   <p>In the most restrictive states, the average distance to the nearest open clinic rose more than
      fivefold in the eight months after <i>Dobbs</i>. In the most protective states it barely moved.</p>
-  <div class="compare" role="group" aria-label="Average distance in the Most Restrictive states">
-    <div><div class="v"><span data-h="r1_may2022">37.5</span><small>mi</small></div><div class="l">May 2022</div></div>
-    <div class="arrow" aria-hidden="true">&rarr;</div>
-    <div><div class="v after"><span data-h="r1_jan2023">215.6</span><small>mi</small></div><div class="l">January 2023</div></div>
-  </div>
+  <figure id="fig-road" aria-labelledby="t-road">
+    <span class="flag">Schematic &middot; a distance, not a route</span>
+    <h3 id="t-road">The road that keeps getting longer</h3>
+    <p class="fig-sub">Average road miles to the nearest open clinic across counties in the Most Restrictive
+      policy group, weighted by women aged 15&ndash;44</p>
+    <div class="status" id="st-road" role="status"></div>
+    <div id="road"></div>
+    <p class="note">Length along the curve is proportional to that average. The curve itself is drawn, not
+      measured: it is not a route, a travel time, or any one person&rsquo;s journey, and no clinic locations
+      are plotted. The full monthly series for all seven policy groups is in the chart below.</p>
+  </figure>
   <p class="note">Most Protective states over the same months: <span data-h="r7_may2022">9.7</span> miles to
      <span data-h="r7_jan2023">8.9</span>.</p>
 
@@ -302,13 +308,14 @@ laws changed.</p>
 <div id="tip" role="status" aria-live="off"></div>
 
 <script src="js/data.js?v=14"></script>
+<script src="js/road.js?v=1"></script>
 <script src="js/distance-trend.js?v=20"></script>
 <script src="js/burden-bars.js?v=17"></script>
 <script src="js/county-explorer.js?v=20"></script>
 <script src="js/rurality.js?v=14"></script>
 <script src="js/catchment-map.js?v=18"></script>
 <script src="js/county-find.js?v=14"></script>
-<script src="js/main.js?v=14"></script>
+<script src="js/main.js?v=21"></script>
 <script src="js/section-nav.js?v=13"></script>
 </body>
 </html>

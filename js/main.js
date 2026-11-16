@@ -18,6 +18,8 @@ ns.get("head").then(function(h){
   });
 }).catch(function(e){ console.error(e); ns.dataProblem(); });
 
+if(document.querySelector("#road"))
+  ns.run("#st-road",["trend"],function(t){ ns.road(t,"#road"); });
 if(document.querySelector("#trend"))
   ns.run("#st-trend",["trend"],function(t){ ns.distanceTrend(t,"#trend"); });
 if(document.querySelector("#burden"))
