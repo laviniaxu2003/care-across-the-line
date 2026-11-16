@@ -72,19 +72,19 @@ function drawScatter(){
   svg.append("desc").attr("id","csc-d").text(head.overlap.scatter_eligible+" counties. Counties with an increase of at least 100 miles and no OB-GYN are highlighted: "+head.overlap.inc100_no_obgyn+" of them.");
   svg.append("g").attr("transform","translate(0,"+(SH-SM.b)+")")
     .call(d3.axisBottom(x).tickValues(narrow?[-200,0,200,400,600,800]:[-200,-100,0,100,200,300,400,500,600,700,800]).tickSizeOuter(0))
-    .call(function(a){ a.selectAll("text").attr("font-size",12).attr("fill","var(--ink-2)"); a.selectAll("line,path").attr("stroke","var(--rule)"); });
+    .call(function(a){ a.selectAll("text").attr("font-size",11).attr("fill","var(--ink-2)"); a.selectAll("line,path").attr("stroke","var(--rule)"); });
   svg.append("g").attr("transform","translate("+SM.l+",0)")
     .call(d3.axisLeft(y).tickValues([0,1,2.5,5,10,20,40,80]).tickFormat(d3.format("~g")).tickSize(-(SW-SM.l-SM.r)))
     .call(function(a){ a.select(".domain").remove(); a.selectAll("line").attr("stroke","var(--rule)").attr("stroke-opacity",.6);
-      a.selectAll("text").attr("font-size",12).attr("fill","var(--ink-2)"); });
-  svg.append("text").attr("x",(SM.l+SW-SM.r)/2).attr("y",SH-12).attr("text-anchor","middle").attr("font-size",12)
+      a.selectAll("text").attr("font-size",11).attr("fill","var(--ink-2)"); });
+  svg.append("text").attr("x",(SM.l+SW-SM.r)/2).attr("y",SH-12).attr("text-anchor","middle").attr("font-size",11.5)
     .attr("fill","var(--ink-2)").text(narrow?"change in miles, May 2022 → Jul 2026":"change in road miles to nearest clinic, May 2022 → Jul 2026");
-  svg.append("text").attr("x",4).attr("y",12).attr("font-size",12).attr("fill","var(--ink-2)")
+  svg.append("text").attr("x",4).attr("y",12).attr("font-size",11).attr("fill","var(--ink-2)")
     .text(narrow?"OB-GYNs per 10k women, 2023 (sqrt scale)":"OB-GYNs per 10k women 15–44, 2023 (square-root scale)");
   [[0,"no change","end",-4],[100,"+100 mi","start",4]].forEach(function(r){
     svg.append("line").attr("x1",x(r[0])).attr("x2",x(r[0])).attr("y1",SM.t-6).attr("y2",SH-SM.b)
       .attr("stroke","var(--ink-3)").attr("stroke-dasharray","4 3");
-    svg.append("text").attr("x",x(r[0])+r[3]).attr("y",SM.t-8).attr("text-anchor",r[2]).attr("font-size",12).attr("fill","var(--ink-3)").text(r[1]);
+    svg.append("text").attr("x",x(r[0])+r[3]).attr("y",SM.t-8).attr("text-anchor",r[2]).attr("font-size",10.5).attr("fill","var(--ink-3)").text(r[1]);
   });
   svg.append("line").attr("x1",SM.l).attr("x2",SW-SM.r).attr("y1",y(2.5)).attr("y2",y(2.5))
     .attr("stroke","var(--ink-3)").attr("stroke-dasharray","2 3").attr("stroke-opacity",.7);

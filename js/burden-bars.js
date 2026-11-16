@@ -46,11 +46,11 @@ function drawArea(W){
   svg.append("g").attr("transform","translate("+M.l+",0)")
     .call(d3.axisLeft(y).ticks(5).tickSize(-(W-M.r-M.l)))
     .call(function(a){ a.select(".domain").remove(); a.selectAll("line").attr("stroke","var(--rule)");
-      a.selectAll("text").attr("font-size",12).attr("fill","var(--ink-2)"); });
+      a.selectAll("text").attr("font-size",11.5).attr("fill","var(--ink-2)"); });
   svg.append("g").attr("transform","translate(0,"+(H-M.b)+")")
     .call(d3.axisBottom(x).tickValues(d3.range(0,totalW,5e6)).tickFormat(function(v){return v/1e6;}))
     .call(function(a){ a.select(".domain").attr("stroke","var(--ink-3)");
-      a.selectAll("text").attr("font-size",12).attr("fill","var(--ink-2)"); });
+      a.selectAll("text").attr("font-size",11.5).attr("fill","var(--ink-2)"); });
   svg.append("text").attr("x",(M.l+W-M.r)/2).attr("y",H-8).attr("text-anchor","middle").attr("font-size",12).attr("fill","var(--ink-2)")
     .text("Women aged 15\u201344 in counties where the nearest clinic got farther (millions)");
   svg.append("text").attr("transform","rotate(-90)").attr("x",-(M.t+H-M.b)/2).attr("y",14).attr("text-anchor","middle")
@@ -89,7 +89,7 @@ function drawArea(W){
       .attr("stroke","var(--ink-3)").attr("stroke-width",0.8);
     var t=svg.append("text").attr("x",cx).attr("text-anchor","middle").attr("fill",d.highlight?"var(--ink)":"var(--ink-2)");
     t.append("tspan").attr("x",cx).attr("y",box.yb-14).attr("font-size",12).attr("font-weight",600).text(ab);
-    t.append("tspan").attr("x",cx).attr("y",box.yb-1).attr("font-size",12).text(ps);
+    t.append("tspan").attr("x",cx).attr("y",box.yb-1).attr("font-size",11.5).text(ps);
   });
   // shared annotation for the highlighted states (contiguous at the left)
   var hg=geo.filter(function(r){return r.d.highlight;});
@@ -114,7 +114,7 @@ function drawBars(W){
   svg.append("g").attr("transform","translate(0,"+(H-M.b)+")")
     .call(d3.axisBottom(x).ticks(narrow?4:5).tickFormat(function(v){return v+"%";}).tickSize(-(H-M.b-M.t)))
     .call(function(a){ a.select(".domain").remove(); a.selectAll("line").attr("stroke","var(--rule)");
-      a.selectAll("text").attr("font-size",12).attr("fill","var(--ink-2)"); });
+      a.selectAll("text").attr("font-size",11.5).attr("fill","var(--ink-2)"); });
   var g=svg.append("g").selectAll("g").data(rows).join("g")
     .attr("transform",function(d,i){return "translate(0,"+(M.t+i*rowH)+")";})
     .on("mousemove",function(e,d){
@@ -125,7 +125,7 @@ function drawBars(W){
     .attr("width",function(d){return Math.max(1,x(d.share_pct)-x(0));})
     .attr("fill",function(d){return d.highlight?"var(--accent)":d.is_other?"var(--surface-2)":"var(--retained)";})
     .call(outline);
-  g.append("text").attr("x",M.l-10).attr("y",rowH/2+4).attr("text-anchor","end").attr("font-size",13)
+  g.append("text").attr("x",M.l-10).attr("y",rowH/2+4).attr("text-anchor","end").attr("font-size",12.5)
     .attr("fill",function(d){return d.highlight?"var(--ink)":"var(--ink-2)";})
     .attr("font-style",function(d){return d.is_other?"italic":null;})
     .text(function(d){return d.label;});
@@ -138,7 +138,7 @@ function drawBars(W){
     svg.append("path").attr("d","M"+bx+","+y0+"h8V"+y1+"h-8").attr("fill","none").attr("stroke","var(--accent)").attr("stroke-width",1.5);
     svg.append("text").attr("x",bx+16).attr("y",(y0+y1)/2-4).attr("font-size",13).attr("font-weight",600).attr("fill","var(--accent)")
       .text(pct(top3)+" combined");
-    svg.append("text").attr("x",bx+16).attr("y",(y0+y1)/2+13).attr("font-size",12).attr("fill","var(--ink-2)")
+    svg.append("text").attr("x",bx+16).attr("y",(y0+y1)/2+13).attr("font-size",11.5).attr("fill","var(--ink-2)")
       .text("TX + LA + TN");
   } else if(hi.length){
     d3.select(root).append("p").attr("class","counts").html("<b style='color:var(--accent)'>Texas + Louisiana + Tennessee: "+pct(top3)+" combined</b>");
