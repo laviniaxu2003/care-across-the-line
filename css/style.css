@@ -28,6 +28,12 @@
   --pol-1:#a36400; --pol-1-text:#a36400;
   --pol-2:#d46e56; --pol-3:#655b3a; --pol-4:#85848c; --pol-5:#635a7f; --pol-6:#9e6dbc;
   --pol-7:#703d9f; --pol-7-text:#703d9f;
+  /* The journey explorer has its own three semantic colours, validated as a set in
+     both modes (worst pair dE 9.0 protan light, 8.7 dark; all three clear 3:1).
+     They are deliberately separate from the seven-step policy scale above. */
+  --origin:#db7334;  /* Saffron: where women live */
+  --dest:#387133;    /* Ivy: the state holding their nearest clinic */
+  --path:#3d5196;    /* Indigo: the connection between them */
   --conn:#3f1c63;                                  /* bands: a darker violet so they stand out over destination states */
   --link:#3f51b5;                                  /* links and focus ring, as on main */
   --retained:#8a909c; --neutral:#8d929b; --dot:#5b6170;
@@ -54,6 +60,7 @@
   --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
   --pol-7:#9e70cf; --pol-7-text:#9e70cf;
   --conn:#d2b8f5; --link:#6d7ce4;
+  --origin:#d7763d; --dest:#007b5e; --path:#7189cf;
   --retained:#9aa0ab; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
 }}
 :root[data-theme="dark"]{
@@ -64,6 +71,7 @@
   --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
   --pol-7:#9e70cf; --pol-7-text:#9e70cf;
   --conn:#d2b8f5; --link:#6d7ce4;
+  --origin:#d7763d; --dest:#007b5e; --path:#7189cf;
   --retained:#9aa0ab; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
 }
 *{box-sizing:border-box}

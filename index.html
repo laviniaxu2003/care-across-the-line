@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=29">
+<link rel="stylesheet" href="css/style.css?v=30">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 </head>
@@ -268,12 +268,15 @@ laws changed.</p>
     </div>
 
     <details class="data about"><summary>About the data</summary>
-      <p class="note"><b>What a band means.</b> Each county is assigned to the state holding its nearest open clinic by
-        road distance (Myers database, July 2026); those assignments are added up by home state and clinic state. A band
-        is widest at the home state, in proportion to the women aged 15&ndash;44 involved, and narrows to a point at the
-        clinic state. The curves are schematic lines between state centres: not driving routes, not actual trips,
-        appointments or patients, and no individual clinic has been identified. The traced journey follows the same
-        schematic curve.</p>
+      <p class="note"><b>What an arrow means.</b> Each county is assigned to the state holding its nearest open clinic by
+        road distance (Myers database, July 2026); those assignments are added up by home state and clinic state. An
+        arrow runs from the home state to the clinic state and points at the clinic state; its stroke width is
+        proportional to the women aged 15&ndash;44 involved. States are shaded by the role they play in the connections
+        currently drawn: <b>origin</b> where the women live, <b>destination</b> where their nearest clinic is. The curves
+        are schematic lines between state centres: not driving routes, not actual trips, appointments or patients, and no
+        individual clinic has been identified. The traced journey follows the same schematic curve.</p>
+      <p class="note"><b>Catchment per clinic</b> is no longer drawn as circles on the map, where it competed with the
+        arrows. Each state&rsquo;s figure is in its own detail panel, under &ldquo;All figures for&rdquo;.</p>
       <p class="note"><b>The overview shows the six largest connections</b> of <span data-h="cross_links">100</span>,
         ranked by women aged 15&ndash;44. Selecting a state draws every one of its connections, including the smallest,
         and <b>Show all connections</b> draws the full set. Nothing is discarded.</p>
@@ -317,7 +320,7 @@ laws changed.</p>
 <script src="js/burden-bars.js?v=24"></script>
 <script src="js/county-explorer.js?v=24"></script>
 <script src="js/rurality.js?v=24"></script>
-<script src="js/catchment-map.js?v=26"></script>
+<script src="js/catchment-map.js?v=28"></script>
 <script src="js/county-find.js?v=14"></script>
 <script src="js/main.js?v=21"></script>
 <script src="js/section-nav.js?v=13"></script>

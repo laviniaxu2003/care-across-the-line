@@ -103,16 +103,24 @@ function touches(d){ return selected && (d.origin_abbr===selected || d.dest_abbr
 function linksOf(a){ return cross.filter(function(d){return d.origin_abbr===a;})
   .sort(function(x,y){return y.women_15_44-x.women_15_44;}); }
 
-function ribbon(d){
+/* A line from origin to destination with an arrowhead at the destination end,
+   sized off the stroke but never below a legible minimum and always rotated to
+   the path tangent. The taper it replaces encoded direction only by shape, which
+   read the wrong way round for some people. Width stays linear in women 15-44. */
+function flow(d){
   var a=cen[d.origin_abbr], b=cen[d.dest_abbr], w=wpx(d.women_15_44);
-  var dx=b[0]-a[0], dy=b[1]-a[1], len=Math.hypot(dx,dy)||1;
-  var nx=-dy/len, ny=dx/len, h=w/2;
-  var c=[(a[0]+b[0])/2-dy*0.17, (a[1]+b[1])/2+dx*0.17];
+  var c=[(a[0]+b[0])/2-(b[1]-a[1])*0.17, (a[1]+b[1])/2+(b[0]-a[0])*0.17];
+  var tx=b[0]-c[0], ty=b[1]-c[1], tl=Math.hypot(tx,ty)||1; tx/=tl; ty/=tl;
+  var hd=Math.max(12,w*2.0), half=Math.max(6.5,w*1.1), gap=9;
+  var tip=[b[0]-tx*gap, b[1]-ty*gap];
+  var base=[tip[0]-tx*hd, tip[1]-ty*hd];
   return {
-    area:"M"+(a[0]+nx*h)+","+(a[1]+ny*h)+
-         "Q"+(c[0]+nx*h*0.55)+","+(c[1]+ny*h*0.55)+" "+b[0]+","+b[1]+
-         "Q"+(c[0]-nx*h*0.55)+","+(c[1]-ny*h*0.55)+" "+(a[0]-nx*h)+","+(a[1]-ny*h)+"Z",
+    line:"M"+a[0]+","+a[1]+"Q"+c[0]+","+c[1]+" "+base[0]+","+base[1],
+    head:"M"+tip[0]+","+tip[1]+
+         "L"+(base[0]-ty*half)+","+(base[1]+tx*half)+
+         "L"+(base[0]+ty*half)+","+(base[1]-tx*half)+"Z",
     mid:"M"+a[0]+","+a[1]+"Q"+c[0]+","+c[1]+" "+b[0]+","+b[1],
+    lab:[tip[0]+tx*13, tip[1]+ty*13],
     w:w };
 }
 function shownLinks(){
@@ -126,7 +134,9 @@ function shownLinks(){
   if(journey) add(journey);
   return out.filter(function(d){ return cen[d.origin_abbr]&&cen[d.dest_abbr]; })
             .sort(function(a,b){ return b.women_15_44-a.women_15_44; })
-            .map(function(d){ return Object.assign({},d,ribbon(d)); });
+            .map(function(d){ return Object.assign({},d,flow(d)); })
+            // two arrows can land on the same state; label it once, on the largest
+            .map(function(d,i,arr){ d.showLab=!arr.slice(0,i).some(function(p){return p.dest_abbr===d.dest_abbr;}); return d; });
 }
 function bandOpacity(d){
   if(journey) return isJourney(d)?0.92:0.05;
@@ -139,14 +149,25 @@ function drawLinks(){
   var sel=linkG.selectAll("g.lk").data(data,function(d){return d.origin_abbr+">"+d.dest_abbr;});
   sel.exit().transition().duration(FADE).style("opacity",0).remove();
   var en=sel.enter().append("g").attr("class","lk").style("opacity",0);
-  en.append("path").attr("class","ln");
+  en.append("path").attr("class","ln").attr("fill","none").attr("stroke-linecap","round");
+  en.append("path").attr("class","hd");
+  en.append("text").attr("class","dl");
   var all=en.merge(sel);
-  all.select(".ln").attr("d",function(d){return d.area;}).attr("fill","var(--conn)")
-    .attr("stroke","var(--ink)")
-    .attr("stroke-width",function(d){return hot(d)||isJourney(d)?1.4:0;})
-    .attr("stroke-opacity",function(d){return hot(d)||isJourney(d)?0.8:0;});
-  all.transition().duration(FADE).style("opacity",1)
-    .select(".ln").attr("fill-opacity",bandOpacity);
+  all.select(".ln").attr("d",function(d){return d.line;})
+    .attr("stroke","var(--path)").attr("stroke-width",function(d){return d.w;});
+  all.select(".hd").attr("d",function(d){return d.head;}).attr("fill","var(--path)");
+  // the destination abbreviation sits past the arrowhead, so direction is readable
+  // without consulting the legend
+  all.select(".dl").attr("x",function(d){return d.lab[0];}).attr("y",function(d){return d.lab[1]+4;})
+    .attr("text-anchor","middle").attr("font-size",12).attr("font-weight",600)
+    .attr("fill","var(--ink)").attr("paint-order","stroke")
+    .attr("stroke","var(--surface-1)").attr("stroke-width",3.5)
+    .attr("pointer-events","none").text(function(d){return d.showLab?d.dest_abbr:"";});
+  all.transition().duration(FADE).style("opacity",1);
+  all.select(".ln").transition().duration(FADE).attr("stroke-opacity",bandOpacity);
+  all.select(".hd").transition().duration(FADE).attr("fill-opacity",bandOpacity);
+  all.select(".dl").transition().duration(FADE).attr("opacity",function(d){
+    return d.showLab&&bandOpacity(d)>0.3?1:0; });
   all.on("mousemove",function(e,d){
       ns.tip(e,"<div class='t'>"+d.origin_state+" → "+d.dest_state+"</div>"+ns.fmt(d.women_15_44)+
         " women aged 15–44 in "+d.counties+" "+(d.counties===1?"county":"counties")+
@@ -163,56 +184,44 @@ function role(r){
   if(r.incoming_women>0)    return "serves";
   return "other";
 }
-var ROLE={none:"var(--pol-1)", serves:"var(--pol-7)", other:"var(--neutral)"};
-function fillFor(f){
-  var r=byName[f.properties.name], k=role(r);
-  // quieter than before: the overview is a backdrop, not a choropleth to read closely.
-  // --neutral is a darker grey (3:1 as a swatch), so "other" uses a lower opacity for the same tint.
-  var base=k==="other"?0.14:(k==="none"?0.20:0.22);
-  if(journey){
-    if(r.abbr===journey.origin_abbr) return ["var(--pol-1)",0.55];
-    if(r.abbr===journey.dest_abbr)   return ["var(--pol-7)",0.60];
-    return [ROLE[k],base*0.5];
+/* Every state on the map is one of three things, and the legend says exactly this:
+   an origin (Saffron, women live here), a destination (Ivy, their nearest clinic is
+   here), or neither. Roles are taken from the connections currently drawn, so the
+   colours can never disagree with the arrows. */
+function roleOf(abbr,drawn){
+  if(journey) return abbr===journey.origin_abbr?"origin":(abbr===journey.dest_abbr?"dest":"none");
+  if(selected){
+    if(abbr===selected) return "origin";
+    if(cross.some(function(x){return x.origin_abbr===selected&&x.dest_abbr===abbr;})) return "dest";
+    return "none";
   }
-  if(!selected) return [ROLE[k],base];
-  if(r.abbr===selected) return ["var(--pol-1)",0.52];
-  var dest=cross.some(function(x){ return x.origin_abbr===selected&&x.dest_abbr===r.abbr; });
-  if(dest) return ["var(--pol-7)",0.46];
-  var src=cross.some(function(x){ return x.dest_abbr===selected&&x.origin_abbr===r.abbr; });
-  return [ROLE[k], src?base+0.08:base*0.42];
+  for(var i=0;i<drawn.length;i++){
+    if(drawn[i].origin_abbr===abbr) return "origin";
+    if(drawn[i].dest_abbr===abbr) return "dest";
+  }
+  return "none";
+}
+var ROLEC={origin:"var(--origin)", dest:"var(--dest)", none:"var(--neutral)"};
+function fillFor(f,drawn){
+  var r=byName[f.properties.name], k=roleOf(r.abbr,drawn);
+  var op=k==="origin"?(selected||journey?0.58:0.42):
+         k==="dest"  ?(selected||journey?0.52:0.38):0.12;
+  return [ROLEC[k],op];
 }
 
 function render(){
+  var drawn=shownLinks();
   shapes.transition().duration(FADE)
-    .attr("fill",function(f){return fillFor(f)[0];})
-    .attr("fill-opacity",function(f){return fillFor(f)[1];});
+    .attr("fill",function(f){return fillFor(f,drawn)[0];})
+    .attr("fill-opacity",function(f){return fillFor(f,drawn)[1];});
   shapes.attr("stroke",function(f){ return byName[f.properties.name].abbr===selected?"var(--ink)":"var(--surface-1)"; })
     .attr("stroke-width",function(f){ return byName[f.properties.name].abbr===selected?1.8:1; });
   shapes.filter(function(f){return byName[f.properties.name].abbr===selected;}).raise();
   circG.selectAll("*").remove(); labG.selectAll("*").remove();
-  var drawn=drawLinks();
-
-  // Receiving-state circles: the per-clinic quantity, shown for the destinations of the
-  // bands currently drawn. Tying the two layers together stops the overview labelling a
-  // state whose connection is not on screen; every state's figure stays in its profile.
-  var dests={}; drawn.forEach(function(d){ dests[d.dest_abbr]=1; });
-  var recv=D.recv.filter(function(d){return d.incoming_women>0&&d.clinics_jul2026>0&&cen[d.abbr]&&dests[d.abbr];});
-  var rS=d3.scaleSqrt().domain([0,d3.max(recv,function(d){return d.assigned_per_clinic;})]).range([0,24]);
-  circG.selectAll("circle").data(recv).join("circle")
-    .attr("cx",function(d){return cen[d.abbr][0];}).attr("cy",function(d){return cen[d.abbr][1];})
-    .attr("r",function(d){return rS(d.assigned_per_clinic);})
-    .attr("fill","none").attr("stroke","var(--ink)").attr("stroke-width",1)
-    .attr("stroke-opacity",function(d){ return (!selected&&!journey)?0.45:
-      (d.abbr===selected||(journey&&d.abbr===journey.dest_abbr)?0.9:0.12); })
-    .attr("pointer-events","none");
-  var top=recv.slice().sort(function(a,b){return b.assigned_per_clinic-a.assigned_per_clinic;}).slice(0,3);
-  if(!recv.length) rS=d3.scaleSqrt().domain([0,1]).range([0,24]);
-  labG.selectAll("text").data(top).join("text")
-    .attr("x",function(d){return cen[d.abbr][0];}).attr("y",function(d){return cen[d.abbr][1]-rS(d.assigned_per_clinic)-7;})
-    .attr("text-anchor","middle").attr("font-size",13).attr("font-weight",600).attr("fill","var(--ink)")
-    .attr("paint-order","stroke").attr("stroke","var(--surface-1)").attr("stroke-width",3.5).attr("pointer-events","none")
-    .attr("opacity",function(d){ return (!selected&&!journey)||d.abbr===selected?1:0.25; })
-    .text(function(d){return d.abbr+" "+ns.M(d.assigned_per_clinic)+"/clinic";});
+  drawLinks();
+  // The per-clinic circles and their floating labels are gone from the main view:
+  // they competed with the arrows and were hard to read over the fills. The same
+  // figure is still one line down in each state's detail disclosure.
 
   note();
   chips();
@@ -248,6 +257,7 @@ function stopJourney(clear){
   if(clear!==false) { journey=null; played=false; }
 }
 function car(g){
+  g=g.append("g").attr("transform","scale(1.35)");   // a touch larger: this is the centrepiece
   // a side-on silhouette, about 22 units long: cabin, bonnet, two wheels
   g.append("path").attr("d","M-10.5,2.4L-10.5,0.3C-10.5,-0.8 -9.9,-1.3 -8.8,-1.55L-5.4,-2.2"+
       "C-4,-4 -2.3,-4.9 -0.2,-5L2.6,-5C4.6,-4.9 6.2,-4.1 7.4,-2.5L9.6,-1.7"+
@@ -273,15 +283,16 @@ function play(d){
   var end=cen[d.dest_abbr];
   // the connection draws itself as the car travels
   var trail=carG.append("path").attr("d",d.mid).attr("fill","none")
-    .attr("stroke","var(--conn)").attr("stroke-width",2.5).attr("stroke-linecap","round");
-  var g=carG.append("g"); car(g);
+    .attr("stroke","var(--path)").attr("stroke-width",3).attr("stroke-linecap","round");
+  var g=carG.append("g").attr("transform","scale(1)"); car(g);
+  g.attr("data-car","1");
   function arrive(){
     carG.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",8)
-      .attr("fill","none").attr("stroke","var(--pol-7)").attr("stroke-width",2.5)
+      .attr("fill","none").attr("stroke","var(--dest)").attr("stroke-width",2.5)
       .call(function(c){ if(reduce) return c.attr("r",17).attr("stroke-opacity",.5);
         c.transition().duration(700).ease(d3.easeCubicOut).attr("r",24).attr("stroke-opacity",0).remove(); });
     carG.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",5.5)
-      .attr("fill","var(--pol-7)").attr("stroke","var(--surface-1)").attr("stroke-width",2);
+      .attr("fill","var(--dest)").attr("stroke","var(--surface-1)").attr("stroke-width",2);
     profile();
   }
   if(!ok||reduce){
@@ -384,19 +395,22 @@ shapes.on("click",function(e,f){ select(byName[f.properties.name].abbr); })
   }).on("mouseleave",ns.hideTip);
 dcG.on("click",function(){ select("DC"); });
 
-/* legend: roles, then the band scale */
+/* legend: the three roles, then the quantitative scale. Nothing here that the
+   map does not draw, and nothing the map draws that is not here. */
 var lg=d3.select("#catch-legend").html("");
-lg.append("span").html("<i class='sw' style='background:var(--pol-1)'></i>Origin / no clinic left");
-lg.append("span").html("<i class='sw' style='background:var(--pol-7)'></i>Destination");
-lg.append("span").html("<i class='sw ring'></i>Circle area = catchment per clinic");
-var ls=lg.append("span").append("svg").attr("width",236).attr("height",24)
-  .attr("aria-label","Band width legend: width at the wide end is proportional to women aged 15 to 44");
+lg.append("span").html("<i class='sw' style='background:var(--origin)'></i>Origin &middot; women live here");
+lg.append("span").html("<i class='sw' style='background:var(--dest)'></i>Destination &middot; nearest clinic is here");
+var ls=lg.append("span").append("svg").attr("width",250).attr("height",26)
+  .attr("aria-label","Arrow width legend: stroke width is proportional to women aged 15 to 44");
 [[500000,"0.5M"],[2000000,"2M"],[4500000,"4.5M women"]].forEach(function(v,i){
-  var x0=i*66, h=wpx(v[0])/2;
-  ls.append("path").attr("d","M"+x0+","+(12-h)+"L"+(x0+22)+",12L"+x0+","+(12+h)+"Z")
-    .attr("fill","var(--conn)").attr("fill-opacity",.65);
-  ls.append("text").attr("x",x0+26).attr("y",16).attr("font-size",12).attr("fill","var(--ink-2)").text(v[1]);
+  var x0=i*70, w=wpx(v[0]);
+  ls.append("line").attr("x1",x0).attr("x2",x0+16).attr("y1",13).attr("y2",13)
+    .attr("stroke","var(--path)").attr("stroke-width",w).attr("stroke-linecap","round");
+  ls.append("path").attr("d","M"+(x0+24)+",13L"+(x0+14)+","+(13-Math.max(5,w*1.1))+"L"+(x0+14)+","+(13+Math.max(5,w*1.1))+"Z")
+    .attr("fill","var(--path)");
+  ls.append("text").attr("x",x0+28).attr("y",17).attr("font-size",12).attr("fill","var(--ink-2)").text(v[1]);
 });
+lg.append("span").text("arrow points to the clinic state; width \u221d women aged 15\u201344");
 
 render();
 };
