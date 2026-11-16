@@ -31,12 +31,15 @@ public CDNs, so the site also needs an internet connection. It is static and Git
 index.html              the story (sections A–E)
 methods.html            sources, formulas, coverage, limitations
 css/style.css           shared styles (light + dark tokens)
-js/data.js              explicit CSV parsing, loaders, loading/failure states, tooltip, event bus
-js/distance-trend.js    A  distance to nearest clinic by policy group, 2019–2026
+js/data.js              explicit CSV parsing, loaders, loading/failure states, tooltip, event bus,
+                        and the shared county selection (ns.selectCounty / ns.onCounty)
+js/county-find.js       "Find your county": the one search box that drives every chart
+js/road.js              A1 schematic growing road, an editorial companion to the trend line
+js/distance-trend.js    A2 distance to nearest clinic by policy group, 2019–2026
 js/burden-bars.js       B  state shares of added population-weighted distance
 js/county-explorer.js   C  linked county map + scatterplot (from the Milestone 6 dashboard)
 js/rurality.js          C2 metro/nonmetro paired dots
-js/catchment-map.js     D  catchment map + state profile (novel view)
+js/catchment-map.js     D  catchment map, tapered flow bands, traced journey (novel view)
 js/main.js              wiring
 js/section-nav.js       sticky section rail (scroll spy; links work without it)
 data/source/            supplied processed inputs (unchanged; see PROVENANCE.md)
@@ -55,7 +58,11 @@ Write `js/<name>.js` exporting `window.CATL.<name> = function(rows, ...)`. Add i
 table in `js/data.js` (listing which columns are numeric), give the figure a `.status` element, and
 call it from `js/main.js` with `ns.run("#st-<name>", ["<dataset>"], draw)` so it gets loading and failure
 states. Use CSS variables for every colour so dark mode keeps working, and the shared
-`ns.tip(event, html)` / `ns.hideTip` for tooltips. If the chart's numbers appear in the text, add them
+`ns.tip(event, html)` / `ns.hideTip` for tooltips. The colour tokens carry meaning and should not be
+picked for looks: `--pol-1` Saffron is burden, `--pol-7` Ivy is access, `--pol-2..6` are the ordinal
+ramp between them, `--conn` Indigo is a cross-state connection, and `--accent` Crimson is reserved
+for site chrome and one emphasised subset per chart. Anything that animates must check
+`prefers-reduced-motion` and offer the same information without motion. If the chart's numbers appear in the text, add them
 to `display` in `build_data.py` and mark the text with `data-h="<key>"`; `validate.py` will then check
 them. `js/rurality.js` is a compact worked example.
 

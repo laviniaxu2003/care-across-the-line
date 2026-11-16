@@ -84,7 +84,9 @@ function draw(){
     .attr("font-size",11.5).attr("fill","var(--ink-3)").text("County");
 
   pin=g.append("g");
-  pin.append("circle").attr("r",7).attr("fill","var(--accent)")
+  // Ivy, the access colour: the same token the catchment map rings its destination
+  // with. Crimson stays reserved for an emphasised subset and site chrome.
+  pin.append("circle").attr("r",7).attr("fill","var(--pol-7)")
     .attr("stroke","var(--surface-1)").attr("stroke-width",2.5);
   pinLab=svg.append("text").attr("text-anchor","middle").attr("font-size",11.5)
     .attr("fill","var(--ink-2)").text("nearest clinic");
