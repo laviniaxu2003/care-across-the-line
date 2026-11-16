@@ -60,7 +60,7 @@ call it from `js/main.js` with `ns.run("#st-<name>", ["<dataset>"], draw)` so it
 states. Use CSS variables for every colour so dark mode keeps working, and the shared
 `ns.tip(event, html)` / `ns.hideTip` for tooltips. The colour tokens carry meaning and should not be
 picked for looks: `--pol-1` ochre is burden, `--pol-7` violet is access, `--pol-2..6` are the five groups
-between them (copper, khaki, grey, lilac, violet), `--conn` (violet) is a cross-state connection, and `--accent` is reserved
+between them (salmon, olive, grey, slate violet, orchid), `--conn` (a deeper violet) is a cross-state connection, and `--accent` is reserved
 for site chrome and one emphasised subset per chart. Anything that animates must check
 `prefers-reduced-motion` and offer the same information without motion. If the chart's numbers appear in the text, add them
 to `display` in `build_data.py` and mark the text with `data-h="<key>"`; `validate.py` will then check

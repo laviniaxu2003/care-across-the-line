@@ -1,18 +1,21 @@
 /* Care Across the Line - shared styles
    Every data colour is a token below, redefined for dark mode, so charts never hard-code colour. */
 /* ---------------------------------------------------------------------------
-   Palette: ochre -> copper -> khaki -> grey -> lilac -> violet -> purple. Every
-   policy group has its own colour, diverging through grey so the order still
-   reads. All seven sit on the blue-yellow axis, which survives red-green colour
-   blindness: the poles are dE2000 ~53 apart under protanopia/deuteranopia, and
-   no two groups fall below dE 9.7 under protan, deutan or tritan simulation in
-   either mode. Deliberately not red/blue, which read as party colours.
+   Palette: ochre -> salmon -> olive -> grey -> slate violet -> orchid -> purple.
+   Every policy group has its own colour, warm on the restrictive side and violet
+   on the protective side. The poles sit on the blue-yellow axis, which survives
+   red-green colour blindness (dE2000 ~53 apart under protanopia/deuteranopia), and
+   no two groups fall below dE 9.9 under protan, deutan or tritan simulation.
+   Every line, bar and legend swatch clears 3:1 against the chart surface.
+   --conn is a darker violet (lighter in dark mode) than --pol-7 so cross-state
+   bands stay visible where they land on a destination state.
+   Deliberately not red/blue, which read as party colours.
 
    Semantics            token
    greater burden       --pol-1          ochre
    greater access       --pol-7          violet
-   intermediate ranks   --pol-2..6       copper, khaki, grey, lilac, violet
-   connections          --conn           violet (same as the destination states)
+   intermediate ranks   --pol-2..6       salmon, olive, grey, slate violet, orchid
+   connections          --conn           deep violet (a shade of the destination colour)
    brand / emphasis     --accent
    Hue never carries meaning alone: every chart pairs it with a legend, a
    direct label, position, or a data table.
@@ -23,11 +26,11 @@
   --rule:#d2d5dd;
   --accent:#d6264f;
   --pol-1:#a36400; --pol-1-text:#a36400;
-  --pol-2:#d4892a; --pol-3:#b8a477; --pol-4:#8e9399; --pol-5:#bfa9e0; --pol-6:#9670d4;
+  --pol-2:#d46e56; --pol-3:#655b3a; --pol-4:#85848c; --pol-5:#635a7f; --pol-6:#9e6dbc;
   --pol-7:#703d9f; --pol-7-text:#703d9f;
-  --conn:#703d9f;
+  --conn:#3f1c63;                                  /* bands: a darker violet so they stand out over destination states */
   --link:#3f51b5;                                  /* links and focus ring, as on main */
-  --retained:#a9afbb; --neutral:#c9cdd5; --dot:#5b6170;
+  --retained:#8a909c; --neutral:#8d929b; --dot:#5b6170;
   --spot:#ff8fa6;
   /* Bivariate 3x3: --b<distance class><supply row>. Distance 1 = <=0, 2 = >0 to <100,
      3 = >=100 mi; supply row 1 = >2.5 per 10k, 2 = >0 to 2.5, 3 = none. */
@@ -49,8 +52,8 @@
   --pol-1:#c48026; --pol-1-text:#c48026;
   --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
   --pol-7:#9e70cf; --pol-7-text:#9e70cf;
-  --conn:#9e70cf; --link:#6d7ce4;
-  --retained:#646a79; --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6;
+  --conn:#d2b8f5; --link:#6d7ce4;
+  --retained:#646a79; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
 }}
 :root[data-theme="dark"]{
   --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
@@ -59,8 +62,8 @@
   --pol-1:#c48026; --pol-1-text:#c48026;
   --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
   --pol-7:#9e70cf; --pol-7-text:#9e70cf;
-  --conn:#9e70cf; --link:#6d7ce4;
-  --retained:#646a79; --neutral:#3a3f4a; --dot:#9aa0ab; --spot:#ff8fa6;
+  --conn:#d2b8f5; --link:#6d7ce4;
+  --retained:#646a79; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--page);color:var(--ink);
@@ -302,7 +305,7 @@ table.src td:first-child{color:var(--ink);font-weight:600}
   background:var(--ink);color:var(--page);border-radius:3px;padding:10px 12px;font-size:13px;
   line-height:1.5;max-width:280px;box-shadow:0 8px 28px rgba(0,0,0,.22)}
 #tip .t{font-family:var(--f-display);font-weight:700;margin-bottom:5px;font-size:14px}
-#tip .k{color:var(--neutral);font-family:var(--f-mono);font-size:11px}
+#tip .k{color:color-mix(in srgb,var(--page) 72%,var(--ink));font-family:var(--f-mono);font-size:11px}
 footer{padding-block:48px 80px;font-size:13.5px;color:var(--ink-3);border-top:1px solid var(--rule)}
 footer a{color:var(--ink-2)}
 

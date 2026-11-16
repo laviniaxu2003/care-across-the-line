@@ -166,8 +166,9 @@ function role(r){
 var ROLE={none:"var(--pol-1)", serves:"var(--pol-7)", other:"var(--neutral)"};
 function fillFor(f){
   var r=byName[f.properties.name], k=role(r);
-  // quieter than before: the overview is a backdrop, not a choropleth to read closely
-  var base=k==="other"?0.26:(k==="none"?0.20:0.22);
+  // quieter than before: the overview is a backdrop, not a choropleth to read closely.
+  // --neutral is a darker grey (3:1 as a swatch), so "other" uses a lower opacity for the same tint.
+  var base=k==="other"?0.14:(k==="none"?0.20:0.22);
   if(journey){
     if(r.abbr===journey.origin_abbr) return ["var(--pol-1)",0.55];
     if(r.abbr===journey.dest_abbr)   return ["var(--pol-7)",0.60];
