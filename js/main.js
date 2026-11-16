@@ -29,4 +29,6 @@ if(document.querySelector("#rural"))
 if(document.querySelector("#map"))
   ns.run("#st-catch",["flows","recv","head","states"],function(f,r,h,topo){
     ns.catchmentMap({flows:f,recv:r,head:h,topo:topo},"#map"); });
+if(document.querySelector("#county-find"))
+  ns.run("#st-find",["counties","trend"],function(c,t){ ns.countyFind(c,t); });
 })();

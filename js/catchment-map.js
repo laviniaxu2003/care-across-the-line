@@ -66,7 +66,15 @@ if(dcc){
 }
 
 var selected=null;   // null = overview of every state
+var threadState=null;   // the state the "your county" selection chose, so clearing the county can undo it
 
+/* "your county": the arrow from its state to the state of its nearest clinic, or null */
+function threadInfo(){
+  var r=ns.countyRow(ns.county); if(!r) return null;
+  var dest=r.nearest_provider_state, same=dest!=null&&dest===r.state_abbr;
+  return {row:r, dest:dest, same:same, cross:dest!=null&&!same&&!!byAbbr[dest]};
+}
+function hot(d){ var t=threadInfo(); return !!(t&&t.cross&&d.origin_abbr===t.row.state_abbr&&d.dest_abbr===t.dest); }
 function arrow(d){
   var a=cen[d.origin_abbr], b=cen[d.dest_abbr], w=wpx(d.women_15_44);
   var mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2, dx=b[0]-a[0], dy=b[1]-a[1];
@@ -86,19 +94,25 @@ function drawLinks(){
   function add(d){ var k=d.origin_abbr+">"+d.dest_abbr; if(set[k]) return; set[k]=1; data.push(d); }
   overview.forEach(add);
   if(selected) cross.filter(touches).forEach(add);
+  cross.filter(hot).forEach(add);
   data=data.filter(function(d){ return cen[d.origin_abbr]&&cen[d.dest_abbr]; })
     .sort(function(a,b){ return b.women_15_44-a.women_15_44; })
     .map(function(d){ return Object.assign({},d,arrow(d)); });
   var s=linkG.selectAll("g.lk").data(data,function(d){return d.origin_abbr+">"+d.dest_abbr;});
   s.exit().remove();
   var en=s.enter().append("g").attr("class","lk");
+  en.append("path").attr("class","ol").attr("fill","none").attr("stroke-linecap","butt");
   en.append("path").attr("class","ln").attr("fill","none").attr("stroke-linecap","butt");
   en.append("path").attr("class","hd");
   var all=en.merge(s);
-  function op(d){ return !selected?0.72:(touches(d)?0.95:0.10); }
+  function op(d){ return hot(d)?0.95:!selected?0.72:(touches(d)?0.95:0.10); }
+  // the county's arrow gets an ink outline (a wider line beneath, and a stroked head)
+  all.select(".ol").attr("d",function(d){return d.line;}).attr("stroke","var(--ink)")
+    .attr("stroke-width",function(d){return d.w+4;}).attr("stroke-opacity",function(d){return hot(d)?1:0;});
   all.select(".ln").attr("d",function(d){return d.line;}).attr("stroke","var(--pol-7)")
     .attr("stroke-width",function(d){return d.w;}).attr("stroke-opacity",op);
-  all.select(".hd").attr("d",function(d){return d.head;}).attr("fill","var(--pol-7)").attr("fill-opacity",op);
+  all.select(".hd").attr("d",function(d){return d.head;}).attr("fill","var(--pol-7)").attr("fill-opacity",op)
+    .attr("stroke","var(--ink)").attr("stroke-width",function(d){return hot(d)?2:0;});
   all.on("mousemove",function(e,d){
       ns.tip(e,"<div class='t'>"+d.origin_state+" → "+d.dest_state+"</div>"+ns.fmt(d.women_15_44)+
         " women aged 15–44 in "+d.counties+" "+(d.counties===1?"county":"counties")+
@@ -163,6 +177,14 @@ function render(){
   }
   var rb=document.getElementById("catch-reset");
   if(rb) rb.disabled=!selected;
+  var t=threadInfo();
+  if(t){
+    var nm=t.row.label;
+    note.innerHTML+=" <b>"+nm+"</b>: "+(t.dest==null?"the state of its nearest clinic is not available."
+      :t.same?"its nearest clinic is in the same state ("+t.row.state+"), so there is no cross-state arrow for it."
+      :t.cross?"its nearest clinic is in "+byAbbr[t.dest].name+"; the arrow from "+t.row.state+" to "+byAbbr[t.dest].name+" is outlined."
+      :"its nearest clinic is in "+t.dest+".");
+  }
   desc.text(note.textContent);
   profile();
 }
@@ -212,6 +234,12 @@ function profile(){
 }
 
 function select(abbr){ selected=(abbr===selected?null:abbr)||null; render(); }
+// the county thread selects its state (never toggles it off), and undoes only that choice when cleared
+ns.onCounty(function(f){
+  var r=ns.countyRow(f);
+  if(r&&byAbbr[r.state_abbr]){ threadState=r.state_abbr; selected=r.state_abbr; render(); }
+  else { if(threadState&&selected===threadState) selected=null; threadState=null; render(); }
+});
 d3.select("#catch-reset").on("click",function(){ select(null); });
 shapes.on("click",function(e,f){ select(byName[f.properties.name].abbr); })
   .on("mousemove",function(e,f){

@@ -8,6 +8,22 @@ var root=document.querySelector(sel);
 var top3=head.burden.top3_share_pct;
 var pct=function(v){ return v.toFixed(1)+"%"; };
 
+/* the selected county's state: its own bar, or the "Other" bar when it is folded in there */
+function mine(d){
+  var r=ns.countyRow(ns.county); if(!r) return false;
+  if(!d.is_other) return d.state_abbr===r.state_abbr;
+  return !rows.some(function(x){return !x.is_other&&x.state_abbr===r.state_abbr;}) &&
+    all.some(function(x){return x.state_abbr===r.state_abbr&&x.burden>0;});
+}
+function outline(sel){
+  return sel.attr("stroke",function(r){ var d=r.d||r; return mine(d)?"var(--ink)":d.is_other?"var(--ink-3)":"none"; })
+    .attr("stroke-width",function(r){ return mine(r.d||r)?2.5:null; })
+    .attr("stroke-dasharray",function(r){ var d=r.d||r; return d.is_other&&!mine(d)?"4 3":null; });
+}
+function mineNote(d){
+  return d.is_other&&mine(d)?"<br><span class='k'>includes "+ns.countyRow(ns.county).state+", the selected county\u2019s state</span>":"";
+}
+
 function draw(){
   root.innerHTML="";
   var W=ns.width(root);
@@ -49,13 +65,12 @@ function drawArea(W){
     .attr("x",function(r){return r.x0+gap/2;}).attr("y",function(r){return r.top;})
     .attr("width",function(r){return Math.max(1,r.x1-r.x0-gap);}).attr("height",function(r){return y(0)-r.top;})
     .attr("fill",function(r){return r.d.highlight?"var(--accent)":r.d.is_other?"var(--surface-2)":"var(--retained)";})
-    .attr("stroke",function(r){return r.d.is_other?"var(--ink-3)":"none";})
-    .attr("stroke-dasharray",function(r){return r.d.is_other?"4 3":null;})
+    .call(outline)
     .on("mousemove",function(e,r){ var d=r.d;
       ns.tip(e,"<div class='t'>"+d.label+"</div>"+d.share_pct.toFixed(2)+"% of the total burden<br>"+
         "<span class='k'>women affected</span> "+ns.fmt(Math.round(d.women_affected))+"<br>"+
         "<span class='k'>average added miles</span> "+Math.round(d.avg_added_miles)+
-        (d.is_other?"<br><span class='k'>combined total of "+d.n_states+" states</span>":""));
+        (d.is_other?"<br><span class='k'>combined total of "+d.n_states+" states</span>":"")+mineNote(d));
     }).on("mouseleave",ns.hideTip);
   // labels: abbreviation + share, raised in tiers (with a leader line) until nothing overlaps
   var placed=[];
@@ -104,13 +119,12 @@ function drawBars(W){
     .attr("transform",function(d,i){return "translate(0,"+(M.t+i*rowH)+")";})
     .on("mousemove",function(e,d){
       ns.tip(e,"<div class='t'>"+d.label+"</div>"+d.share_pct.toFixed(2)+"% of the total<br><span class='k'>women 15–44 × added miles</span> "+
-        ns.fmt(Math.round(d.burden))+(d.is_other?"<br><span class='k'>combined total of "+d.n_states+" states</span>":""));
+        ns.fmt(Math.round(d.burden))+(d.is_other?"<br><span class='k'>combined total of "+d.n_states+" states</span>":"")+mineNote(d));
     }).on("mouseleave",ns.hideTip);
   g.append("rect").attr("x",x(0)).attr("y",5).attr("height",rowH-10)
     .attr("width",function(d){return Math.max(1,x(d.share_pct)-x(0));})
     .attr("fill",function(d){return d.highlight?"var(--accent)":d.is_other?"var(--surface-2)":"var(--retained)";})
-    .attr("stroke",function(d){return d.is_other?"var(--ink-3)":"none";})
-    .attr("stroke-dasharray",function(d){return d.is_other?"4 3":null;});
+    .call(outline);
   g.append("text").attr("x",M.l-10).attr("y",rowH/2+4).attr("text-anchor","end").attr("font-size",12.5)
     .attr("fill",function(d){return d.highlight?"var(--ink)":"var(--ink-2)";})
     .attr("font-style",function(d){return d.is_other?"italic":null;})
@@ -140,4 +154,5 @@ document.getElementById("burden-table").innerHTML=h+"</tbody></table>"+(zero.len
 
 draw();
 ns.onResize(draw);
+ns.onCounty(draw);
 };

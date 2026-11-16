@@ -56,7 +56,7 @@ cpaths.on("mousemove",function(e,f){
     ns.tip(e,d?tipHtml(d,true):"<div class='t'>"+(f.properties.name||"")+"</div>No county record in the data");
     if(!st.sel) details(d,"hovered");
   }).on("mouseleave",function(){ st.hover=null; mapMarks(); scatterMarks(); ns.hideTip(); if(!st.sel) details(null); })
-  .on("click",function(e,f){ var d=rowOf(f); if(d) select(d.fips===st.sel?null:d.fips); });
+  .on("click",function(e,f){ var d=rowOf(f); if(d) ns.selectCounty(d.fips===st.sel?null:d.fips); });
 
 /* ---------------- scatter ---------------- */
 var scRoot=document.getElementById("county-scatter");
@@ -199,11 +199,11 @@ d3.selectAll("#ctype button").on("click",function(){
 d3.select("#hl-toggle").on("change",function(){ st.hl=this.checked; refresh(); });
 var list=d3.select("#county-list");
 rows.slice().sort(function(a,b){return d3.ascending(a.label,b.label);}).forEach(function(d){ list.append("option").attr("value",d.label); });
-var byLabel={}; rows.forEach(function(d){ byLabel[d.label.toLowerCase()]=d; });
+ns.countyReady();
 function doSearch(){
   var q=this.value.trim().toLowerCase(); if(!q) return;
-  var d=byLabel[q]||rows.filter(function(r){return r.label.toLowerCase().indexOf(q)===0;})[0];
-  if(d){ select(d.fips); }
+  var d=ns.matchCounty(q);
+  if(d){ ns.selectCounty(d.fips); }
   else document.getElementById("county-details").innerHTML="<p class='counts' style='margin:0'>No county matches “"+this.value+"”. Try the form “Hinds, MS”.</p>";
 }
 d3.select("#county-search").on("change",doSearch).on("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); doSearch.call(this); } });
@@ -211,9 +211,14 @@ d3.select("#county-reset").on("click",function(){
   st={metro:"all",hl:true,sel:null,hover:null,cell:null};
   d3.selectAll("#ctype button").attr("aria-pressed",function(){return this.dataset.metro==="all";});
   document.getElementById("hl-toggle").checked=true; document.getElementById("county-search").value="";
-  select(null); refresh();
+  ns.selectCounty(null); select(null); refresh();
 });
 
 drawScatter(); refresh(); mapMarks(); details(null);
 ns.onResize(function(){ drawScatter(); scatterMarks(); });
+// the shared selection drives st.sel
+ns.onCounty(function(f){
+  select(f&&byFips[f]?f:null);
+  document.getElementById("county-search").value=f&&byFips[f]?byFips[f].label:"";
+});
 };

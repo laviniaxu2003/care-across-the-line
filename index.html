@@ -52,6 +52,17 @@
 <section id="distance" aria-labelledby="h-distance">
   <p class="stage">Distance</p>
   <h2 id="h-distance">How far would you have to travel for abortion care?</h2>
+  <div id="county-find">
+    <h3>Find your county</h3>
+    <div class="controls">
+      <div class="ctl"><label class="lab" for="find-input">County</label>
+        <input type="search" id="find-input" list="county-list" placeholder="e.g. Hinds, MS" autocomplete="off"></div>
+      <div class="ctl"><span class="lab">&nbsp;</span><button type="button" class="plain" id="find-clear">Clear</button></div>
+    </div>
+    <div class="status" id="st-find" role="status"></div>
+    <p class="counts" id="find-line" aria-live="polite"></p>
+  </div>
+
   <p>Suppose you lived in one of the states that now have the most restrictive abortion policies. In May 2022,
      the month before the Supreme Court&rsquo;s <i>Dobbs</i> decision, the nearest open abortion clinic was on
      average about 40 road miles away. Eight months later it was more than five times as far.</p>
@@ -298,13 +309,14 @@ laws changed.</p>
 </div>
 <div id="tip" role="status" aria-live="off"></div>
 
-<script src="js/data.js"></script>
-<script src="js/distance-trend.js?v=13"></script>
-<script src="js/burden-bars.js?v=14"></script>
-<script src="js/county-explorer.js?v=12"></script>
-<script src="js/rurality.js?v=13"></script>
-<script src="js/catchment-map.js?v=14"></script>
-<script src="js/main.js?v=13"></script>
+<script src="js/data.js?v=14"></script>
+<script src="js/distance-trend.js?v=16"></script>
+<script src="js/burden-bars.js?v=17"></script>
+<script src="js/county-explorer.js?v=15"></script>
+<script src="js/rurality.js?v=14"></script>
+<script src="js/catchment-map.js?v=17"></script>
+<script src="js/county-find.js?v=14"></script>
+<script src="js/main.js?v=14"></script>
 <script src="js/section-nav.js?v=13"></script>
 </body>
 </html>

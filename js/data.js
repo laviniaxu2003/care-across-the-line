@@ -34,12 +34,25 @@ var SPECS={
     "resident_women","retained_women","incoming_women","assigned_women","outgoing_women",
     "incoming_origin_states","incoming_counties","retained_per_clinic","incoming_per_clinic","assigned_per_clinic"]}
 };
+var MONTHLY_URL="data/derived/county_monthly.csv";
+/* wide table: fips, then one column per month (miles, one decimal; blank -> null) */
+function parseMonthly(txt){
+  var rows=d3.csvParseRows(txt), months=rows[0].slice(1), by={};
+  for(var i=1;i<rows.length;i++){
+    by[rows[i][0]]=rows[i].slice(1).map(function(v){
+      if(v==="") return null;
+      var n=+v; if(!isFinite(n)) throw new Error(MONTHLY_URL+": non-numeric value '"+v+"'");
+      return n; });
+  }
+  return {months:months, byFips:by};
+}
 var cache={};
 /* ns.get("name") -> promise of parsed rows; JSON/TopoJSON by path */
 ns.get=function(name){
   if(cache[name]) return cache[name];
   var p;
-  if(SPECS[name]) p=d3.csv(SPECS[name].url, parser(SPECS[name].num, SPECS[name].url));
+  if(name==="monthly") p=d3.text(MONTHLY_URL).then(parseMonthly);
+  else if(SPECS[name]) p=d3.csv(SPECS[name].url, parser(SPECS[name].num, SPECS[name].url));
   else if(name==="head") p=d3.json("data/derived/headline.json");
   else if(name==="states") p=d3.json("data/geo/states-10m.json");
   else if(name==="counties-geo") p=d3.json("data/geo/counties-albers-10m.json");
@@ -71,6 +84,44 @@ ns.dataProblem=function(){
 var subs={};
 ns.on=function(ev,fn){ (subs[ev]=subs[ev]||[]).push(fn); };
 ns.emit=function(ev,v){ (subs[ev]||[]).forEach(function(fn){ fn(v); }); };
+
+/* "your county": one shared selection (a fips string or null). Set only through ns.selectCounty;
+   charts subscribe with ns.onCounty and keep no copy of their own. */
+ns.county=null;
+var cSubs=[], cIdx=null;
+function countyIndex(){
+  return ns.get("counties").then(function(rows){
+    if(!cIdx){ cIdx={}; rows.forEach(function(d){ cIdx[d.fips]=d; d.label=d.county+", "+d.state_abbr; }); }
+    return cIdx;
+  });
+}
+ns.countyReady=countyIndex;
+ns.countyRow=function(fips){ return cIdx&&fips?cIdx[fips]||null:null; };
+/* "Hinds, MS" exactly, or a prefix of that form; null when nothing matches */
+ns.matchCounty=function(q){
+  q=String(q).trim().toLowerCase(); if(!q||!cIdx) return null;
+  var k, first=null;
+  for(k in cIdx){ var l=cIdx[k].label.toLowerCase(); if(l===q) return cIdx[k]; if(!first&&l.indexOf(q)===0) first=cIdx[k]; }
+  return first;
+};
+function notifyCounty(){ cSubs.forEach(function(fn){ fn(ns.county); }); }
+ns.selectCounty=function(fips){
+  fips=fips||null;
+  function apply(){
+    if(fips&&!cIdx[fips]) fips=null;
+    ns.county=fips;
+    try{
+      var u=new URL(location.href);
+      if(fips) u.searchParams.set("county",fips); else u.searchParams.delete("county");
+      history.replaceState(null,"",u.toString());
+    }catch(e){}
+    if(fips) ns.get("monthly").catch(function(){});   // fetched the first time a county is chosen
+    notifyCounty();
+  }
+  if(cIdx) apply(); else countyIndex().then(apply).catch(function(e){ console.error(e); });
+};
+/* a chart that subscribes after a county is already chosen is told straight away */
+ns.onCounty=function(fn){ cSubs.push(fn); if(ns.county) fn(ns.county); };
 
 /* shared chrome */
 var tip;

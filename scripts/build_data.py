@@ -92,6 +92,11 @@ def main():
     trend.to_csv(OUT / "trend_by_tier.csv", index=False)
     tv = trend.set_index(["policy_rank", "ym"]).mean_drive_miles_weighted
 
+    # A2. compact county x month panel for the "your county" line (loaded lazily by the browser)
+    mon = pd.read_csv(SRC / "county_distance_monthly.csv", dtype={"fips": str}, usecols=["fips", "ym", "drive_miles"])
+    wide = mon.pivot(index="fips", columns="ym", values="drive_miles").sort_index().round(1)
+    wide.to_csv(OUT / "county_monthly.csv")
+
     # ------------------------------------------------------------------ B. burden
     # population x additional nearest-clinic miles, May 2022 -> Jul 2026; reductions count as 0
     bc = c.dropna(subset=["drive_miles_change", "women_15_44"]).copy()
@@ -258,7 +263,7 @@ def main():
     (OUT / "headline.json").write_text(json.dumps(clean(H), indent=1))
 
     print("Wrote data/derived/: trend_by_tier.csv burden_by_state.csv burden_chart.csv counties_view.csv")
-    print("                     rurality_metro.csv state_flows.csv receiving.csv headline.json")
+    print("                     rurality_metro.csv state_flows.csv receiving.csv county_monthly.csv headline.json")
     for k, v in H["display"].items():
         print(f"  {k:28s} {v}")
     res = subprocess.run([sys.executable, str(ROOT / "scripts" / "validate.py")])
