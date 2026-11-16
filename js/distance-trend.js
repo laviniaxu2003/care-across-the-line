@@ -16,7 +16,10 @@ var DOBBS=new Date(2022,5,24);
 var show={1:true,7:true,2:false,3:false,4:false,5:false,6:false};
 var range="focus", cursor=null;
 var cty=null;   // the selected county's own line, once its monthly values have arrived: {name, vals}
-var COLOR=function(r){ return "var(--pol-"+r+")"; };   // ochre -> grey ramp -> violet, never red/blue
+var COLOR=function(r){ return "var(--pol-"+r+")"; };          // Saffron -> Slate ramp -> Ivy
+// Series colour is tuned for a 3px stroke; the -text steps are darkened so the
+// direct labels clear 4.5:1 as type. Never red/blue: those read as party colours.
+var TEXTCOLOR=function(r){ return r===1||r===7?"var(--pol-"+r+"-text)":"var(--pol-"+r+")"; };
 var KEY=["2022-05","2022-07","2023-01"];
 function cval(ym){ var t=cty&&cty.vals.filter(function(d){return d.ym===ym;})[0]; return t?t.v:null; }
 function val(rank,ym){ var t=TIERS[rank-1].values.filter(function(d){return d.ym===ym;})[0]; return t&&t.v; }
@@ -97,7 +100,7 @@ function draw(){
     var key=t.rank===1||t.rank===7;
     if(!key) return;
     svg.append("text").attr("x",W-M.r-2).attr("y",y(last.v)+(t.rank===1?20:-8)).attr("text-anchor","end")
-      .attr("font-size",12.5).attr("font-weight",600).attr("fill",COLOR(t.rank))
+      .attr("font-size",12.5).attr("font-weight",600).attr("fill",TEXTCOLOR(t.rank))
       .attr("paint-order","stroke").attr("stroke","var(--surface-1)").attr("stroke-width",3)
       .text(t.name);
   });

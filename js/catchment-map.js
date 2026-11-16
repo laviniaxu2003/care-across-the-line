@@ -7,8 +7,9 @@
    people leaving a state that still has clinics. The map now has one view, the overview of every
    state, and clicking a state highlights it and fills the profile panel on the right.
 
-   Colour: ochre for states with no clinic left, violet for states that are the nearest option for
-   another state's residents. Deliberately not red/blue, which read as party colours on a US map. */
+   Colour: Saffron for states with no clinic left, Ivy for states that are the nearest option for
+   another state's residents, Indigo for the connections themselves. Deliberately not red/blue,
+   which read as party colours on a US map. */
 window.CATL = window.CATL || {};
 window.CATL.catchmentMap = function(D, sel){
 "use strict";
@@ -109,9 +110,9 @@ function drawLinks(){
   // the county's arrow gets an ink outline (a wider line beneath, and a stroked head)
   all.select(".ol").attr("d",function(d){return d.line;}).attr("stroke","var(--ink)")
     .attr("stroke-width",function(d){return d.w+4;}).attr("stroke-opacity",function(d){return hot(d)?1:0;});
-  all.select(".ln").attr("d",function(d){return d.line;}).attr("stroke","var(--pol-7)")
+  all.select(".ln").attr("d",function(d){return d.line;}).attr("stroke","var(--conn)")
     .attr("stroke-width",function(d){return d.w;}).attr("stroke-opacity",op);
-  all.select(".hd").attr("d",function(d){return d.head;}).attr("fill","var(--pol-7)").attr("fill-opacity",op)
+  all.select(".hd").attr("d",function(d){return d.head;}).attr("fill","var(--conn)").attr("fill-opacity",op)
     .attr("stroke","var(--ink)").attr("stroke-width",function(d){return hot(d)?2:0;});
   all.on("mousemove",function(e,d){
       ns.tip(e,"<div class='t'>"+d.origin_state+" → "+d.dest_state+"</div>"+ns.fmt(d.women_15_44)+
@@ -226,7 +227,7 @@ function profile(){
   if(tot>0) h+="<div class='bar' role='img' aria-label='Own residents "+ns.fmt(r.retained_women)+", from other states "+ns.fmt(r.incoming_women)+"'>"+
     "<span style='width:"+(r.retained_women/tot*100)+"%;background:var(--retained)'></span>"+
     "<span style='width:"+(r.incoming_women/tot*100)+"%;background:var(--pol-7)'></span></div>"+
-    "<p class='sub'>grey: this state&rsquo;s own residents &middot; violet: residents of other states</p>";
+    "<p class='sub'>pale: this state&rsquo;s own residents &middot; green: residents of other states</p>";
   h+=list(inL,"Where its incoming catchment comes from","in");
   h+=list(outL,"Where its residents&rsquo; nearest clinics are","out");
   if(!known) h+="<p class='sub'>DC is not in the supplied state tables, so its clinic count, residents, and per-clinic value are unavailable.</p>";
