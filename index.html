@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,700;9..144,900&display=swap">
-<link rel="stylesheet" href="css/style.css?v=22">
+<link rel="stylesheet" href="css/style.css?v=24">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 </head>
@@ -247,34 +247,37 @@ laws changed.</p>
   </div>
 
   <figure id="fig-catch" aria-labelledby="t-catch">
-    <span class="flag">Potential geographic catchment, not observed patient travel</span>
-    <h3 id="t-catch">Which state holds the nearest clinic</h3>
-    <p class="fig-sub">Each band runs from where women live to the state holding their nearest clinic, July 2026. It is
-      widest at the home state, in proportion to the women aged 15&ndash;44 involved, and narrows to a point at the
-      clinic state.</p>
-    <p class="howto"><b>How to read</b> <b>Click any state</b> for its own figures and all of its connections,
-      including ones too small for the overview. <b>Trace</b> follows a single connection end to end.</p>
-    <div class="controls">
-      <div class="ctl"><span class="lab">Follow one connection</span>
-        <button type="button" class="plain" id="catch-journey">Trace the largest</button></div>
-      <div class="ctl"><span class="lab">&nbsp;</span>
-        <button type="button" class="plain" id="catch-reset" disabled>Show all states</button></div>
+    <h3 id="t-catch">Where the nearest clinic actually is</h3>
+    <p class="fig-sub">Modelled nearest-clinic connections for July 2026 &mdash; not observed trips, and not driving routes.</p>
+
+    <div class="pick" role="group" aria-label="Explore a state">
+      <span class="pick-hint">Select a state to see where its nearest clinics are:</span>
+      <button type="button" class="chip" data-state="TX">Texas</button>
+      <button type="button" class="chip" data-state="TN">Tennessee</button>
+      <button type="button" class="chip" data-state="LA">Louisiana</button>
+      <button type="button" class="chip ghost" id="catch-reset" disabled>Overview</button>
     </div>
-    <p class="note" id="catch-journey-line" aria-live="polite" style="margin-top:0"></p>
+
     <div class="status" id="st-catch" role="status"></div>
     <div class="catch">
-      <div class="panel">
-        <div class="legend" id="catch-legend"></div>
-        <div id="map" class="chart"></div>
-        <p class="note" id="catch-note" aria-live="polite"></p>
-      </div>
-      <div class="panel profile" id="catch-profile" aria-live="polite"></div>
+      <div id="map" class="chart"></div>
+      <aside class="jpanel" id="catch-profile" aria-live="polite"></aside>
     </div>
+    <div class="catch-foot">
+      <div class="legend" id="catch-legend"></div>
+      <p class="note" id="catch-note" aria-live="polite"></p>
+    </div>
+
     <details class="data about"><summary>About the data</summary>
-      <p class="note"><b>What the bands are.</b> Curves are drawn between state centres and are schematic. They show which
-        state holds the nearest open clinic for each county (road distance from the county, Myers database, July 2026),
-        added up by home state and clinic state. They are not driving routes, actual trips, appointments, or patients, and
-        no individual clinic has been identified. The traced journey follows the same schematic curve.</p>
+      <p class="note"><b>What a band means.</b> Each county is assigned to the state holding its nearest open clinic by
+        road distance (Myers database, July 2026); those assignments are added up by home state and clinic state. A band
+        is widest at the home state, in proportion to the women aged 15&ndash;44 involved, and narrows to a point at the
+        clinic state. The curves are schematic lines between state centres: not driving routes, not actual trips,
+        appointments or patients, and no individual clinic has been identified. The traced journey follows the same
+        schematic curve.</p>
+      <p class="note"><b>The overview shows the six largest connections</b> of <span data-h="cross_links">100</span>,
+        ranked by women aged 15&ndash;44. Selecting a state draws every one of its connections, including the smallest,
+        and <b>Show all connections</b> draws the full set. Nothing is discarded.</p>
       <p class="note"><b>Population.</b> Women aged 15&ndash;44 (HRSA AHRF), the population the source data use. This is a
         count of who lives nearest to a clinic, not a count of people seeking abortion care.</p>
       <p class="note"><b>Small jurisdictions.</b> DC is too small to click on the map, so it is marked with a labelled dot.</p>
@@ -315,7 +318,7 @@ laws changed.</p>
 <script src="js/burden-bars.js?v=22"></script>
 <script src="js/county-explorer.js?v=22"></script>
 <script src="js/rurality.js?v=22"></script>
-<script src="js/catchment-map.js?v=22"></script>
+<script src="js/catchment-map.js?v=24"></script>
 <script src="js/county-find.js?v=14"></script>
 <script src="js/main.js?v=21"></script>
 <script src="js/section-nav.js?v=13"></script>

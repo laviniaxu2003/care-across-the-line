@@ -180,6 +180,7 @@ figcaption,.note{font-size:var(--caption);color:var(--ink-3);margin-top:16px;max
 .sw{width:13px;height:13px;border-radius:2px;display:inline-block;flex:none}
 .sw.line{height:3px;width:20px;border-radius:0}
 .sw.dot{border-radius:50%;width:10px;height:10px}
+.sw.ring{border-radius:50%;background:none;border:1.5px solid var(--ink);width:12px;height:12px}
 
 /* controls */
 .controls{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;margin:4px 0 16px}
@@ -259,17 +260,58 @@ details.about .note{margin-top:10px}
 .details dd{margin:0;font-size:var(--caption);font-variant-numeric:tabular-nums;color:var(--ink)}
 .missing{fill:url(#hatch)}
 
-/* catchment layout */
-.catch{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:22px;align-items:start}
-.profile h4{font-family:var(--f-body);font-size:20px;font-weight:700;margin:0 0 2px}
-.profile .sub{font-size:12.5px;color:var(--ink-3);margin:0 0 12px}
-.profile table{width:100%;border-collapse:collapse;font-size:13.5px}
-.profile td{padding:5px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-.profile td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
-.profile .bar{height:10px;display:flex;border-radius:2px;overflow:hidden;margin:10px 0 4px;background:var(--surface-2)}
-.profile ol{margin:6px 0 0;padding-left:20px;font-size:13.5px}
-.profile li{margin:2px 0}
-.profile li span{font-variant-numeric:tabular-nums;float:right}
+/* catchment: the map is the figure. The panel is a narrow, borderless column
+   beside it rather than a second card, so nothing competes with the geography. */
+.catch{display:grid;grid-template-columns:minmax(0,2.9fr) minmax(0,1fr);gap:26px;align-items:start;margin:6px 0 0}
+.catch .chart{min-width:0}
+.jpanel{min-width:0;border-left:1px solid var(--rule);padding-left:20px}
+.jpanel h4{font-size:19px;font-weight:700;margin:0 0 2px;letter-spacing:-.01em}
+.jpanel .big-n{font-family:var(--f-display);font-weight:900;font-size:34px;line-height:1.05;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.jpanel .sub{font-size:var(--caption);color:var(--ink-3);margin:2px 0 0;line-height:1.45}
+.jpanel .hint{font-size:var(--caption);color:var(--ink-3);margin:14px 0 0;line-height:1.45}
+.jpanel .lead{font-size:var(--label);font-weight:600;letter-spacing:var(--track);text-transform:uppercase;
+  color:var(--ink-3);margin:16px 0 6px}
+/* destination list: name, figure, and a bar that is the same quantity the band encodes */
+ol.dests{list-style:none;margin:0;padding:0}
+ol.dests li{margin:0 0 10px}
+ol.dests button{display:block;width:100%;text-align:left;background:none;border:0;padding:3px 0;
+  font:inherit;color:inherit;cursor:pointer;border-radius:3px}
+ol.dests button:hover .d,ol.dests button[aria-pressed="true"] .d{color:var(--ink)}
+ol.dests .r{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+ol.dests .d{font-size:14px;font-weight:600;color:var(--ink-2)}
+ol.dests .n{font-size:var(--caption);font-variant-numeric:tabular-nums;color:var(--ink-3);flex:none}
+ol.dests .bar{height:4px;border-radius:2px;background:var(--surface-2);margin-top:4px;overflow:hidden}
+ol.dests .bar i{display:block;height:100%;background:var(--conn)}
+ol.dests button[aria-pressed="true"] .bar i{background:var(--pol-7)}
+ol.dests small{display:block;font-size:12px;color:var(--ink-3);margin-top:2px}
+/* the traced journey reads inside the panel, not as another paragraph */
+.jroute{margin:0 0 12px;padding:12px 14px;background:var(--surface-2);border-radius:5px}
+.jroute .od{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
+.jroute .od .ar{color:var(--conn);margin:0 5px}
+.jroute .big-n{font-size:28px;margin-top:4px}
+.catch-foot{display:flex;flex-wrap:wrap;gap:6px 26px;align-items:baseline;margin:14px 0 0}
+.catch-foot .legend{margin:0}
+.catch-foot .note{margin:0;flex:1 1 320px;min-width:0}
+/* an inline text button, so "show all" does not become another chrome control */
+button.linkish{font:inherit;font-size:inherit;background:none;border:0;padding:0;cursor:pointer;
+  color:var(--conn);text-decoration:underline;text-underline-offset:2px}
+button.linkish:hover{color:var(--ink)}
+.jpanel details.more > summary{padding:10px 0 4px}
+.jpanel table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+.jpanel td{padding:5px 0;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink-2)}
+.jpanel td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* featured states: three verified examples, then the way back */
+.pick{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:14px 0 2px}
+.pick-hint{font-size:var(--caption);color:var(--ink-3);margin-right:2px}
+.chip{font:inherit;font-size:var(--meta);font-weight:600;background:var(--surface-2);color:var(--ink-2);
+  border:1px solid var(--rule);border-radius:999px;padding:6px 14px;cursor:pointer;min-height:34px}
+.chip:hover{border-color:var(--ink-3);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface-1)}
+.chip.ghost{background:none}
+.chip:disabled{opacity:.45;cursor:default}
+.chip:disabled:hover{border-color:var(--rule);color:var(--ink-2)}
 
 /* pull quote / message */
 .msg{background:var(--ink);color:var(--page);border-radius:4px;padding:44px 44px;margin:8px 0 0}
@@ -306,6 +348,7 @@ footer a{color:var(--ink-2)}
 
 @media (max-width:900px){
   .explorer,.catch{grid-template-columns:1fr}
+  .jpanel{border-left:0;border-top:1px solid var(--rule);padding-left:0;padding-top:16px}
 }
 @media (max-width:620px){
   .wrap{padding-inline:16px}

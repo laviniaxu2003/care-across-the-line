@@ -41,10 +41,19 @@ Object.keys(NUDGE).forEach(function(k){ if(cen[k]) cen[k]=[cen[k][0]+NUDGE[k][0]
 var cross=D.flows.filter(function(f){ return f.out_of_state===1; });
 var missing=cross.filter(function(f){ return !cen[f.origin_abbr]||!cen[f.dest_abbr]; });
 if(missing.length) console.warn("links without a centroid",missing);
-var overview=cross.filter(function(d){ return d.women_15_44>=MINW; });
+/* Editorial overview rule, stated on the page: the six largest single connections by
+   women aged 15-44. They carry more than half of everyone whose nearest clinic is out
+   of state. Nothing is discarded - selecting a state draws all of its connections, and
+   "Show all connections" draws all 100. */
+var TOPN=6;
+var ranked=cross.slice().sort(function(a,b){return b.women_15_44-a.women_15_44;});
+var overview=ranked.slice(0,TOPN);
+var overviewShare=d3.sum(overview,function(d){return d.women_15_44;})/
+                   (d3.sum(cross,function(d){return d.women_15_44;})||1)*100;
+var FEATURED=["TX","TN","LA"];
 
 var maxW=d3.max(cross,function(d){return d.women_15_44;});
-var wScale=d3.scaleLinear().domain([0,maxW]).range([0,13]);   // linear: width proportional to women
+var wScale=d3.scaleLinear().domain([0,maxW]).range([0,15]);   // linear: width proportional to women
 var MINPX=1;
 function wpx(v){ return Math.max(MINPX,wScale(v)); }
 
@@ -73,34 +82,28 @@ if(dcc){
   dcG.append("rect").attr("x",dcc[0]-8).attr("y",dcc[1]-8).attr("width",72).attr("height",58).attr("fill","transparent");
 }
 
-var selected=null;   // null = overview of every state
-var journey=null;    // the one link being traced, or null
-var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-function isJourney(d){ return !!journey&&d.origin_abbr===journey.origin_abbr&&d.dest_abbr===journey.dest_abbr; }
-/* Which connection the journey button offers: the county's own crossing if one is
-   chosen, otherwise the biggest link touching the selected state, otherwise the
-   biggest cross-state link there is. */
-function journeyPick(){
-  var t=threadInfo();
-  if(t&&t.cross){
-    var own=cross.filter(function(d){return d.origin_abbr===t.row.state_abbr&&d.dest_abbr===t.dest;})[0];
-    if(own) return own;
-  }
-  var pool=selected?cross.filter(touches):cross;
-  return pool.slice().sort(function(a,b){return b.women_15_44-a.women_15_44;})[0]||null;
-}
-var threadState=null;   // the state the "your county" selection chose, so clearing the county can undo it
 
-/* "your county": the arrow from its state to the state of its nearest clinic, or null */
+var selected=null;      // null = editorial overview
+var showAll=false;      // true = every one of the 100 cross-state connections
+var journey=null;       // the single connection being traced, or null
+var played=false;
+var threadState=null;   // the state the "your county" selection chose
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var DUR=reduce?0:2500, FADE=reduce?0:420;
+
+/* "your county": the band from its state to the state of its nearest clinic, or null */
 function threadInfo(){
   var r=ns.countyRow(ns.county); if(!r) return null;
   var dest=r.nearest_provider_state, same=dest!=null&&dest===r.state_abbr;
   return {row:r, dest:dest, same:same, cross:dest!=null&&!same&&!!byAbbr[dest]};
 }
 function hot(d){ var t=threadInfo(); return !!(t&&t.cross&&d.origin_abbr===t.row.state_abbr&&d.dest_abbr===t.dest); }
+function isJourney(d){ return !!journey&&d.origin_abbr===journey.origin_abbr&&d.dest_abbr===journey.dest_abbr; }
+function touches(d){ return selected && (d.origin_abbr===selected || d.dest_abbr===selected); }
+function linksOf(a){ return cross.filter(function(d){return d.origin_abbr===a;})
+  .sort(function(x,y){return y.women_15_44-x.women_15_44;}); }
+
 function ribbon(d){
-  // Same bow as the old arrow. The band is full width at the origin and closes to a
-  // point at the destination, so direction is carried by the shape, not an arrowhead.
   var a=cen[d.origin_abbr], b=cen[d.dest_abbr], w=wpx(d.women_15_44);
   var dx=b[0]-a[0], dy=b[1]-a[1], len=Math.hypot(dx,dy)||1;
   var nx=-dy/len, ny=dx/len, h=w/2;
@@ -112,216 +115,263 @@ function ribbon(d){
     mid:"M"+a[0]+","+a[1]+"Q"+c[0]+","+c[1]+" "+b[0]+","+b[1],
     w:w };
 }
-function touches(d){ return selected && (d.origin_abbr===selected || d.dest_abbr===selected); }
-function drawLinks(){
-  // the overview set is always drawn; selecting a state adds its own links, however small
-  var set={}, data=[];
-  function add(d){ var k=d.origin_abbr+">"+d.dest_abbr; if(set[k]) return; set[k]=1; data.push(d); }
-  overview.forEach(add);
+function shownLinks(){
+  var set={}, out=[];
+  function add(d){ var k=d.origin_abbr+">"+d.dest_abbr; if(set[k]) return; set[k]=1; out.push(d); }
+  if(showAll) cross.forEach(add);
+  else if(selected) linksOf(selected).forEach(add);
+  else overview.forEach(add);
   if(selected) cross.filter(touches).forEach(add);
   cross.filter(hot).forEach(add);
-  data=data.filter(function(d){ return cen[d.origin_abbr]&&cen[d.dest_abbr]; })
-    .sort(function(a,b){ return b.women_15_44-a.women_15_44; })
-    .map(function(d){ return Object.assign({},d,ribbon(d)); });
-  var s=linkG.selectAll("g.lk").data(data,function(d){return d.origin_abbr+">"+d.dest_abbr;});
-  s.exit().remove();
-  var en=s.enter().append("g").attr("class","lk");
+  if(journey) add(journey);
+  return out.filter(function(d){ return cen[d.origin_abbr]&&cen[d.dest_abbr]; })
+            .sort(function(a,b){ return b.women_15_44-a.women_15_44; })
+            .map(function(d){ return Object.assign({},d,ribbon(d)); });
+}
+function bandOpacity(d){
+  if(journey) return isJourney(d)?0.92:0.05;
+  if(hot(d)) return 0.92;
+  if(!selected) return 0.55;
+  return touches(d)?0.85:0.06;
+}
+function drawLinks(){
+  var data=shownLinks();
+  var sel=linkG.selectAll("g.lk").data(data,function(d){return d.origin_abbr+">"+d.dest_abbr;});
+  sel.exit().transition().duration(FADE).style("opacity",0).remove();
+  var en=sel.enter().append("g").attr("class","lk").style("opacity",0);
   en.append("path").attr("class","ln");
-  var all=en.merge(s);
-  function op(d){
-    if(journey&&!isJourney(d)) return 0.06;      // tracing one journey mutes the rest
-    if(journey) return 0.95;
-    return hot(d)?0.95:!selected?0.6:(touches(d)?0.9:0.08);
-  }
+  var all=en.merge(sel);
   all.select(".ln").attr("d",function(d){return d.area;}).attr("fill","var(--conn)")
-    .attr("fill-opacity",op)
     .attr("stroke","var(--ink)")
     .attr("stroke-width",function(d){return hot(d)||isJourney(d)?1.4:0;})
-    .attr("stroke-opacity",function(d){return hot(d)||isJourney(d)?0.85:0;});
+    .attr("stroke-opacity",function(d){return hot(d)||isJourney(d)?0.8:0;});
+  all.transition().duration(FADE).style("opacity",1)
+    .select(".ln").attr("fill-opacity",bandOpacity);
   all.on("mousemove",function(e,d){
       ns.tip(e,"<div class='t'>"+d.origin_state+" → "+d.dest_state+"</div>"+ns.fmt(d.women_15_44)+
         " women aged 15–44 in "+d.counties+" "+(d.counties===1?"county":"counties")+
         " whose nearest clinic is in "+d.dest_state);
-    }).on("mouseleave",ns.hideTip);
+    }).on("mouseleave",ns.hideTip)
+    .on("click",function(e,d){ e.stopPropagation(); play(d); });
   all.order();
   return data;
 }
 
 /* role of each state, independent of what is selected */
 function role(r){
-  if(r.clinics_jul2026===0) return "none";          // no open clinic left in the state
-  if(r.incoming_women>0)    return "serves";        // nearest option for another state's residents
+  if(r.clinics_jul2026===0) return "none";
+  if(r.incoming_women>0)    return "serves";
   return "other";
 }
 var ROLE={none:"var(--pol-1)", serves:"var(--pol-7)", other:"var(--neutral)"};
 function fillFor(f){
-  var r=byName[f.properties.name], k=role(r), base=k==="other"?0.5:(k==="none"?0.3:0.34);
+  var r=byName[f.properties.name], k=role(r);
+  // quieter than before: the overview is a backdrop, not a choropleth to read closely
+  var base=k==="other"?0.26:(k==="none"?0.20:0.22);
+  if(journey){
+    if(r.abbr===journey.origin_abbr) return ["var(--pol-1)",0.55];
+    if(r.abbr===journey.dest_abbr)   return ["var(--pol-7)",0.60];
+    return [ROLE[k],base*0.5];
+  }
   if(!selected) return [ROLE[k],base];
-  if(r.abbr===selected) return [ROLE[k],0.62];
-  var linked=cross.some(function(x){ return (x.dest_abbr===selected&&x.origin_abbr===r.abbr)||
-                                            (x.origin_abbr===selected&&x.dest_abbr===r.abbr); });
-  return [ROLE[k], linked?base+0.1:base*0.4];
+  if(r.abbr===selected) return ["var(--pol-1)",0.52];
+  var dest=cross.some(function(x){ return x.origin_abbr===selected&&x.dest_abbr===r.abbr; });
+  if(dest) return ["var(--pol-7)",0.46];
+  var src=cross.some(function(x){ return x.dest_abbr===selected&&x.origin_abbr===r.abbr; });
+  return [ROLE[k], src?base+0.08:base*0.42];
 }
 
 function render(){
-  shapes.attr("fill",function(f){return fillFor(f)[0];}).attr("fill-opacity",function(f){return fillFor(f)[1];})
-    .attr("stroke",function(f){ return byName[f.properties.name].abbr===selected?"var(--ink)":"var(--surface-1)"; })
-    .attr("stroke-width",function(f){ return byName[f.properties.name].abbr===selected?2:1; });
+  shapes.transition().duration(FADE)
+    .attr("fill",function(f){return fillFor(f)[0];})
+    .attr("fill-opacity",function(f){return fillFor(f)[1];});
+  shapes.attr("stroke",function(f){ return byName[f.properties.name].abbr===selected?"var(--ink)":"var(--surface-1)"; })
+    .attr("stroke-width",function(f){ return byName[f.properties.name].abbr===selected?1.8:1; });
   shapes.filter(function(f){return byName[f.properties.name].abbr===selected;}).raise();
   circG.selectAll("*").remove(); labG.selectAll("*").remove();
-  var shown=drawLinks();
-  var note=document.getElementById("catch-note");
+  var drawn=drawLinks();
 
-  // circles on the receiving states, area = total assigned catchment per clinic
-  var recv=D.recv.filter(function(d){return d.incoming_women>0&&d.clinics_jul2026>0&&cen[d.abbr];});
-  var rS=d3.scaleSqrt().domain([0,d3.max(recv,function(d){return d.assigned_per_clinic;})]).range([0,26]);
+  // Receiving-state circles: the per-clinic quantity, shown for the destinations of the
+  // bands currently drawn. Tying the two layers together stops the overview labelling a
+  // state whose connection is not on screen; every state's figure stays in its profile.
+  var dests={}; drawn.forEach(function(d){ dests[d.dest_abbr]=1; });
+  var recv=D.recv.filter(function(d){return d.incoming_women>0&&d.clinics_jul2026>0&&cen[d.abbr]&&dests[d.abbr];});
+  var rS=d3.scaleSqrt().domain([0,d3.max(recv,function(d){return d.assigned_per_clinic;})]).range([0,24]);
   circG.selectAll("circle").data(recv).join("circle")
     .attr("cx",function(d){return cen[d.abbr][0];}).attr("cy",function(d){return cen[d.abbr][1];})
     .attr("r",function(d){return rS(d.assigned_per_clinic);})
-    .attr("fill","none").attr("stroke","var(--ink)").attr("stroke-width",1.5)
-    .attr("stroke-opacity",function(d){ return !selected||d.abbr===selected?1:0.25; })
+    .attr("fill","none").attr("stroke","var(--ink)").attr("stroke-width",1)
+    .attr("stroke-opacity",function(d){ return (!selected&&!journey)?0.45:
+      (d.abbr===selected||(journey&&d.abbr===journey.dest_abbr)?0.9:0.12); })
     .attr("pointer-events","none");
-  var top=recv.slice().sort(function(a,b){return b.assigned_per_clinic-a.assigned_per_clinic;}).slice(0,4);
+  var top=recv.slice().sort(function(a,b){return b.assigned_per_clinic-a.assigned_per_clinic;}).slice(0,3);
+  if(!recv.length) rS=d3.scaleSqrt().domain([0,1]).range([0,24]);
   labG.selectAll("text").data(top).join("text")
     .attr("x",function(d){return cen[d.abbr][0];}).attr("y",function(d){return cen[d.abbr][1]-rS(d.assigned_per_clinic)-7;})
     .attr("text-anchor","middle").attr("font-size",13).attr("font-weight",600).attr("fill","var(--ink)")
     .attr("paint-order","stroke").attr("stroke","var(--surface-1)").attr("stroke-width",3.5).attr("pointer-events","none")
-    .attr("opacity",function(d){ return !selected||d.abbr===selected?1:0.3; })
+    .attr("opacity",function(d){ return (!selected&&!journey)||d.abbr===selected?1:0.25; })
     .text(function(d){return d.abbr+" "+ns.M(d.assigned_per_clinic)+"/clinic";});
 
-  if(!selected){
-    note.innerHTML="Showing <b>"+overview.length+" of "+C.cross_links+"</b> cross-state connections, those with at least "+
-      ns.fmt(MINW)+" women aged 15–44 each. Together they represent "+C.overview_share_pct.toFixed(1)+"% of the "+
-      ns.M(C.crossing_women)+" women whose nearest clinic is in another state. Each band is widest where the women live and "+
-      "narrows to the state holding their nearest clinic. Circles: total assigned catchment per clinic (area). "+
-      "<b>Click any state</b> for its own figures, including connections too small to draw here.";
-  } else {
-    var r=byAbbr[selected], mine=shown.filter(touches);
-    note.innerHTML="<b>"+r.name+"</b> selected: "+mine.length+" cross-state connection"+(mine.length===1?"":"s")+
-      " drawn, including any below the overview threshold. Use <b>Show all states</b> above, or click it again, "+
-      "to go back. Bands thinner than "+MINPX+" px are drawn at "+MINPX+" px so they stay visible.";
-  }
-  var rb=document.getElementById("catch-reset");
-  if(rb) rb.disabled=!selected&&!journey;
-  journeyButton();
-  var t=threadInfo();
-  if(t){
-    var nm=t.row.label;
-    note.innerHTML+=" <b>"+nm+"</b>: "+(t.dest==null?"the state of its nearest clinic is not available."
-      :t.same?"its nearest clinic is in the same state ("+t.row.state+"), so there is no cross-state arrow for it."
-      :t.cross?"its nearest clinic is in "+byAbbr[t.dest].name+"; the band from "+t.row.state+" to "+byAbbr[t.dest].name+" is outlined, and <b>Trace</b> follows it."
-      :"its nearest clinic is in "+t.dest+".");
-  }
-  desc.text(note.textContent);
+  note();
+  chips();
   profile();
+  desc.text(document.getElementById("catch-note").textContent);
 }
 
-function row(k,v){ return "<tr><td>"+k+"</td><td>"+v+"</td></tr>"; }
-function list(items,label,dir){
-  if(!items.length) return "<p class='sub' style='margin-top:12px'>"+label+": none</p>";
-  return "<p class='sub' style='margin-top:12px'>"+label+"</p><ol>"+items.slice(0,5).map(function(d){
-    var who=dir==="in"?d.origin_state:d.dest_state;
-    return "<li>"+who+" <span>"+ns.M(d.women_15_44)+"</span><br><small style='color:var(--ink-3)'>"+
-      d.counties+" "+(d.counties===1?"county":"counties")+"</small></li>";
-  }).join("")+"</ol>";
+/* one short line under the map, never a paragraph */
+function note(){
+  var el=document.getElementById("catch-note"); if(!el) return;
+  var t=threadInfo(), extra="";
+  if(t&&t.cross) extra=" <b>"+t.row.label+"</b>&rsquo;s nearest clinic is in "+byAbbr[t.dest].name+".";
+  else if(t&&t.same) extra=" <b>"+t.row.label+"</b>&rsquo;s nearest clinic is in its own state.";
+  if(showAll) el.innerHTML="All <b>"+C.cross_links+"</b> cross-state connections."+extra+
+    " <button type='button' class='linkish' id='catch-top'>Show the six largest</button>";
+  else if(selected) el.innerHTML="<b>"+byAbbr[selected].name+"</b>: every one of its connections, including the smallest."+extra;
+  else el.innerHTML="The <b>six largest</b> of "+C.cross_links+" connections, carrying "+overviewShare.toFixed(0)+
+    "% of the "+ns.M(C.crossing_women)+" women whose nearest clinic is out of state."+extra+
+    " <button type='button' class='linkish' id='catch-all'>Show all "+C.cross_links+"</button>";
+  var a=document.getElementById("catch-all"); if(a) a.onclick=function(){ showAll=true; select(null); };
+  var b=document.getElementById("catch-top"); if(b) b.onclick=function(){ showAll=false; render(); };
 }
-function profile(){
-  var el=document.getElementById("catch-profile");
-  if(!selected){
-    var topR=D.recv.slice().sort(function(a,b){return b.incoming_women-a.incoming_women;}).slice(0,6);
-    el.innerHTML="<h4>All states</h4><p class='sub'>July 2026 clinic and nearest-clinic data</p><table>"+
-      row("Women whose nearest clinic is in another state",ns.fmt(C.crossing_women))+
-      row("Share of covered women aged 15–44",C.crossing_pct.toFixed(1)+"%")+
-      row("Cross-state connections",C.cross_links)+"</table>"+
-      "<p class='sub' style='margin-top:14px'>Largest catchments drawn from other states</p><ol>"+
-      topR.map(function(d){return "<li>"+d.name+" <span>"+ns.M(d.incoming_women)+"</span></li>";}).join("")+"</ol>"+
-      "<p class='sub' style='margin-top:14px'>Click a state on the map to see its own figures.</p>";
-    return;
-  }
-  var r=byAbbr[selected], known=r.in_source_tables===1;
-  var inL=cross.filter(function(d){return d.dest_abbr===selected;}).sort(function(a,b){return b.women_15_44-a.women_15_44;});
-  var outL=cross.filter(function(d){return d.origin_abbr===selected;}).sort(function(a,b){return b.women_15_44-a.women_15_44;});
-  var tot=r.assigned_women||0;
-  var h="<h4>"+r.name+"</h4><p class='sub'>July 2026 clinic and nearest-clinic data</p><table>"+
-    row("Open clinics",known?(r.clinics_jul2026+" <span style='color:var(--ink-3)'>(May 2022: "+r.clinics_may2022+")</span>"):"not in supplied data")+
-    row("Residents whose nearest clinic is in this state",ns.fmt(r.retained_women))+
-    row("Residents of other states whose nearest clinic is here",ns.fmt(r.incoming_women)+
-        (r.incoming_origin_states?" <span style='color:var(--ink-3)'>("+r.incoming_origin_states+(r.incoming_origin_states===1?" state, ":" states, ")+r.incoming_counties+(r.incoming_counties===1?" county)":" counties)")+"</span>":""))+
-    row("Total assigned catchment",ns.fmt(tot))+
-    row("Per open clinic",r.assigned_per_clinic!=null?ns.fmt(Math.round(r.assigned_per_clinic)):"not available")+
-    row("Residents whose nearest clinic is in another state",known?ns.fmt(r.outgoing_women):"not in supplied data")+"</table>";
-  if(tot>0) h+="<div class='bar' role='img' aria-label='Own residents "+ns.fmt(r.retained_women)+", from other states "+ns.fmt(r.incoming_women)+"'>"+
-    "<span style='width:"+(r.retained_women/tot*100)+"%;background:var(--retained)'></span>"+
-    "<span style='width:"+(r.incoming_women/tot*100)+"%;background:var(--pol-7)'></span></div>"+
-    "<p class='sub'>pale: this state&rsquo;s own residents &middot; green: residents of other states</p>";
-  h+=list(inL,"Where its incoming catchment comes from","in");
-  h+=list(outL,"Where its residents&rsquo; nearest clinics are","out");
-  if(!known) h+="<p class='sub'>DC is not in the supplied state tables, so its clinic count, residents, and per-clinic value are unavailable.</p>";
-  el.innerHTML=h;
+function chips(){
+  d3.selectAll(".pick .chip[data-state]").attr("aria-pressed",function(){
+    return this.dataset.state===selected?"true":"false"; });
+  var rb=document.getElementById("catch-reset");
+  if(rb) rb.disabled=!selected&&!journey&&!showAll;
 }
 
-/* One marker, one connection, on request. Nothing autoplays and nothing loops. */
-function stopJourney(keepSelection){
+/* ---------------- the journey ---------------- */
+function stopJourney(clear){
   carG.selectAll("*").interrupt(); carG.html("");
-  if(!keepSelection) journey=null;
+  if(clear!==false) { journey=null; played=false; }
 }
-function journeyLine(d,arrived){
-  var el=document.getElementById("catch-journey-line"); if(!el) return;
-  el.innerHTML=d?("<b>"+d.origin_state+" &rarr; "+d.dest_state+"</b> &middot; "+ns.fmt(d.women_15_44)+
-    " women aged 15\u201344 in "+d.counties+" "+(d.counties===1?"county":"counties")+
-    " whose nearest open clinic is in "+d.dest_state+
-    (arrived?" &middot; <span style='color:var(--ink-3)'>schematic curve between state centres, not a driving route</span>":"")):"";
+function car(g){
+  // a side-on silhouette, about 22 units long: cabin, bonnet, two wheels
+  g.append("path").attr("d","M-10.5,2.4L-10.5,0.3C-10.5,-0.8 -9.9,-1.3 -8.8,-1.55L-5.4,-2.2"+
+      "C-4,-4 -2.3,-4.9 -0.2,-5L2.6,-5C4.6,-4.9 6.2,-4.1 7.4,-2.5L9.6,-1.7"+
+      "C10.7,-1.3 11,-0.7 11,0.4L11,2.4Z")
+    .attr("fill","var(--ink)").attr("stroke","var(--surface-1)").attr("stroke-width",1.1)
+    .attr("stroke-linejoin","round");
+  g.append("path").attr("d","M-4.6,-2.3C-3.5,-3.6 -2.2,-4.1 -0.4,-4.2L2.4,-4.2C3.9,-4.1 5,-3.5 5.9,-2.4Z")
+    .attr("fill","var(--surface-1)").attr("fill-opacity",.75);
+  [[-5.9,2.4],[6.1,2.4]].forEach(function(w){
+    g.append("circle").attr("cx",w[0]).attr("cy",w[1]).attr("r",2.2)
+      .attr("fill","var(--ink)").attr("stroke","var(--surface-1)").attr("stroke-width",1.1);
+  });
 }
-function playJourney(){
-  var d=journeyPick();
+function play(d){
   if(!d||!cen[d.origin_abbr]||!cen[d.dest_abbr]) return;
-  journey=d; stopJourney(true); render();
+  stopJourney();
+  journey=d; played=true;
+  if(selected!==d.origin_abbr){ selected=d.origin_abbr; }
+  render();
   var track=carG.append("path").attr("d",d.mid).attr("fill","none").attr("stroke","none");
   var node=track.node();
   var ok=node&&typeof node.getTotalLength==="function"&&typeof node.getPointAtLength==="function";
   var end=cen[d.dest_abbr];
-  var car=carG.append("g");
-  car.append("rect").attr("x",-6.5).attr("y",-3.2).attr("width",13).attr("height",6.4).attr("rx",2.2)
-    .attr("fill","var(--ink)").attr("stroke","var(--surface-1)").attr("stroke-width",1.4);
+  // the connection draws itself as the car travels
+  var trail=carG.append("path").attr("d",d.mid).attr("fill","none")
+    .attr("stroke","var(--conn)").attr("stroke-width",2.5).attr("stroke-linecap","round");
+  var g=carG.append("g"); car(g);
   function arrive(){
-    carG.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",7)
+    carG.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",8)
       .attr("fill","none").attr("stroke","var(--pol-7)").attr("stroke-width",2.5)
-      .call(function(c){ if(reduce) return c.attr("r",16).attr("stroke-opacity",.55);
-        c.transition().duration(620).ease(d3.easeCubicOut)
-         .attr("r",20).attr("stroke-opacity",0).remove(); });
-    carG.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",5)
+      .call(function(c){ if(reduce) return c.attr("r",17).attr("stroke-opacity",.5);
+        c.transition().duration(700).ease(d3.easeCubicOut).attr("r",24).attr("stroke-opacity",0).remove(); });
+    carG.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",5.5)
       .attr("fill","var(--pol-7)").attr("stroke","var(--surface-1)").attr("stroke-width",2);
-    journeyLine(d,true);
+    profile();
   }
-  if(!ok||reduce){ car.attr("transform","translate("+end[0]+","+end[1]+")"); arrive(); return; }
+  if(!ok||reduce){
+    trail.attr("stroke-dasharray",null);
+    g.attr("transform","translate("+end[0]+","+end[1]+")");
+    arrive(); return;
+  }
   var total=node.getTotalLength();
-  journeyLine(d,false);
-  car.transition().duration(2200).ease(d3.easeCubicInOut)
+  trail.attr("stroke-dasharray",total+" "+total).attr("stroke-dashoffset",total);
+  g.transition().duration(DUR).ease(d3.easeCubicInOut)
     .attrTween("transform",function(){
       return function(t){
-        var pt=node.getPointAtLength(total*t),
-            pr=node.getPointAtLength(Math.max(0,total*t-4));
+        var L=total*t, pt=node.getPointAtLength(L), pr=node.getPointAtLength(Math.max(0,L-4));
+        trail.attr("stroke-dashoffset",total-L);
         return "translate("+pt.x+","+pt.y+") rotate("+(Math.atan2(pt.y-pr.y,pt.x-pr.x)*180/Math.PI)+")";
       };
     }).on("end",arrive);
 }
-function journeyButton(){
-  var b=document.getElementById("catch-journey"); if(!b) return;
-  var d=journeyPick();
-  b.disabled=!d;
-  b.textContent=d?((journey&&isJourney(d)?"Replay ":"Trace ")+d.origin_abbr+" \u2192 "+d.dest_abbr):"No connection to trace";
-}
 
-function select(abbr){ stopJourney(); journeyLine(null); selected=(abbr===selected?null:abbr)||null; render(); }
-// the county thread selects its state (never toggles it off), and undoes only that choice when cleared
+/* ---------------- the panel ---------------- */
+function destList(a){
+  var links=linksOf(a); if(!links.length) return "";
+  var max=links[0].women_15_44;
+  return "<p class='lead'>Nearest clinics are in</p><ol class='dests'>"+links.map(function(d){
+    var on=journey&&isJourney(d);
+    return "<li><button type='button' data-o='"+d.origin_abbr+"' data-d='"+d.dest_abbr+"' aria-pressed='"+(on?"true":"false")+"'>"+
+      "<span class='r'><span class='d'>"+d.dest_state+"</span><span class='n'>"+ns.M(d.women_15_44)+"</span></span>"+
+      "<span class='bar'><i style='width:"+Math.max(3,d.women_15_44/max*100)+"%'></i></span>"+
+      "<small>"+d.counties+" "+(d.counties===1?"county":"counties")+"</small></button></li>";
+  }).join("")+"</ol>";
+}
+function profile(){
+  var el=document.getElementById("catch-profile"); if(!el) return;
+  var h="";
+  if(journey){
+    h+="<div class='jroute'><p class='od'>"+journey.origin_state+"<span class='ar'>→</span>"+journey.dest_state+"</p>"+
+       "<div class='big-n'>"+ns.M(journey.women_15_44)+"</div>"+
+       "<p class='sub'>women aged 15–44 in "+journey.counties+" "+(journey.counties===1?"county":"counties")+
+       "</p></div>";
+  }
+  if(!selected){
+    var topR=D.recv.slice().sort(function(a,b){return b.incoming_women-a.incoming_women;}).slice(0,4);
+    var mx=topR[0]?topR[0].incoming_women:1;
+    h+="<div class='big-n'>"+ns.M(C.crossing_women)+"</div>"+
+      "<p class='sub'>women aged 15–44 whose nearest open clinic is in another state, "+
+      C.crossing_pct.toFixed(1)+"% of those the data cover</p>"+
+      "<p class='lead'>Largest catchments drawn from elsewhere</p><ol class='dests'>"+
+      topR.map(function(d){ return "<li><button type='button' data-sel='"+d.abbr+"'>"+
+        "<span class='r'><span class='d'>"+d.name+"</span><span class='n'>"+ns.M(d.incoming_women)+"</span></span>"+
+        "<span class='bar'><i style='width:"+Math.max(3,d.incoming_women/mx*100)+"%'></i></span></button></li>"; }).join("")+
+      "</ol><p class='hint'>Select a state on the map for its own connections.</p>";
+  } else {
+    var r=byAbbr[selected], known=r.in_source_tables===1;
+    h+="<h4>"+r.name+"</h4><p class='sub'>"+
+      (known?ns.fmt(r.outgoing_women)+" residents&rsquo; nearest clinic is in another state":"not in the supplied state tables")+
+      "</p>"+destList(selected);
+    if(!linksOf(selected).length) h+="<p class='hint'>No county here has its nearest clinic in another state.</p>";
+    h+="<details class='more'><summary>All figures for "+r.name+"</summary><table>"+
+      row("Open clinics",known?(r.clinics_jul2026+" <span style='color:var(--ink-3)'>(May 2022: "+r.clinics_may2022+")</span>"):"not available")+
+      row("Residents served in this state",ns.fmt(r.retained_women))+
+      row("Arriving from other states",ns.fmt(r.incoming_women)+
+        (r.incoming_origin_states?" <span style='color:var(--ink-3)'>("+r.incoming_origin_states+" state"+(r.incoming_origin_states===1?"":"s")+")</span>":""))+
+      row("Total assigned catchment",ns.fmt(r.assigned_women||0))+
+      row("Per open clinic",r.assigned_per_clinic!=null?ns.fmt(Math.round(r.assigned_per_clinic)):"not available")+
+      "</table></details>";
+  }
+  el.innerHTML=h;
+  el.querySelectorAll("ol.dests button[data-d]").forEach(function(b){
+    b.onclick=function(){ var d=cross.filter(function(x){return x.origin_abbr===b.dataset.o&&x.dest_abbr===b.dataset.d;})[0];
+      if(d) play(d); };
+  });
+  el.querySelectorAll("ol.dests button[data-sel]").forEach(function(b){
+    b.onclick=function(){ select(b.dataset.sel); };
+  });
+}
+function row(k,v){ return "<tr><td>"+k+"</td><td>"+v+"</td></tr>"; }
+
+/* ---------------- selection ---------------- */
+function select(abbr){
+  stopJourney();
+  selected=(abbr===selected?null:abbr)||null;
+  render();
+}
 ns.onCounty(function(f){
   var r=ns.countyRow(f);
-  stopJourney(); journeyLine(null);
+  stopJourney();
   if(r&&byAbbr[r.state_abbr]){ threadState=r.state_abbr; selected=r.state_abbr; render(); }
   else { if(threadState&&selected===threadState) selected=null; threadState=null; render(); }
 });
-d3.select("#catch-reset").on("click",function(){ select(null); });
-d3.select("#catch-journey").on("click",playJourney);
+d3.select("#catch-reset").on("click",function(){ showAll=false; stopJourney(); selected=null; render(); });
+d3.selectAll(".pick .chip[data-state]").on("click",function(){ select(this.dataset.state); });
 shapes.on("click",function(e,f){ select(byName[f.properties.name].abbr); })
   .on("mousemove",function(e,f){
     var r=byName[f.properties.name];
@@ -333,20 +383,19 @@ shapes.on("click",function(e,f){ select(byName[f.properties.name].abbr); })
   }).on("mouseleave",ns.hideTip);
 dcG.on("click",function(){ select("DC"); });
 
-// legend: roles, then the linear width scale
+/* legend: roles, then the band scale */
 var lg=d3.select("#catch-legend").html("");
-lg.append("span").html("<i class='sw' style='background:var(--pol-1)'></i>No open clinic left in the state");
-lg.append("span").html("<i class='sw' style='background:var(--pol-7)'></i>Nearest option for another state&rsquo;s residents");
-lg.append("span").html("<i class='sw' style='background:var(--neutral)'></i>Neither");
-var ls=lg.append("span").append("svg").attr("width",262).attr("height",26)
+lg.append("span").html("<i class='sw' style='background:var(--pol-1)'></i>Origin / no clinic left");
+lg.append("span").html("<i class='sw' style='background:var(--pol-7)'></i>Destination");
+lg.append("span").html("<i class='sw ring'></i>Circle area = catchment per clinic");
+var ls=lg.append("span").append("svg").attr("width",236).attr("height",24)
   .attr("aria-label","Band width legend: width at the wide end is proportional to women aged 15 to 44");
-[[100000,"100k"],[1000000,"1M"],[4000000,"4M women"]].forEach(function(v,i){
-  var x0=i*74, h=wpx(v[0])/2;
-  ls.append("path").attr("d","M"+x0+","+(13-h)+"L"+(x0+26)+",13L"+x0+","+(13+h)+"Z")
-    .attr("fill","var(--conn)").attr("fill-opacity",.7);
-  ls.append("text").attr("x",x0+30).attr("y",17).attr("font-size",12).attr("fill","var(--ink-2)").text(v[1]);
+[[500000,"0.5M"],[2000000,"2M"],[4500000,"4.5M women"]].forEach(function(v,i){
+  var x0=i*66, h=wpx(v[0])/2;
+  ls.append("path").attr("d","M"+x0+","+(12-h)+"L"+(x0+22)+",12L"+x0+","+(12+h)+"Z")
+    .attr("fill","var(--conn)").attr("fill-opacity",.65);
+  ls.append("text").attr("x",x0+26).attr("y",16).attr("font-size",12).attr("fill","var(--ink-2)").text(v[1]);
 });
-lg.append("span").text("band width at the wide end \u221d women aged 15\u201344; it narrows toward the clinic state");
 
 render();
 };
