@@ -88,8 +88,9 @@ function draw(){
   // with. The accent stays reserved for an emphasised subset and site chrome.
   pin.append("circle").attr("r",7).attr("fill","var(--pol-7)")
     .attr("stroke","var(--surface-1)").attr("stroke-width",2.5);
-  pinLab=svg.append("text").attr("text-anchor","middle").attr("font-size",11.5)
-    .attr("fill","var(--ink-2)").text("nearest clinic");
+  pinLab=svg.append("text").attr("font-size",11.5).attr("fill","var(--ink-2)")
+    .attr("paint-order","stroke").attr("stroke","var(--surface-1)").attr("stroke-width",3.5)
+    .text("nearest clinic");
   car=g.append("g").attr("aria-hidden","true");
   car.append("rect").attr("x",-7).attr("y",-3.5).attr("width",14).attr("height",7).attr("rx",2.5)
     .attr("fill","var(--ink)").attr("stroke","var(--surface-1)").attr("stroke-width",1.5);
@@ -113,7 +114,19 @@ function paint(mi){
   centre.attr("stroke-dasharray",centreDash(L));
   var pe=pathEl.getPointAtLength(L);
   pin.attr("transform","translate("+pe.x+","+pe.y+")");
-  pinLab.attr("x",pe.x).attr("y",pe.y-16);
+  // Offset the label along the normal to the road, always on the upper side, so it
+  // clears the 20px band and the car instead of lying across them on a steep stretch.
+  var pb=pathEl.getPointAtLength(Math.max(0,L-7));
+  var tx=pe.x-pb.x, ty=pe.y-pb.y, tl=Math.hypot(tx,ty)||1;
+  var nx=-ty/tl, ny=tx/tl;
+  if(ny>0){ nx=-nx; ny=-ny; }
+  var lx=pe.x+nx*21, ly=pe.y+ny*21+4;
+  var anc=Math.abs(nx)<0.35?"middle":(nx>0?"start":"end");
+  // keep it inside the drawing box: at the far end of the road the normal would
+  // throw the label off the right edge
+  if(lx>W-78){ lx=pe.x-12; anc="end"; ly=Math.min(ly,pe.y-14); }
+  else if(lx<78){ lx=pe.x+12; anc="start"; ly=Math.min(ly,pe.y-14); }
+  pinLab.attr("x",lx).attr("y",ly).attr("text-anchor",anc);
   var cl=Math.max(0,L-30), pc=pathEl.getPointAtLength(cl), pa=pathEl.getPointAtLength(Math.max(0,cl-6));
   var ang=Math.atan2(pc.y-pa.y,pc.x-pa.x)*180/Math.PI;
   car.attr("transform","translate("+pc.x+","+pc.y+") rotate("+ang+")").attr("opacity",L>44?1:0);
