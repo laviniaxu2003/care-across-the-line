@@ -344,7 +344,7 @@ var ls=lg.append("span").append("svg").attr("width",262).attr("height",26)
   var x0=i*74, h=wpx(v[0])/2;
   ls.append("path").attr("d","M"+x0+","+(13-h)+"L"+(x0+26)+",13L"+x0+","+(13+h)+"Z")
     .attr("fill","var(--conn)").attr("fill-opacity",.7);
-  ls.append("text").attr("x",x0+30).attr("y",17).attr("font-size",11.5).attr("fill","var(--ink-2)").text(v[1]);
+  ls.append("text").attr("x",x0+30).attr("y",17).attr("font-size",12).attr("fill","var(--ink-2)").text(v[1]);
 });
 lg.append("span").text("band width at the wide end \u221d women aged 15\u201344; it narrows toward the clinic state");
 

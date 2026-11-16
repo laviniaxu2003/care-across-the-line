@@ -9,7 +9,7 @@ var BANDS=[
   {k:"middle",      c:"var(--tier-mid)", lab:D.labels.middle,      n:D.n_states.middle},
   {k:"protective",  c:"var(--protect)",  lab:D.labels.protective,  n:D.n_states.protective}
 ];
-var MONO="DM Mono, monospace";
+var MONO="Archivo, system-ui, sans-serif";
 function txt(g,x,y,s,o){ var t=g.append("text").attr("x",x).attr("y",y).text(s)
   .attr("font-size",(o&&o.size)||11.5).attr("fill",(o&&o.fill)||"var(--ink-3)")
   .attr("font-family",(o&&o.font)||MONO);

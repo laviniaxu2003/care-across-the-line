@@ -81,14 +81,14 @@ function draw(){
   g.append("circle").attr("cx",p0.x).attr("cy",p0.y).attr("r",5.5)
     .attr("fill","var(--surface-1)").attr("stroke","var(--ink)").attr("stroke-width",2);
   svg.append("text").attr("x",p0.x).attr("y",p0.y+26).attr("text-anchor","middle")
-    .attr("font-size",11.5).attr("fill","var(--ink-3)").text("County");
+    .attr("font-size",12).attr("fill","var(--ink-3)").text("County");
 
   pin=g.append("g");
   // Ivy, the access colour: the same token the catchment map rings its destination
   // with. Crimson stays reserved for an emphasised subset and site chrome.
   pin.append("circle").attr("r",7).attr("fill","var(--pol-7)")
     .attr("stroke","var(--surface-1)").attr("stroke-width",2.5);
-  pinLab=svg.append("text").attr("text-anchor","middle").attr("font-size",11.5)
+  pinLab=svg.append("text").attr("text-anchor","middle").attr("font-size",12)
     .attr("fill","var(--ink-2)").text("nearest clinic");
   car=g.append("g").attr("aria-hidden","true");
   car.append("rect").attr("x",-7).attr("y",-3.5).attr("width",14).attr("height",7).attr("rx",2.5)

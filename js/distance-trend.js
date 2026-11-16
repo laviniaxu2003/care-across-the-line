@@ -74,17 +74,17 @@ function draw(){
   svg.append("g").attr("transform","translate(0,"+(H-M.b)+")")
     .call(d3.axisBottom(x).ticks(range==="focus"?(narrow?4:7):(narrow?4:8))
       .tickFormat(range==="focus"?d3.timeFormat("%b %Y"):d3.timeFormat("%Y")).tickSizeOuter(0))
-    .call(function(a){ a.selectAll("text").attr("font-size",11.5).attr("fill","var(--ink-2)"); a.selectAll("line,path").attr("stroke","var(--rule)"); });
+    .call(function(a){ a.selectAll("text").attr("font-size",12).attr("fill","var(--ink-2)"); a.selectAll("line,path").attr("stroke","var(--rule)"); });
   svg.append("g").attr("transform","translate("+M.l+",0)")
     .call(d3.axisLeft(y).ticks(6).tickSize(-(W-M.l-M.r)))
     .call(function(a){ a.select(".domain").remove(); a.selectAll("line").attr("stroke","var(--rule)");
-      a.selectAll("text").attr("font-size",11.5).attr("fill","var(--ink-2)"); });
-  svg.append("text").attr("x",M.l).attr("y",M.t-10).attr("font-size",11.5).attr("fill","var(--ink-3)").text("road miles");
+      a.selectAll("text").attr("font-size",12).attr("fill","var(--ink-2)"); });
+  svg.append("text").attr("x",M.l).attr("y",M.t-10).attr("font-size",12).attr("fill","var(--ink-3)").text("road miles");
 
   // Dobbs: the decision date, distinct from the monthly observations
   svg.append("line").attr("x1",x(DOBBS)).attr("x2",x(DOBBS)).attr("y1",M.t).attr("y2",H-M.b)
     .attr("stroke","var(--ink)").attr("stroke-dasharray","4 4");
-  svg.append("text").attr("x",x(DOBBS)-6).attr("y",M.t+12).attr("text-anchor","end").attr("font-size",11.5).attr("fill","var(--ink)")
+  svg.append("text").attr("x",x(DOBBS)-6).attr("y",M.t+12).attr("text-anchor","end").attr("font-size",12).attr("fill","var(--ink)")
     .text(narrow?"Dobbs, Jun 24 2022":"Dobbs decision, June 24, 2022");
 
   var line=d3.line().x(function(d){return x(d.date);}).y(function(d){return y(d.v);});
@@ -101,7 +101,7 @@ function draw(){
     var key=t.rank===1||t.rank===7;
     if(!key) return;
     svg.append("text").attr("x",W-M.r-2).attr("y",y(last.v)+(t.rank===1?20:-8)).attr("text-anchor","end")
-      .attr("font-size",12.5).attr("font-weight",600).attr("fill",TEXTCOLOR(t.rank))
+      .attr("font-size",13).attr("font-weight",600).attr("fill",TEXTCOLOR(t.rank))
       .attr("paint-order","stroke").attr("stroke","var(--surface-1)").attr("stroke-width",3)
       .text(t.name);
   });
@@ -114,7 +114,7 @@ function draw(){
       var ly=y(clast.v)-8, taken=vis.filter(function(t){return t.rank===1||t.rank===7;}).map(function(t){
         var l=t.values.filter(function(d){return d.date<=RANGES[range][1];}).pop(); return y(l.v)+(t.rank===1?20:-8); });
       for(var n=0;n<6&&taken.some(function(v){return Math.abs(v-ly)<14;});n++) ly-=14;
-      svg.append("text").attr("x",W-M.r-2).attr("y",ly).attr("text-anchor","end").attr("font-size",12.5).attr("font-weight",600)
+      svg.append("text").attr("x",W-M.r-2).attr("y",ly).attr("text-anchor","end").attr("font-size",13).attr("font-weight",600)
         .attr("fill","var(--ink)").attr("paint-order","stroke").attr("stroke","var(--surface-1)").attr("stroke-width",3).text(cty.name);
     }
   }

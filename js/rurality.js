@@ -20,7 +20,7 @@ function draw(){
   svg.append("g").attr("transform","translate(0,"+(H-M.b)+")")
     .call(d3.axisBottom(x).ticks(narrow?5:10).tickFormat(function(v){return v+"%";}).tickSize(-(H-M.b-M.t+10)))
     .call(function(a){ a.select(".domain").remove(); a.selectAll("line").attr("stroke","var(--rule)");
-      a.selectAll("text").attr("font-size",11.5).attr("fill","var(--ink-2)"); });
+      a.selectAll("text").attr("font-size",12).attr("fill","var(--ink-2)"); });
   // key
   var k=svg.append("g").attr("transform","translate("+M.l+",12)");
   [[R67,"var(--pol-7)","Policy ranks 6–7"],[R12,"var(--pol-1)","Policy ranks 1–2"]].forEach(function(e,i){
