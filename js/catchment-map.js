@@ -9,7 +9,13 @@
 
    Colour: Saffron for states with no clinic left, Ivy for states that are the nearest option for
    another state's residents, Indigo for the connections themselves. Deliberately not red/blue,
-   which read as party colours on a US map. */
+   which read as party colours on a US map.
+
+   Revised Nov 2026 (2): the links are tapered ribbons rather than arrows. Width at the origin is
+   still linear in women aged 15-44, so the encoding is unchanged, but each band narrows to a point
+   at the destination. Direction comes from the taper, so the heavy arrowheads are gone, and the ink
+   thins exactly where links converge, which is where the old version turned into a blot. One
+   journey marker can be traced along a single connection on request; nothing moves on its own. */
 window.CATL = window.CATL || {};
 window.CATL.catchmentMap = function(D, sel){
 "use strict";
@@ -38,7 +44,7 @@ if(missing.length) console.warn("links without a centroid",missing);
 var overview=cross.filter(function(d){ return d.women_15_44>=MINW; });
 
 var maxW=d3.max(cross,function(d){return d.women_15_44;});
-var wScale=d3.scaleLinear().domain([0,maxW]).range([0,18]);   // linear: width proportional to women
+var wScale=d3.scaleLinear().domain([0,maxW]).range([0,13]);   // linear: width proportional to women
 var MINPX=1;
 function wpx(v){ return Math.max(MINPX,wScale(v)); }
 
@@ -54,6 +60,7 @@ var shapes=g.append("g").selectAll("path").data(states.features).join("path")
 var linkG=g.append("g");
 var circG=g.append("g");
 var labG=g.append("g");
+var carG=g.append("g").attr("pointer-events","none");   // journey marker + arrival ring
 // DC is too small to click on the map: a labelled marker stands in for it
 var dcc=cen.DC;
 var dcG=g.append("g").style("cursor","pointer");
@@ -67,6 +74,21 @@ if(dcc){
 }
 
 var selected=null;   // null = overview of every state
+var journey=null;    // the one link being traced, or null
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function isJourney(d){ return !!journey&&d.origin_abbr===journey.origin_abbr&&d.dest_abbr===journey.dest_abbr; }
+/* Which connection the journey button offers: the county's own crossing if one is
+   chosen, otherwise the biggest link touching the selected state, otherwise the
+   biggest cross-state link there is. */
+function journeyPick(){
+  var t=threadInfo();
+  if(t&&t.cross){
+    var own=cross.filter(function(d){return d.origin_abbr===t.row.state_abbr&&d.dest_abbr===t.dest;})[0];
+    if(own) return own;
+  }
+  var pool=selected?cross.filter(touches):cross;
+  return pool.slice().sort(function(a,b){return b.women_15_44-a.women_15_44;})[0]||null;
+}
 var threadState=null;   // the state the "your county" selection chose, so clearing the county can undo it
 
 /* "your county": the arrow from its state to the state of its nearest clinic, or null */
@@ -76,16 +98,18 @@ function threadInfo(){
   return {row:r, dest:dest, same:same, cross:dest!=null&&!same&&!!byAbbr[dest]};
 }
 function hot(d){ var t=threadInfo(); return !!(t&&t.cross&&d.origin_abbr===t.row.state_abbr&&d.dest_abbr===t.dest); }
-function arrow(d){
+function ribbon(d){
+  // Same bow as the old arrow. The band is full width at the origin and closes to a
+  // point at the destination, so direction is carried by the shape, not an arrowhead.
   var a=cen[d.origin_abbr], b=cen[d.dest_abbr], w=wpx(d.women_15_44);
-  var mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2, dx=b[0]-a[0], dy=b[1]-a[1];
-  var c=[mx-dy*0.17, my+dx*0.17];
-  var tx=b[0]-c[0], ty=b[1]-c[1], tl=Math.hypot(tx,ty)||1; tx/=tl; ty/=tl;
-  var head=Math.max(7,w*1.5), half=Math.max(4.5,w*0.95), gap=5;
-  var tip=[b[0]-tx*gap,b[1]-ty*gap], base=[tip[0]-tx*head,tip[1]-ty*head];
+  var dx=b[0]-a[0], dy=b[1]-a[1], len=Math.hypot(dx,dy)||1;
+  var nx=-dy/len, ny=dx/len, h=w/2;
+  var c=[(a[0]+b[0])/2-dy*0.17, (a[1]+b[1])/2+dx*0.17];
   return {
-    line:"M"+a[0]+","+a[1]+"Q"+c[0]+","+c[1]+" "+base[0]+","+base[1],
-    head:"M"+tip[0]+","+tip[1]+"L"+(base[0]-ty*half)+","+(base[1]+tx*half)+"L"+(base[0]+ty*half)+","+(base[1]-tx*half)+"Z",
+    area:"M"+(a[0]+nx*h)+","+(a[1]+ny*h)+
+         "Q"+(c[0]+nx*h*0.55)+","+(c[1]+ny*h*0.55)+" "+b[0]+","+b[1]+
+         "Q"+(c[0]-nx*h*0.55)+","+(c[1]-ny*h*0.55)+" "+(a[0]-nx*h)+","+(a[1]-ny*h)+"Z",
+    mid:"M"+a[0]+","+a[1]+"Q"+c[0]+","+c[1]+" "+b[0]+","+b[1],
     w:w };
 }
 function touches(d){ return selected && (d.origin_abbr===selected || d.dest_abbr===selected); }
@@ -98,22 +122,22 @@ function drawLinks(){
   cross.filter(hot).forEach(add);
   data=data.filter(function(d){ return cen[d.origin_abbr]&&cen[d.dest_abbr]; })
     .sort(function(a,b){ return b.women_15_44-a.women_15_44; })
-    .map(function(d){ return Object.assign({},d,arrow(d)); });
+    .map(function(d){ return Object.assign({},d,ribbon(d)); });
   var s=linkG.selectAll("g.lk").data(data,function(d){return d.origin_abbr+">"+d.dest_abbr;});
   s.exit().remove();
   var en=s.enter().append("g").attr("class","lk");
-  en.append("path").attr("class","ol").attr("fill","none").attr("stroke-linecap","butt");
-  en.append("path").attr("class","ln").attr("fill","none").attr("stroke-linecap","butt");
-  en.append("path").attr("class","hd");
+  en.append("path").attr("class","ln");
   var all=en.merge(s);
-  function op(d){ return hot(d)?0.95:!selected?0.72:(touches(d)?0.95:0.10); }
-  // the county's arrow gets an ink outline (a wider line beneath, and a stroked head)
-  all.select(".ol").attr("d",function(d){return d.line;}).attr("stroke","var(--ink)")
-    .attr("stroke-width",function(d){return d.w+4;}).attr("stroke-opacity",function(d){return hot(d)?1:0;});
-  all.select(".ln").attr("d",function(d){return d.line;}).attr("stroke","var(--conn)")
-    .attr("stroke-width",function(d){return d.w;}).attr("stroke-opacity",op);
-  all.select(".hd").attr("d",function(d){return d.head;}).attr("fill","var(--conn)").attr("fill-opacity",op)
-    .attr("stroke","var(--ink)").attr("stroke-width",function(d){return hot(d)?2:0;});
+  function op(d){
+    if(journey&&!isJourney(d)) return 0.06;      // tracing one journey mutes the rest
+    if(journey) return 0.95;
+    return hot(d)?0.95:!selected?0.6:(touches(d)?0.9:0.08);
+  }
+  all.select(".ln").attr("d",function(d){return d.area;}).attr("fill","var(--conn)")
+    .attr("fill-opacity",op)
+    .attr("stroke","var(--ink)")
+    .attr("stroke-width",function(d){return hot(d)||isJourney(d)?1.4:0;})
+    .attr("stroke-opacity",function(d){return hot(d)||isJourney(d)?0.85:0;});
   all.on("mousemove",function(e,d){
       ns.tip(e,"<div class='t'>"+d.origin_state+" → "+d.dest_state+"</div>"+ns.fmt(d.women_15_44)+
         " women aged 15–44 in "+d.counties+" "+(d.counties===1?"county":"counties")+
@@ -168,22 +192,24 @@ function render(){
   if(!selected){
     note.innerHTML="Showing <b>"+overview.length+" of "+C.cross_links+"</b> cross-state connections, those with at least "+
       ns.fmt(MINW)+" women aged 15–44 each. Together they represent "+C.overview_share_pct.toFixed(1)+"% of the "+
-      ns.M(C.crossing_women)+" women whose nearest clinic is in another state. Circles: total assigned catchment per clinic (area). "+
+      ns.M(C.crossing_women)+" women whose nearest clinic is in another state. Each band is widest where the women live and "+
+      "narrows to the state holding their nearest clinic. Circles: total assigned catchment per clinic (area). "+
       "<b>Click any state</b> for its own figures, including connections too small to draw here.";
   } else {
     var r=byAbbr[selected], mine=shown.filter(touches);
     note.innerHTML="<b>"+r.name+"</b> selected: "+mine.length+" cross-state connection"+(mine.length===1?"":"s")+
-      " drawn. Use <b>Show all states</b> above, or click it again, to go back. Arrows narrower than "+MINPX+
-      " px are drawn at "+MINPX+" px so they stay visible.";
+      " drawn, including any below the overview threshold. Use <b>Show all states</b> above, or click it again, "+
+      "to go back. Bands thinner than "+MINPX+" px are drawn at "+MINPX+" px so they stay visible.";
   }
   var rb=document.getElementById("catch-reset");
-  if(rb) rb.disabled=!selected;
+  if(rb) rb.disabled=!selected&&!journey;
+  journeyButton();
   var t=threadInfo();
   if(t){
     var nm=t.row.label;
     note.innerHTML+=" <b>"+nm+"</b>: "+(t.dest==null?"the state of its nearest clinic is not available."
       :t.same?"its nearest clinic is in the same state ("+t.row.state+"), so there is no cross-state arrow for it."
-      :t.cross?"its nearest clinic is in "+byAbbr[t.dest].name+"; the arrow from "+t.row.state+" to "+byAbbr[t.dest].name+" is outlined."
+      :t.cross?"its nearest clinic is in "+byAbbr[t.dest].name+"; the band from "+t.row.state+" to "+byAbbr[t.dest].name+" is outlined, and <b>Trace</b> follows it."
       :"its nearest clinic is in "+t.dest+".");
   }
   desc.text(note.textContent);
@@ -234,14 +260,68 @@ function profile(){
   el.innerHTML=h;
 }
 
-function select(abbr){ selected=(abbr===selected?null:abbr)||null; render(); }
+/* One marker, one connection, on request. Nothing autoplays and nothing loops. */
+function stopJourney(keepSelection){
+  carG.selectAll("*").interrupt(); carG.html("");
+  if(!keepSelection) journey=null;
+}
+function journeyLine(d,arrived){
+  var el=document.getElementById("catch-journey-line"); if(!el) return;
+  el.innerHTML=d?("<b>"+d.origin_state+" &rarr; "+d.dest_state+"</b> &middot; "+ns.fmt(d.women_15_44)+
+    " women aged 15\u201344 in "+d.counties+" "+(d.counties===1?"county":"counties")+
+    " whose nearest open clinic is in "+d.dest_state+
+    (arrived?" &middot; <span style='color:var(--ink-3)'>schematic curve between state centres, not a driving route</span>":"")):"";
+}
+function playJourney(){
+  var d=journeyPick();
+  if(!d||!cen[d.origin_abbr]||!cen[d.dest_abbr]) return;
+  journey=d; stopJourney(true); render();
+  var track=carG.append("path").attr("d",d.mid).attr("fill","none").attr("stroke","none");
+  var node=track.node();
+  var ok=node&&typeof node.getTotalLength==="function"&&typeof node.getPointAtLength==="function";
+  var end=cen[d.dest_abbr];
+  var car=carG.append("g");
+  car.append("rect").attr("x",-6.5).attr("y",-3.2).attr("width",13).attr("height",6.4).attr("rx",2.2)
+    .attr("fill","var(--ink)").attr("stroke","var(--surface-1)").attr("stroke-width",1.4);
+  function arrive(){
+    carG.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",7)
+      .attr("fill","none").attr("stroke","var(--pol-7)").attr("stroke-width",2.5)
+      .call(function(c){ if(reduce) return c.attr("r",16).attr("stroke-opacity",.55);
+        c.transition().duration(620).ease(d3.easeCubicOut)
+         .attr("r",20).attr("stroke-opacity",0).remove(); });
+    carG.append("circle").attr("cx",end[0]).attr("cy",end[1]).attr("r",5)
+      .attr("fill","var(--pol-7)").attr("stroke","var(--surface-1)").attr("stroke-width",2);
+    journeyLine(d,true);
+  }
+  if(!ok||reduce){ car.attr("transform","translate("+end[0]+","+end[1]+")"); arrive(); return; }
+  var total=node.getTotalLength();
+  journeyLine(d,false);
+  car.transition().duration(2200).ease(d3.easeCubicInOut)
+    .attrTween("transform",function(){
+      return function(t){
+        var pt=node.getPointAtLength(total*t),
+            pr=node.getPointAtLength(Math.max(0,total*t-4));
+        return "translate("+pt.x+","+pt.y+") rotate("+(Math.atan2(pt.y-pr.y,pt.x-pr.x)*180/Math.PI)+")";
+      };
+    }).on("end",arrive);
+}
+function journeyButton(){
+  var b=document.getElementById("catch-journey"); if(!b) return;
+  var d=journeyPick();
+  b.disabled=!d;
+  b.textContent=d?((journey&&isJourney(d)?"Replay ":"Trace ")+d.origin_abbr+" \u2192 "+d.dest_abbr):"No connection to trace";
+}
+
+function select(abbr){ stopJourney(); journeyLine(null); selected=(abbr===selected?null:abbr)||null; render(); }
 // the county thread selects its state (never toggles it off), and undoes only that choice when cleared
 ns.onCounty(function(f){
   var r=ns.countyRow(f);
+  stopJourney(); journeyLine(null);
   if(r&&byAbbr[r.state_abbr]){ threadState=r.state_abbr; selected=r.state_abbr; render(); }
   else { if(threadState&&selected===threadState) selected=null; threadState=null; render(); }
 });
 d3.select("#catch-reset").on("click",function(){ select(null); });
+d3.select("#catch-journey").on("click",playJourney);
 shapes.on("click",function(e,f){ select(byName[f.properties.name].abbr); })
   .on("mousemove",function(e,f){
     var r=byName[f.properties.name];
@@ -258,14 +338,15 @@ var lg=d3.select("#catch-legend").html("");
 lg.append("span").html("<i class='sw' style='background:var(--pol-1)'></i>No open clinic left in the state");
 lg.append("span").html("<i class='sw' style='background:var(--pol-7)'></i>Nearest option for another state&rsquo;s residents");
 lg.append("span").html("<i class='sw' style='background:var(--neutral)'></i>Neither");
-var ls=lg.append("span").append("svg").attr("width",250).attr("height",26).attr("aria-label","Arrow width legend");
+var ls=lg.append("span").append("svg").attr("width",262).attr("height",26)
+  .attr("aria-label","Band width legend: width at the wide end is proportional to women aged 15 to 44");
 [[100000,"100k"],[1000000,"1M"],[4000000,"4M women"]].forEach(function(v,i){
-  var x0=i*70;
-  ls.append("line").attr("x1",x0).attr("x2",x0+26).attr("y1",13).attr("y2",13)
-    .attr("stroke","var(--ink-3)").attr("stroke-width",wpx(v[0]));
+  var x0=i*74, h=wpx(v[0])/2;
+  ls.append("path").attr("d","M"+x0+","+(13-h)+"L"+(x0+26)+",13L"+x0+","+(13+h)+"Z")
+    .attr("fill","var(--conn)").attr("fill-opacity",.7);
   ls.append("text").attr("x",x0+30).attr("y",17).attr("font-size",11.5).attr("fill","var(--ink-2)").text(v[1]);
 });
-lg.append("span").text("arrow width ∝ women aged 15–44 (linear)");
+lg.append("span").text("band width at the wide end \u221d women aged 15\u201344; it narrows toward the clinic state");
 
 render();
 };

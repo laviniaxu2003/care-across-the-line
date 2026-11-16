@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,700&display=swap">
-<link rel="stylesheet" href="css/style.css?v=20">
+<link rel="stylesheet" href="css/style.css?v=21">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 </head>
@@ -252,14 +252,18 @@ laws changed.</p>
   <figure id="fig-catch" aria-labelledby="t-catch">
     <span class="flag">Potential geographic catchment, not observed patient travel</span>
     <h3 id="t-catch">Which state holds the nearest clinic</h3>
-    <p class="fig-sub">Arrows run from where women live to the state holding their nearest clinic, July 2026; width is
-      proportional to the women aged 15&ndash;44 involved.</p>
-    <p class="howto"><b>How to read</b> Arrows run from where women live to the state holding their nearest clinic.
-      <b>Click any state</b> for its own figures.</p>
+    <p class="fig-sub">Each band runs from where women live to the state holding their nearest clinic, July 2026. It is
+      widest at the home state, in proportion to the women aged 15&ndash;44 involved, and narrows to a point at the
+      clinic state.</p>
+    <p class="howto"><b>How to read</b> <b>Click any state</b> for its own figures and all of its connections,
+      including ones too small for the overview. <b>Trace</b> follows a single connection end to end.</p>
     <div class="controls">
+      <div class="ctl"><span class="lab">Follow one connection</span>
+        <button type="button" class="plain" id="catch-journey">Trace the largest</button></div>
       <div class="ctl"><span class="lab">&nbsp;</span>
         <button type="button" class="plain" id="catch-reset" disabled>Show all states</button></div>
     </div>
+    <p class="note" id="catch-journey-line" aria-live="polite" style="margin-top:0"></p>
     <div class="status" id="st-catch" role="status"></div>
     <div class="catch">
       <div class="panel">
@@ -270,9 +274,10 @@ laws changed.</p>
       <div class="panel profile" id="catch-profile" aria-live="polite"></div>
     </div>
     <details class="data about"><summary>About the data</summary>
-      <p class="note"><b>What the arrows are.</b> Arrows are drawn between state centers and are schematic. They show where
-        the nearest clinic is for each county (road distance from the county, Myers database, July 2026), added up by home
-        state and clinic state. They are not routes, actual trips, appointments, or patients.</p>
+      <p class="note"><b>What the bands are.</b> Curves are drawn between state centres and are schematic. They show which
+        state holds the nearest open clinic for each county (road distance from the county, Myers database, July 2026),
+        added up by home state and clinic state. They are not driving routes, actual trips, appointments, or patients, and
+        no individual clinic has been identified. The traced journey follows the same schematic curve.</p>
       <p class="note"><b>Population.</b> Women aged 15&ndash;44 (HRSA AHRF), the population the source data use. This is a
         count of who lives nearest to a clinic, not a count of people seeking abortion care.</p>
       <p class="note"><b>Small jurisdictions.</b> DC is too small to click on the map, so it is marked with a labelled dot.</p>
@@ -313,7 +318,7 @@ laws changed.</p>
 <script src="js/burden-bars.js?v=17"></script>
 <script src="js/county-explorer.js?v=20"></script>
 <script src="js/rurality.js?v=14"></script>
-<script src="js/catchment-map.js?v=18"></script>
+<script src="js/catchment-map.js?v=21"></script>
 <script src="js/county-find.js?v=14"></script>
 <script src="js/main.js?v=21"></script>
 <script src="js/section-nav.js?v=13"></script>
