@@ -32,10 +32,11 @@
   --link:#3f51b5;                                  /* links and focus ring, as on main */
   --retained:#8a909c; --neutral:#8d929b; --dot:#5b6170;
   --spot:#ff8fa6;
+  --road-line:#f6f1dc;                             /* road centre line: a pale marking, visible under every CVD simulation */
   /* Bivariate 3x3: --b<distance class><supply row>. Distance 1 = <=0, 2 = >0 to <100,
      3 = >=100 mi; supply row 1 = >2.5 per 10k, 2 = >0 to 2.5, 3 = none. */
-  --b11:#e6e7ea; --b21:#f3cfa6; --b31:#e39a55;
-  --b12:#b9d3e6; --b22:#cdb9a0; --b32:#b77a4a;
+  --b11:#e6e7ea; --b21:#f9c9b6; --b31:#e39a55;
+  --b12:#aad5f2; --b22:#b6a082; --b32:#b77a4a;
   --b13:#6fa3cc; --b23:#7f8f9d; --b33:#b3123f;
   --f-display:"Fraunces",Georgia,"Times New Roman",serif;
   --f-body:"Archivo",system-ui,-apple-system,sans-serif;
@@ -53,7 +54,7 @@
   --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
   --pol-7:#9e70cf; --pol-7-text:#9e70cf;
   --conn:#d2b8f5; --link:#6d7ce4;
-  --retained:#646a79; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
+  --retained:#9aa0ab; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
 }}
 :root[data-theme="dark"]{
   --page:#101217; --surface-1:#181b21; --surface-2:#1e2129;
@@ -63,7 +64,7 @@
   --pol-2:#efb867; --pol-3:#cbbd94; --pol-4:#7f858e; --pol-5:#ccb6f0; --pol-6:#7f55b9;
   --pol-7:#9e70cf; --pol-7-text:#9e70cf;
   --conn:#d2b8f5; --link:#6d7ce4;
-  --retained:#646a79; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
+  --retained:#9aa0ab; --neutral:#70757f; --dot:#9aa0ab; --spot:#ff8fa6;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--page);color:var(--ink);

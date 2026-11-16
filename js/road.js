@@ -68,7 +68,7 @@ function draw(){
     .attr("stroke-width",narrow?16:20).attr("stroke-linecap","round").attr("opacity",.55);
   surface=g.append("path").attr("d",d).attr("fill","none").attr("stroke","var(--pol-4)")
     .attr("stroke-width",narrow?16:20).attr("stroke-linecap","round");
-  centre=g.append("path").attr("d",d).attr("fill","none").attr("stroke","var(--spot)")
+  centre=g.append("path").attr("d",d).attr("fill","none").attr("stroke","var(--road-line)")
     .attr("stroke-width",2).attr("stroke-linecap","butt").attr("opacity",.9);
   pathEl=surface.node();
   // Every SVG engine implements these, but if one does not, degrade to a drawn road
