@@ -94,6 +94,14 @@ nav a.lnk{margin-left:auto;font-size:13px;font-family:var(--f-mono);color:var(--
 nav a.lnk + a.lnk{margin-left:20px}
 nav a.lnk:hover{color:var(--ink)}
 nav a.lnk[aria-current="page"]{color:var(--ink);border-bottom:2px solid var(--accent);padding-bottom:2px}
+/* light/dark switch (js/theme.js) */
+.theme-toggle{display:inline-flex;align-items:center;gap:7px;margin-left:20px;min-height:34px;padding:6px 12px;
+  font:inherit;font-family:var(--f-mono);font-size:13px;color:var(--ink-2);background:none;
+  border:1px solid var(--rule);border-radius:999px;cursor:pointer}
+.theme-toggle:hover{color:var(--ink);border-color:var(--ink-3)}
+.theme-toggle[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--page)}
+:root[data-theme="dark"]{color-scheme:dark}
+:root[data-theme="light"]{color-scheme:light}
 
 /* hero */
 .hero{padding-block:88px 52px}
@@ -328,6 +336,8 @@ footer a{color:var(--ink-2)}
   nav .brand{font-size:16px;white-space:nowrap}
   nav a.lnk{font-size:12px;white-space:nowrap}
   nav a.lnk + a.lnk{margin-left:10px}
+  .theme-toggle{margin-left:10px;padding:6px 9px}
+  .theme-toggle .tt-label{display:none}
   h3{font-size:20px}
   .msg{padding:28px 20px}
   figure{padding:20px 16px 22px}
